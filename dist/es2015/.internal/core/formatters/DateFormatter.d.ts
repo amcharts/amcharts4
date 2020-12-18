@@ -172,6 +172,7 @@ export declare class DateFormatter extends BaseObject {
      * @return Date object
      */
     parse(source: any, format?: string): Date;
+    protected resolveTimezoneOffset(date: Date, zone: string): number;
     /**
      * Resolves month name (i.e. "December") into a month number (11).
      *

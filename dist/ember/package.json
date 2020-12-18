@@ -1,6 +1,6 @@
 {
   "name": "@amcharts/amcharts4-ember",
-  "version": "4.10.12",
+  "version": "4.10.13",
   "description": "Ember add-on for amCharts 4",
   "keywords": [
     "ember-addon",

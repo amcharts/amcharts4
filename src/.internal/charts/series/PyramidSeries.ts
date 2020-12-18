@@ -300,7 +300,7 @@ export class PyramidSeries extends FunnelSeries {
 		let linkWidth = sliceLink.pixelWidth;
 		let linkHeight = sliceLink.pixelHeight;
 
-		if (dataItem.value == 0 && this.ignoreZeroValues) {
+		if ((dataItem.value == 0 || dataItem.value == null) && this.ignoreZeroValues) {
 			dataItem.__disabled = true;
 		}
 		else {

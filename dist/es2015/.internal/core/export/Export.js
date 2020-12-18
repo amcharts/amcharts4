@@ -1810,10 +1810,10 @@ var Export = /** @class */ (function (_super) {
         // Construct width/height params
         var dimParams = "";
         if (width) {
-            dimParams += "width=\"" + Math.round(width * scale) + "px\" ";
+            dimParams += "width=\"" + Math.round(width * (scale || 1)) + "px\" ";
         }
         if (height) {
-            dimParams += "height=\"" + Math.round(height * scale) + "px\" ";
+            dimParams += "height=\"" + Math.round(height * (scale || 1)) + "px\" ";
         }
         // Apply font settings
         var styleParams = "";

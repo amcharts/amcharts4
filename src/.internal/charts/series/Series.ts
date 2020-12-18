@@ -603,6 +603,8 @@ export class Series extends Component {
 				bullet.focusable = true;
 			}
 		});
+
+		this.invalidate();
 	}
 
 	/**

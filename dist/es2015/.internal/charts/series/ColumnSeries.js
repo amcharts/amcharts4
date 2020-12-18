@@ -109,6 +109,25 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ColumnSeriesDataItem.prototype, "height", {
+        get: function () {
+            var height = this.properties.height;
+            if (this._adapterO) {
+                height = this._adapterO.apply("height", height);
+            }
+            return height;
+        },
+        set: function (value) {
+            if (this.properties.height != value) {
+                this.properties.height = value;
+                if (this.component) {
+                    this.component.validateDataElement(this);
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ColumnSeriesDataItem.prototype, "rangesColumns", {
         /**
          * A dictionary storing axes ranges columns by axis uid
@@ -409,6 +428,15 @@ var ColumnSeries = /** @class */ (function (_super) {
             }
             if (diw instanceof Percent) {
                 percentWidth = diw.value * 100;
+            }
+        }
+        var dih = dataItem.height;
+        if ($type.hasValue(dih)) {
+            if ($type.isNumber(dih)) {
+                pixelHeight = dih;
+            }
+            if (dih instanceof Percent) {
+                percentHeight = dih.value * 100;
             }
         }
         // two category axes

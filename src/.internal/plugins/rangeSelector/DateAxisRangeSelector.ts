@@ -328,12 +328,11 @@ export class DateAxisRangeSelector extends RangeSelector {
 	 */
 	public setPeriodInterval(interval: ITimeInterval | "ytd" | "max"): void {
 		let date;
-		const group = this.getGroupInterval(this.axis.baseInterval);
+		const group = this.getGroupInterval(this.axis.mainBaseInterval);
 		if (interval == "max") {
 			date = new Date(this.axis.groupMin[group] || this.axis.min);
 		}
 		else if (interval == "ytd") {
-			date = new Date(this.axis.groupMin[group] || this.axis.min);
 			date = new Date(this.axis.groupMax[group] || this.axis.max);
 			$time.round(date, "year", 1);
 		}

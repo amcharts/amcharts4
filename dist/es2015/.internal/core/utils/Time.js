@@ -237,14 +237,19 @@ export function add(date, unit, count, utc) {
  * @param unit             Time unit
  * @param count            Number of units to round to
  * @param firstDateOfWeek  First day of week
+ * @param roundMinutes     Minutes to round to (some timezones use non-whole hour)
+ * @param timezone         Use specific named timezone when rounding
  * @return New date
  */
-export function round(date, unit, count, firstDateOfWeek, utc, firstDate, roundMinutes) {
+export function round(date, unit, count, firstDateOfWeek, utc, firstDate, roundMinutes, timezone) {
     if (roundMinutes === void 0) { roundMinutes = 0; }
     if (!$type.isNumber(count)) {
         count = 1;
     }
     var timeZoneOffset = 0;
+    if (timezone && ["day", "month", "week", "year"].indexOf(unit) != -1) {
+        date = setTimezone(date, timezone);
+    }
     if (!utc && unit != "millisecond") {
         timeZoneOffset = date.getTimezoneOffset();
         date.setUTCMinutes(date.getUTCMinutes() - timeZoneOffset);

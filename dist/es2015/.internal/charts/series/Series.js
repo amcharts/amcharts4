@@ -341,6 +341,7 @@ var Series = /** @class */ (function (_super) {
                 bullet.focusable = true;
             }
         });
+        this.invalidate();
     };
     /**
      * removes bullets

@@ -179,7 +179,7 @@ var PyramidSeries = /** @class */ (function (_super) {
         var maxHeight = this.slicesContainer.innerHeight;
         var linkWidth = sliceLink.pixelWidth;
         var linkHeight = sliceLink.pixelHeight;
-        if (dataItem.value == 0 && this.ignoreZeroValues) {
+        if ((dataItem.value == 0 || dataItem.value == null) && this.ignoreZeroValues) {
             dataItem.__disabled = true;
         }
         else {

@@ -37,6 +37,7 @@ import { IDataItemAdapters } from "../../core/DataItem";
  */
 export interface IColumnSeriesDataItemAdapters extends IDataItemAdapters {
 	width: number | Percent;
+	height: number | Percent;
 }
 
 
@@ -156,6 +157,24 @@ export class ColumnSeriesDataItem extends XYSeriesDataItem {
 			width = this._adapterO.apply("width", width);
 		}
 		return width;
+	}
+
+
+	public set height(value: number | Percent) {
+		if (this.properties.height != value) {
+			this.properties.height = value;
+			if (this.component) {
+				this.component.validateDataElement(this);
+			}
+		}
+	}
+
+	public get height(): number | Percent {
+		let height = this.properties.height;
+		if (this._adapterO) {
+			height = this._adapterO.apply("height", height);
+		}
+		return height;
 	}
 
 
@@ -617,6 +636,17 @@ export class ColumnSeries extends XYSeries {
 			}
 		}
 
+		let dih = dataItem.height;
+		if ($type.hasValue(dih)) {
+			if ($type.isNumber(dih)) {
+				pixelHeight = dih;
+			}
+			if (dih instanceof Percent) {
+				percentHeight = dih.value * 100;
+			}
+		}
+
+
 		// two category axes
 		if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
 
@@ -970,14 +1000,14 @@ export class ColumnSeries extends XYSeries {
 				if (this.baseAxis == this.yAxis) {
 					if (this.xOpenField && this.xField && this.xAxis instanceof ValueAxis) {
 						open = dataItem.getValue(this.xOpenField);
-						value = dataItem.getValue(this.xField);						
+						value = dataItem.getValue(this.xField);
 					}
 					change = dataItem.getValue(this.xAxis.axisFieldName + "X", "previousChange");
 				}
 				else {
 					if (this.yOpenField && this.yField && this.yAxis instanceof ValueAxis) {
 						open = dataItem.getValue(this.yOpenField);
-						value = dataItem.getValue(this.yField);						
+						value = dataItem.getValue(this.yField);
 					}
 					change = dataItem.getValue(this.yAxis.axisFieldName + "Y", "previousChange");
 				}
@@ -1271,15 +1301,15 @@ export class ColumnSeries extends XYSeries {
 
 	protected getAdjustedXLocation(dataItem: this["_dataItem"], field: string, bulletLocationX?: number) {
 		//if (this.baseAxis == this.xAxis) {
-			if (!$type.isNumber(bulletLocationX)) {
-				if (dataItem) {
-					bulletLocationX = dataItem.locations[field];
-				}
-				else {
-					bulletLocationX = 0.5;
-				}
+		if (!$type.isNumber(bulletLocationX)) {
+			if (dataItem) {
+				bulletLocationX = dataItem.locations[field];
 			}
-			return this._endLocation - (this._endLocation - this._startLocation) * (1 - bulletLocationX);
+			else {
+				bulletLocationX = 0.5;
+			}
+		}
+		return this._endLocation - (this._endLocation - this._startLocation) * (1 - bulletLocationX);
 		//}
 		//else {
 		//	return super.getAdjustedXLocation(dataItem, field);
@@ -1288,15 +1318,15 @@ export class ColumnSeries extends XYSeries {
 
 	protected getAdjustedYLocation(dataItem: this["_dataItem"], field: string, bulletLocationY?: number) {
 		//if (this.baseAxis == this.yAxis) {
-			if (!$type.isNumber(bulletLocationY)) {
-				if (dataItem) {
-					bulletLocationY = dataItem.locations[field];
-				}
-				else {
-					bulletLocationY = 0.5;
-				}
+		if (!$type.isNumber(bulletLocationY)) {
+			if (dataItem) {
+				bulletLocationY = dataItem.locations[field];
 			}
-			return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationY;
+			else {
+				bulletLocationY = 0.5;
+			}
+		}
+		return this._endLocation - (this._endLocation - this._startLocation) * bulletLocationY;
 		//}
 		//else {
 		//	return super.getAdjustedYLocation(dataItem, field);

@@ -25,6 +25,7 @@ import { IDataItemAdapters } from "../../core/DataItem";
  */
 export interface IColumnSeriesDataItemAdapters extends IDataItemAdapters {
     width: number | Percent;
+    height: number | Percent;
 }
 /**
  * ============================================================================
@@ -79,6 +80,7 @@ export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
     column: this["_column"];
     protected setColumn(column: this["_column"]): void;
     width: number | Percent;
+    height: number | Percent;
     /**
      * A dictionary storing axes ranges columns by axis uid
      */

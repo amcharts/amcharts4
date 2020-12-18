@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.13] - 2020-12-18
+
+### Added
+- Export: PDF export options now support `scale`, `minWidth`, `minHeight`, `maxWidth`, and `maxHeight` options.
+
+### Changed
+- Setting `ignoreZeroValues = true` on `PieSeries`/`PyramidSeries` will now hide `null`-value slices, too.
+
+### Fixed
+- Inserting a new bullet into an initialized Series will now invalidate it cause the new bullet to appear immediately.
+- Using `timezone` might shift axis label values by one day in some cases.
+- `"i"` input date format was not properly parsing formats with no milliseconds and with timezone offset, e.g. (`"...+10:30"`).
+- Export: `normalizeSVG()` method was producing wrong SVG width/height in output if scale parameter was not being passed in.
+- RangeSelector plugin: "YTD" pre-defined period was not working properly with some data-grouping setups.
+
+
 ## [4.10.12] - 2020-11-26
 
 ### Changed

@@ -252,7 +252,7 @@ var PieSeries = /** @class */ (function (_super) {
      */
     PieSeries.prototype.validateDataElement = function (dataItem) {
         if (this.pixelRadius > 0) {
-            if (this.ignoreZeroValues && dataItem.value == 0) {
+            if (this.ignoreZeroValues && (dataItem.value == 0 || dataItem.value == null)) {
                 dataItem.__disabled = true;
             }
             else {

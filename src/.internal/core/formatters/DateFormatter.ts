@@ -925,7 +925,7 @@ export class DateFormatter extends BaseObject {
 					break;
 
 				case "i":
-					reg += "([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})[0-9]*([Zz]?)";
+					reg += "([0-9]{4})-?([0-9]{2})-?([0-9]{2})T?([0-9]{2}):?([0-9]{2}):?([0-9]{2})\.?([0-9]{0,3})([zZ]|[+\-][0-9]{2}:?[0-9]{2}|$)";
 					parsedIndexes.iso = index;
 					indexAdjust += 7;
 					break;
@@ -1113,31 +1113,11 @@ export class DateFormatter extends BaseObject {
 
 			// Adjust time zone
 			if (parsedIndexes.zone > -1) {
-				let zone = matches[parsedIndexes.zone].replace(/:/, "");
-				let match = $type.getValue(zone.match(/([+\-]?)([0-9]{2})([0-9]{2})/));
-				let dir = match[1];
-				let hour = match[2];
-				let minute = match[3];
-				let offset = parseInt(hour) * 60 + parseInt(minute);
-
-				// Adjust offset
-				// Making it negative does not seem to make sense, but it's right
-				// because of how JavaScript calculates GTM offsets
-				if (dir == "+") {
-					offset *= -1;
-				}
-
-				// Check the difference in offset
-				let originalOffset = new Date().getTimezoneOffset();
-				let diff = offset - originalOffset;
-				resValues.offset = diff;
+				resValues.offset = this.resolveTimezoneOffset(new Date(resValues.year, resValues.month, resValues.day), matches[parsedIndexes.zone]);
 			}
 
 			// ISO
 			if (parsedIndexes.iso > -1) {
-				if (matches[parsedIndexes.iso + 7] == "Z" || matches[parsedIndexes.iso + 7] == "z") {
-					resValues.utc = true;
-				}
 
 				resValues.year = $type.toNumber(matches[parsedIndexes.iso + 0]);
 				resValues.month = $type.toNumber(matches[parsedIndexes.iso + 1]) - 1;
@@ -1146,6 +1126,13 @@ export class DateFormatter extends BaseObject {
 				resValues.minute = $type.toNumber(matches[parsedIndexes.iso + 4]);
 				resValues.second = $type.toNumber(matches[parsedIndexes.iso + 5]);
 				resValues.millisecond = $type.toNumber(matches[parsedIndexes.iso + 6]);
+
+				if (matches[parsedIndexes.iso + 7] == "Z" || matches[parsedIndexes.iso + 7] == "z") {
+					resValues.utc = true;
+				}
+				else if (matches[parsedIndexes.iso + 7] != "") {
+					resValues.offset = this.resolveTimezoneOffset(new Date(resValues.year, resValues.month, resValues.day), matches[parsedIndexes.iso + 7]);
+				}
 			}
 
 			// Create Date object
@@ -1180,6 +1167,30 @@ export class DateFormatter extends BaseObject {
 		}
 
 		return res;
+	}
+
+	protected resolveTimezoneOffset(date: Date, zone: string): number {
+		let value = zone.match(/([+\-]?)([0-9]{2}):?([0-9]{2})/);
+		if (value) {
+			let match = $type.getValue(zone.match(/([+\-]?)([0-9]{2}):?([0-9]{2})/));
+			let dir = match[1];
+			let hour = match[2];
+			let minute = match[3];
+			let offset = parseInt(hour) * 60 + parseInt(minute);
+
+			// Adjust offset
+			// Making it negative does not seem to make sense, but it's right
+			// because of how JavaScript calculates GMT offsets
+			if (dir == "+") {
+				offset *= -1;
+			}
+
+			// Check the difference in offset
+			let originalOffset = (date || new Date()).getTimezoneOffset();
+			let diff = offset - originalOffset;
+			return diff;
+		}
+		return 0;
 	}
 
 	/**

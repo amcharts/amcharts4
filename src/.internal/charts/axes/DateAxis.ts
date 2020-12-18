@@ -820,7 +820,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this._firstWeekDay,
 			this._df.utc,
 			new Date(this.min),
-			this._df.timezoneMinutes
+			this._df.timezoneMinutes,
+			this._df.timezone
 		);
 
 		// tell series start/end
@@ -834,7 +835,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					this._firstWeekDay,
 					this._df.utc,
 					undefined,
-					this._df.timezoneMinutes
+					this._df.timezoneMinutes,
+					this._df.timezone
 				).getTime();
 				let minZoomedStr = minZoomed.toString();
 				let startDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(minZoomedStr + series.currentDataSetId);
@@ -859,7 +861,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						this._firstWeekDay,
 						this._df.utc,
 						undefined,
-						this._df.timezoneMinutes
+						this._df.timezoneMinutes,
+						this._df.timezone
 					),
 					baseInterval.timeUnit,
 					baseInterval.count,
@@ -1079,7 +1082,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 							this._df.firstDayOfWeek,
 							this._df.utc,
 							undefined,
-							this._df.timezoneMinutes
+							this._df.timezoneMinutes,
+							this._df.timezone
 						);
 						let currentTime = roundedDate.getTime();
 						// changed period								
@@ -1292,7 +1296,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				this._firstWeekDay,
 				this._df.utc,
 				undefined,
-				this._df.timezoneMinutes
+				this._df.timezoneMinutes,
+				this._df.timezone
 			);
 			let startTime = startDate.getTime();
 			let endDate: Date = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc);
@@ -1331,7 +1336,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				this._firstWeekDay,
 				this._df.utc,
 				undefined,
-				this._df.timezoneMinutes
+				this._df.timezoneMinutes,
+				this._df.timezone
 			);
 			let axisBreak: DateAxisBreak;
 
@@ -1386,7 +1392,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						this._firstWeekDay,
 						this._df.utc,
 						undefined,
-						this._df.timezoneMinutes
+						this._df.timezoneMinutes,
+						this._df.timezone
 					);
 					if (gridDate.getTime() > axisBreak.startDate.getTime()) {
 						$time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count, this._df.utc);
@@ -1428,7 +1435,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this._firstWeekDay,
 			this._df.utc,
 			undefined,
-			this._df.timezoneMinutes
+			this._df.timezoneMinutes,
+			this._df.timezone
 		);
 
 		let prevTimestamp: number = date.getTime();
@@ -1448,7 +1456,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				this._firstWeekDay,
 				this._df.utc,
 				undefined,
-				this._df.timezoneMinutes
+				this._df.timezoneMinutes,
+				this._df.timezone
 			);
 			if (newDate.getTime() < axisBreak.endDate.getTime()) {
 				$time.add(newDate, timeUnit, realIntervalCount, this._df.utc);
@@ -1488,7 +1497,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this._firstWeekDay,
 			this._df.utc,
 			undefined,
-			this._df.timezoneMinutes
+			this._df.timezoneMinutes,
+			this._df.timezone
 		);
 		$time.add(date, timeUnit, count, this._df.utc);
 
@@ -1733,7 +1743,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this._firstWeekDay,
 			this._df.utc,
 			undefined,
-			this._df.timezoneMinutes
+			this._df.timezoneMinutes,
+			this._df.timezone
 		).getTime();
 		let endTime = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc).getTime();
 
@@ -1757,7 +1768,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this._firstWeekDay,
 			this._df.utc,
 			undefined,
-			this._df.timezoneMinutes
+			this._df.timezoneMinutes,
+			this._df.timezone
 		).getTime();
 		let endTime = $time.add(new Date(startTime), interval.timeUnit, interval.count, this._df.utc).getTime();
 
@@ -2287,7 +2299,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this._firstWeekDay,
 			this._df.utc,
 			new Date(this.min),
-			this._df.timezoneMinutes
+			this._df.timezoneMinutes,
+			this._df.timezone
 		);
 
 		this.tooltipDate = date;
@@ -2334,7 +2347,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this._firstWeekDay,
 			this._df.utc,
 			undefined,
-			this._df.timezoneMinutes
+			this._df.timezoneMinutes,
+			this._df.timezone
 		);
 
 		if (location > 0) {
@@ -2416,7 +2430,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this._firstWeekDay,
 			this._df.utc,
 			undefined,
-			this._df.timezoneMinutes
+			this._df.timezoneMinutes,
+			this._df.timezone
 		);
 		let nextDate: Date = $time.round(
 			new Date(value + this.baseDuration),
@@ -2425,7 +2440,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this._firstWeekDay,
 			this._df.utc,
 			undefined,
-			this._df.timezoneMinutes
+			this._df.timezoneMinutes,
+			this._df.timezone
 		);
 
 		if (nextDate.getTime() > date.getTime()) {
@@ -2635,7 +2651,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 							this._df.firstDayOfWeek,
 							this._df.utc,
 							undefined,
-							this._df.timezoneMinutes
+							this._df.timezoneMinutes,
+							this._df.timezone
 						).getTime();
 
 						if (seriesMin < min) {
@@ -2721,7 +2738,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		if (this.snapTooltip) {
 			// rounding is not good, pen/aac4e7f66f019d36b2447f050c600c13 (no last tootltip shown)
-			let actualDate = this.positionToDate(position) //$time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1, this.getFirstWeekDay(), this.dateFormatter.utc, undefined, this._df.timezoneMinutes);
+			let actualDate = this.positionToDate(position) //$time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1, this.getFirstWeekDay(), this.dateFormatter.utc, undefined, this._df.timezoneMinutes, this._df.timezone);
 
 			let actualTime = actualDate.getTime();
 			let closestDate: Date;
@@ -2760,7 +2777,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					this._firstWeekDay,
 					this._df.utc,
 					undefined,
-					this._df.timezoneMinutes
+					this._df.timezoneMinutes,
+					this._df.timezone
 				);
 				closestTime = closestDate.getTime();
 

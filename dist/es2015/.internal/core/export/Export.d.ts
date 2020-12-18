@@ -257,8 +257,6 @@ export interface IExportPDFOptions extends IExportImageOptions {
     addURL?: boolean;
     /**
      * Page size of the exported PDF.
-     *
-     * See `pageSizes` in [[Export_module]].
      */
     pageSize?: pageSizes;
     /**
@@ -361,6 +359,49 @@ export interface IExportPDFOptions extends IExportImageOptions {
      * @see {@link https://www.amcharts.com/docs/v4/tutorials/using-pdf-export-fonts/}
      */
     extraFonts?: Array<IFont>;
+    /**
+     * Rescale image.
+     *
+     * Number less than 1 will shrink the image.
+     *
+     * Number bigger than 1 will scale up the image.
+     *
+     * @default 1
+     * @since 4.10.13
+     */
+    scale?: number;
+    /**
+     * Minimum width in pixels of the exported image. If source chart is smaller
+     * thank this, it will be scaled up.
+     *
+     * @since 4.10.13
+     */
+    minWidth?: number;
+    /**
+     * Minimum height in pixels of the exported image. If source chart is smaller
+     * thank this, it will be scaled up.
+     *
+     * @since 4.10.13
+     */
+    minHeight?: number;
+    /**
+     * Maximum width in pixels of the exported image. If source chart is bigger
+     * thank this, it will be scaled down.
+     *
+     * NOTE: this setting might be overidden by `minWidth`.
+     *
+     * @since 4.10.13
+     */
+    maxWidth?: number;
+    /**
+     * Maximum height in pixels of the exported image. If source chart is bigger
+     * thank this, it will be scaled down.
+     *
+     * NOTE: this setting might be overidden by `minHeight`.
+     *
+     * @since 4.10.13
+     */
+    maxHeight?: number;
 }
 /**
  * Represents options for CSV export.
