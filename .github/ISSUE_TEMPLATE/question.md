@@ -18,6 +18,8 @@ assignees: ''
     https://www.amcharts.com/docs/v4/
 
  - Realize that this is not a support forum. Unclear, too complicated questions, or those that require debugging custom code, may not be answered.
+ 
+ - And if you get your answer, please do a good thing and close the issue. Thanks!
 -->
 
 **Question**
