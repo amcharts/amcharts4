@@ -2248,6 +2248,7 @@ var Export = /** @class */ (function (_super) {
                     case 1:
                         XLSX = _a.sent();
                         wbOptions = this.adapter.apply("xlsxWorkbookOptions", {
+                            xlsx: XLSX,
                             options: {
                                 bookType: "xlsx",
                                 bookSST: false,
@@ -2255,6 +2256,7 @@ var Export = /** @class */ (function (_super) {
                             }
                         }).options;
                         sheetName = this.normalizeExcelSheetName(this.adapter.apply("xlsxSheetName", {
+                            xlsx: XLSX,
                             name: this.title || this.language.translate("Data")
                         }).name);
                         wb = {
@@ -2309,6 +2311,7 @@ var Export = /** @class */ (function (_super) {
                         wb.Sheets[sheetName] = XLSX.utils.aoa_to_sheet(data);
                         // Apply adapters
                         wb = this.adapter.apply("xlsxWorkbook", {
+                            xlsx: XLSX,
                             workbook: wb,
                             options: options
                         }).workbook;

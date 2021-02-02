@@ -683,7 +683,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 			let dataItemsIterator = this._dataItemsIterator;
 
-			if(this._step == 0){
+			if (this._step == 0) {
 				return;
 			}
 
@@ -727,9 +727,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				}
 				i++;
 
+				let oldValue = value;
+
 				if (!this.logarithmic) {
 					value += this._step;
-
 				}
 				else {
 					let differencePower = Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E;
@@ -746,11 +747,16 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				if (stepPower < 1) {
 					// exponent is less then 1 too. Count decimals of exponent
 					let decCount = Math.round(Math.abs(Math.log(Math.abs(stepPower)) * Math.LOG10E)) + 2;
+					decCount = Math.min(13, decCount);
 					// round value to avoid floating point issues
-					value = $math.round(value, decCount);
+					value = $math.ceil(value, decCount);
+
+					if (oldValue == value) {
+						value = maxZoomed;
+						break;
+					}
 				}
 			}
-
 
 			let axisBreaks = this._axisBreaks;
 			if (axisBreaks) {
@@ -1355,6 +1361,15 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		this._step = minMaxStep.step;
 
+		if (!$type.isNumber(min) && !$type.isNumber(max)) {
+			this.start = 0;
+			this.end = 1;
+
+			this.renderer.labels.each((label)=>{
+				label.dataItem.text = "";
+			})
+		}
+
 		// checking isNumber is good when all series are hidden
 		if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {
 
@@ -1854,7 +1869,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				if (!range.ignoreMinMax) {
 					let minValue = $math.min(range.value, range.endValue);
 					let maxValue = $math.max(range.value, range.endValue);
-					
+
 					if (minValue < selectionMin) {
 						selectionMin = minValue;
 					}
@@ -2053,7 +2068,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * to 70%.
 	 *
 	 * @since 4.1.1
-	 * @default flase
+	 * @default false
 	 * @param  value  Preseve zoom after data update?
 	 */
 	public set keepSelection(value: boolean) {

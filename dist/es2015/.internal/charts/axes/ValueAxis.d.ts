@@ -701,7 +701,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * to 70%.
      *
      * @since 4.1.1
-     * @default flase
+     * @default false
      * @param  value  Preseve zoom after data update?
      */
     /**

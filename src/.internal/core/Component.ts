@@ -1242,7 +1242,7 @@ export class Component extends Container {
 
 			this.dataUsers.each((dataUser) => {
 				if (dataUser.hidden) {
-					dataUser.hide(0);
+					dataUser.hide(0);					
 				}
 			});
 		}

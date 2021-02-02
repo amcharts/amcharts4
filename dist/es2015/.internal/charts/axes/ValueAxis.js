@@ -450,6 +450,7 @@ var ValueAxis = /** @class */ (function (_super) {
                     this.validateDataElement(dataItem);
                 }
                 i++;
+                var oldValue = value_1;
                 if (!this.logarithmic) {
                     value_1 += this._step;
                 }
@@ -466,8 +467,13 @@ var ValueAxis = /** @class */ (function (_super) {
                 if (stepPower < 1) {
                     // exponent is less then 1 too. Count decimals of exponent
                     var decCount = Math.round(Math.abs(Math.log(Math.abs(stepPower)) * Math.LOG10E)) + 2;
+                    decCount = Math.min(13, decCount);
                     // round value to avoid floating point issues
-                    value_1 = $math.round(value_1, decCount);
+                    value_1 = $math.ceil(value_1, decCount);
+                    if (oldValue == value_1) {
+                        value_1 = maxZoomed;
+                        break;
+                    }
                 }
             }
             var axisBreaks = this._axisBreaks;
@@ -969,6 +975,13 @@ var ValueAxis = /** @class */ (function (_super) {
             max = this._adapterO.apply("max", max);
         }
         this._step = minMaxStep.step;
+        if (!$type.isNumber(min) && !$type.isNumber(max)) {
+            this.start = 0;
+            this.end = 1;
+            this.renderer.labels.each(function (label) {
+                label.dataItem.text = "";
+            });
+        }
         // checking isNumber is good when all series are hidden
         if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {
             var animation = this._minMaxAnimation;
@@ -1624,7 +1637,7 @@ var ValueAxis = /** @class */ (function (_super) {
          * to 70%.
          *
          * @since 4.1.1
-         * @default flase
+         * @default false
          * @param  value  Preseve zoom after data update?
          */
         set: function (value) {

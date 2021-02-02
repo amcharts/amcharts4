@@ -664,6 +664,7 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.postProcessSeriesDataItems = function (series) {
         var _this = this;
+        this._firstWeekDay = this.getFirstWeekDay();
         if (series) {
             this.seriesGroupUpdate(series);
         }

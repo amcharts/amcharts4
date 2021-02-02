@@ -888,15 +888,18 @@ export interface IExportAdapters {
     };
     xlsxWorkbookOptions: {
         options: any;
+        xlsx: any;
     };
     xlsxSheetName: {
         name: string;
+        xlsx: any;
     };
     /**
      * @since 4.9.28
      */
     xlsxWorkbook: {
         workbook: any;
+        xlsx: any;
         options?: IExportOptions[Keys];
     };
 }

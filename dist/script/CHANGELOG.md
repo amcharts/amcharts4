@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.14] - 2021-02-02
+
+### Added
+- Exporting: all adapters related to XLSX export, will now have `xslx` property holding reference to processor, that needs to be used in order to modify actual workbooks for export.
+
+### Fixed
+- `StepLineSeries` might get "stuck" during zoom/data updates in some cases.
+- `ColumnSeries3D` was not staying hidden across data updates.
+- Columns on `DateAxis` were not being positioned properly when changing `firstDayOfWeek`.
+- RangeSelector plugin: YTD was not working properly when data was being grouped to years.
+- Disposing chart on a click of a custom `ExportMenu` item was resulting in JS errors.
+- In some setups "ghost paper" (invisible div) was influencing document layout.
+- In charts where Series had very small amplitude of values, related `ValueAxis` could get end up in a dead loop.
+- HTML tooltips were not being sized properly in some cases.
+
+
 ## [4.10.13] - 2020-12-18
 
 ### Added

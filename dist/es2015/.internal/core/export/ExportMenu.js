@@ -295,7 +295,7 @@ var ExportMenu = /** @class */ (function (_super) {
             //branch.interactions.clickable = true;
             // TODO clean this up when it's disposed
             branch.interactions.events.on("hit", function (ev) {
-                if (_this.events.isEnabled("hit")) {
+                if (_this.events.isEnabled("hit") && !_this.isDisposed()) {
                     var event_1 = {
                         "type": "hit",
                         "event": ev.event,
@@ -358,6 +358,9 @@ var ExportMenu = /** @class */ (function (_super) {
         });
         // TODO clean this up when it's disposed
         branch.interactions.events.on("out", function (ev) {
+            if (_this.isDisposed()) {
+                return;
+            }
             if (!ev.pointer.touch) {
                 _this.delayUnselectBranch(branch);
             }
@@ -929,6 +932,9 @@ var ExportMenu = /** @class */ (function (_super) {
      */
     ExportMenu.prototype.close = function () {
         var _this = this;
+        if (this.isDisposed()) {
+            return;
+        }
         if (this._ignoreNextClose) {
             this._ignoreNextClose = false;
             return;
@@ -966,6 +972,9 @@ var ExportMenu = /** @class */ (function (_super) {
      */
     ExportMenu.prototype.selectBranch = function (branch) {
         var _this = this;
+        if (this.isDisposed()) {
+            return;
+        }
         // Cancel previous closure
         if (branch.closeTimeout) {
             this.removeDispose(branch.closeTimeout);
@@ -1013,6 +1022,9 @@ var ExportMenu = /** @class */ (function (_super) {
      * @param simple If `true`, only the branch will be unselected without selecting parent branch
      */
     ExportMenu.prototype.unselectBranch = function (branch, simple) {
+        if (this.isDisposed()) {
+            return;
+        }
         // Remove active class
         $dom.removeClass(branch.element, "active");
         // Set expanded
@@ -1043,6 +1055,9 @@ var ExportMenu = /** @class */ (function (_super) {
      */
     ExportMenu.prototype.delayUnselectBranch = function (branch, simple) {
         var _this = this;
+        if (this.isDisposed()) {
+            return;
+        }
         // Schedule branch unselection
         if (branch.closeTimeout) {
             this.removeDispose(branch.closeTimeout);
@@ -1069,6 +1084,9 @@ var ExportMenu = /** @class */ (function (_super) {
      * @param key A key that was pressed
      */
     ExportMenu.prototype.moveSelection = function (key) {
+        if (this.isDisposed()) {
+            return;
+        }
         // Check if there's a current selection
         if (!this._currentSelection) {
             return;

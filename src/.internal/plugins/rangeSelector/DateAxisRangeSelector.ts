@@ -345,6 +345,23 @@ export class DateAxisRangeSelector extends RangeSelector {
 			this.zoomToDates(date);
 		}
 
+		let groupingChanged = false;
+		let zoomFinished = false;
+
+		this.axis.events.once("groupperiodchanged", (ev) => {
+			groupingChanged = true;
+			if (zoomFinished) {
+				this.setPeriodInterval(interval);
+			}
+		});
+
+		this.axis.events.once("rangechangeended", (ev) => {
+			zoomFinished = true;
+			if (groupingChanged) {
+				this.setPeriodInterval(interval);
+			}
+		});
+
 		this.dispatchImmediately("periodselected", {
 			interval: interval,
 			startDate: date

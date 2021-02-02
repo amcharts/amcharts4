@@ -1012,12 +1012,12 @@ export class Label extends Container {
 			// This will bet reset to actual content width/height
 			if (this.maxWidth) {
 				fo.attr({
-					width: this.maxWidth
+					width: this.maxWidth - this.pixelPaddingLeft - this.pixelPaddingRight
 				});
 			}
 			if (this.maxHeight) {
 				fo.attr({
-					height: this.maxHeight
+					height: this.maxHeight - this.pixelPaddingTop - this.pixelPaddingBottom
 				});
 			}
 
@@ -1040,9 +1040,9 @@ export class Label extends Container {
 			};
 
 			// Set exact dimensions of foreignObject so it is sized exactly as
-			// the content within
+			// the content within (add one pixel to width so it does not wrap)
 			fo.attr({
-				width: clientWidth,
+				width: clientWidth + 1,
 				height: clientHeight
 			});
 

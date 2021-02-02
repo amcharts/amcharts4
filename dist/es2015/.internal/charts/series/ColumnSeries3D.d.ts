@@ -167,4 +167,5 @@ export declare class ColumnSeries3D extends ColumnSeries {
     * @return Angle (0-360)
     */
     angle: number;
+    setVisibility(value: boolean): void;
 }

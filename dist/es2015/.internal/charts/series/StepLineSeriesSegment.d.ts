@@ -9,7 +9,6 @@
  * @hidden
  */
 import { ILineSeriesSegmentAdapters, ILineSeriesSegmentEvents, ILineSeriesSegmentProperties, LineSeriesSegment } from "./LineSeriesSegment";
-import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 /**
  * ============================================================================
@@ -63,18 +62,6 @@ export declare class StepLineSeriesSegment extends LineSeriesSegment {
      * Defines available events.
      */
     _events: IStepLineSeriesSegmentEvents;
-    /**
-     * Segment's line element.
-     *
-     * @ignore Exclude from docs
-     */
-    strokeSprite: Sprite;
-    /**
-     * Segment's fill element.
-     *
-     * @ignore Exclude from docs
-     */
-    fillSprite: Sprite;
     /**
      * Constructor
      */

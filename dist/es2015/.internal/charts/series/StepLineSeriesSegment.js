@@ -86,6 +86,10 @@ var StepLineSeriesSegment = /** @class */ (function (_super) {
                 }
             }
         }
+        else {
+            this.strokeSprite.path = "";
+            this.fillSprite.path = "";
+        }
     };
     return StepLineSeriesSegment;
 }(LineSeriesSegment));

@@ -1228,11 +1228,13 @@ export interface IExportAdapters {
 	},
 
 	xlsxWorkbookOptions: {
-		options: any
+		options: any,
+		xlsx: any
 	},
 
 	xlsxSheetName: {
-		name: string
+		name: string,
+		xlsx: any
 	},
 
 	/**
@@ -1240,6 +1242,7 @@ export interface IExportAdapters {
 	 */
 	xlsxWorkbook: {
 		workbook: any,
+		xlsx: any,
 		options?: IExportOptions[Keys]
 	},
 
@@ -3587,6 +3590,7 @@ export class Export extends Validatable {
 
 		// Create workbook options
 		let wbOptions = this.adapter.apply("xlsxWorkbookOptions", {
+			xlsx: XLSX,
 			options: {
 				bookType: "xlsx",
 				bookSST: false,
@@ -3597,6 +3601,7 @@ export class Export extends Validatable {
 
 		// Get sheet name
 		let sheetName = this.normalizeExcelSheetName(this.adapter.apply("xlsxSheetName", {
+			xlsx: XLSX,
 			name: this.title || this.language.translate("Data")
 		}).name);
 
@@ -3666,6 +3671,7 @@ export class Export extends Validatable {
 
 		// Apply adapters
 		wb = this.adapter.apply("xlsxWorkbook", {
+			xlsx: XLSX,
 			workbook: wb,
 			options: options
 		}).workbook;

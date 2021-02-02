@@ -187,6 +187,10 @@ export function getGhostPaper(): Paper {
 		// ghost is used to draw elements while real paper is not yet created or Sprite doesn't know parent yet
 		let ghostDiv: HTMLDivElement = document.createElement("div");
 		ghostDiv.hidden = true;
+		ghostDiv.style.width = "1px";
+		ghostDiv.style.height = "1px";
+		ghostDiv.style.position = "absolute";
+		ghostDiv.style.zIndex = "-1000000";
 		document.body.appendChild(ghostDiv);
 		let ghostSvgContainer = new SVGContainer(ghostDiv, true);
 		ghostPaper = new Paper(ghostSvgContainer.SVGContainer, "ghost");

@@ -537,7 +537,7 @@ export class ExportMenu extends Validatable {
 				case "down":
 				case "left":
 				case "right":
-					if(this._currentSelection) {
+					if (this._currentSelection) {
 						ev.event.preventDefault();
 					}
 					this.moveSelection(key);
@@ -630,7 +630,7 @@ export class ExportMenu extends Validatable {
 			//branch.interactions.clickable = true;
 			// TODO clean this up when it's disposed
 			branch.interactions.events.on("hit", (ev) => {
-				if (this.events.isEnabled("hit")) {
+				if (this.events.isEnabled("hit") && !this.isDisposed()) {
 					const event: AMEvent<this, IExportMenuEvents>["hit"] = {
 						"type": "hit",
 						"event": ev.event,
@@ -702,6 +702,9 @@ export class ExportMenu extends Validatable {
 
 		// TODO clean this up when it's disposed
 		branch.interactions.events.on("out", (ev) => {
+			if (this.isDisposed()) {
+				return;
+			}
 			if (!ev.pointer.touch) {
 				this.delayUnselectBranch(branch);
 			}
@@ -1276,6 +1279,11 @@ export class ExportMenu extends Validatable {
 	 * @ignore Exclude from docs
 	 */
 	public close(): void {
+
+		if (this.isDisposed()) {
+			return;
+		}
+
 		if (this._ignoreNextClose) {
 			this._ignoreNextClose = false;
 			return;
@@ -1317,6 +1325,10 @@ export class ExportMenu extends Validatable {
 	 * @param branch Branch to select
 	 */
 	public selectBranch(branch: IExportMenuItem): void {
+
+		if (this.isDisposed()) {
+			return;
+		}
 
 		// Cancel previous closure
 		if (branch.closeTimeout) {
@@ -1373,6 +1385,10 @@ export class ExportMenu extends Validatable {
 	 */
 	public unselectBranch(branch: IExportMenuItem, simple?: boolean): void {
 
+		if (this.isDisposed()) {
+			return;
+		}
+
 		// Remove active class
 		$dom.removeClass(branch.element, "active");
 
@@ -1407,6 +1423,10 @@ export class ExportMenu extends Validatable {
 	 */
 	public delayUnselectBranch(branch: IExportMenuItem, simple?: boolean): void {
 
+		if (this.isDisposed()) {
+			return;
+		}
+
 		// Schedule branch unselection
 		if (branch.closeTimeout) {
 			this.removeDispose(branch.closeTimeout);
@@ -1435,6 +1455,10 @@ export class ExportMenu extends Validatable {
 	 * @param key A key that was pressed
 	 */
 	public moveSelection(key: KeyboardKeys): void {
+
+		if (this.isDisposed()) {
+			return;
+		}
 
 		// Check if there's a current selection
 		if (!this._currentSelection) {
@@ -1561,7 +1585,7 @@ export class ExportMenu extends Validatable {
 			try {
 				(<HTMLElement>branch.interactions.element).focus();
 			}
-			catch(e) {
+			catch (e) {
 				// nothing
 			}
 		}
@@ -1578,7 +1602,7 @@ export class ExportMenu extends Validatable {
 			try {
 				(<HTMLElement>branch.interactions.element).blur();
 			}
-			catch(e) {
+			catch (e) {
 				// nothing
 			}
 		}

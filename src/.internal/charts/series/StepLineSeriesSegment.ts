@@ -10,7 +10,6 @@
  * @hidden
  */
 import { ILineSeriesSegmentAdapters, ILineSeriesSegmentEvents, ILineSeriesSegmentProperties, LineSeriesSegment } from "./LineSeriesSegment";
-import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
@@ -76,20 +75,6 @@ export class StepLineSeriesSegment extends LineSeriesSegment {
 	public _events!: IStepLineSeriesSegmentEvents;
 
 	/**
-	 * Segment's line element.
-	 *
-	 * @ignore Exclude from docs
-	 */
-	public strokeSprite: Sprite;
-
-	/**
-	 * Segment's fill element.
-	 *
-	 * @ignore Exclude from docs
-	 */
-	public fillSprite: Sprite;
-
-	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -152,6 +137,10 @@ export class StepLineSeriesSegment extends LineSeriesSegment {
 					this.fillSprite.path = path;
 				}
 			}
+		}
+		else{
+			this.strokeSprite.path = "";
+			this.fillSprite.path = "";
 		}
 	}
 }

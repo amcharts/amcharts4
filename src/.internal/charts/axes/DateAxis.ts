@@ -982,6 +982,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @todo Description
 	 */
 	public postProcessSeriesDataItems(series?: XYSeries): void {
+		this._firstWeekDay = this.getFirstWeekDay();
 		if (series) {
 			this.seriesGroupUpdate(series);
 		}

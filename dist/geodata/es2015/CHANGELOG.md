@@ -5,8 +5,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED] - ????-??-??
 
+### Added
+- New maps: Côte d'Ivoire (Ivory Coast), Uganda.
+
 ### Fixed
 - Fixed polygon IDs for the Congressional district Map of Minnesota.
+- Some countries were missing in data files.
 
 
 ## [4.1.19] - 2020-11-11

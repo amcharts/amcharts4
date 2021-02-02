@@ -224,6 +224,7 @@ var DateAxisRangeSelector = /** @class */ (function (_super) {
      * @param  interval  Interval
      */
     DateAxisRangeSelector.prototype.setPeriodInterval = function (interval) {
+        var _this = this;
         var date;
         var group = this.getGroupInterval(this.axis.mainBaseInterval);
         if (interval == "max") {
@@ -240,6 +241,20 @@ var DateAxisRangeSelector = /** @class */ (function (_super) {
         if (date) {
             this.zoomToDates(date);
         }
+        var groupingChanged = false;
+        var zoomFinished = false;
+        this.axis.events.once("groupperiodchanged", function (ev) {
+            groupingChanged = true;
+            if (zoomFinished) {
+                _this.setPeriodInterval(interval);
+            }
+        });
+        this.axis.events.once("rangechangeended", function (ev) {
+            zoomFinished = true;
+            if (groupingChanged) {
+                _this.setPeriodInterval(interval);
+            }
+        });
         this.dispatchImmediately("periodselected", {
             interval: interval,
             startDate: date

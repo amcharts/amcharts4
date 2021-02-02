@@ -15,7 +15,7 @@ var countries2 = {
         "country": "Afghanistan",
         "continent_code": "AS",
         "continent": "Asia",
-        "maps": []
+        "maps": ["afghanistanLow", "afghanistanHigh"]
     },
     "AG": {
         "country": "Antigua and Barbuda",
@@ -261,7 +261,7 @@ var countries2 = {
         "country": "Cote d'Ivoire",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["cotedIvoireLow", "cotedIvoireHigh"]
     },
     "CK": {
         "country": "Cook Islands",
@@ -303,7 +303,7 @@ var countries2 = {
         "country": "Cuba",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["cubaLow", "cubaHigh"]
     },
     "CV": {
         "country": "Cape Verde",
@@ -429,7 +429,7 @@ var countries2 = {
         "country": "Falkland Islands (Malvinas)",
         "continent_code": "SA",
         "continent": "South America",
-        "maps": []
+        "maps": ["falklandIslandsLow", "falklandIslandsHigh"]
     },
     "FM": {
         "country": "Micronesia, Federated States of",
@@ -471,7 +471,7 @@ var countries2 = {
         "country": "Grenada",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["grenadaLow", "grenadaHigh"]
     },
     "GE": {
         "country": "Georgia",
@@ -525,7 +525,7 @@ var countries2 = {
         "country": "Guadeloupe",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["guadeloupeLow", "guadeloupeHigh"]
     },
     "GQ": {
         "country": "Equatorial Guinea",
@@ -549,13 +549,13 @@ var countries2 = {
         "country": "Guatemala",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["guatemalaLow", "guatemalaHigh"]
     },
     "GU": {
         "country": "Guam",
         "continent_code": "OC",
         "continent": "Oceania",
-        "maps": []
+        "maps": ["guamLow", "guamHigh"]
     },
     "GW": {
         "country": "Guinea-Bissau",
@@ -597,7 +597,7 @@ var countries2 = {
         "country": "Haiti",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["haitiLow", "haitiHigh"]
     },
     "HU": {
         "country": "Hungary",
@@ -675,13 +675,13 @@ var countries2 = {
         "country": "Jamaica",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["jamaicaLow", "jamaicaHigh"]
     },
     "JO": {
         "country": "Jordan",
         "continent_code": "AS",
         "continent": "Asia",
-        "maps": []
+        "maps": ["jordanLow", "jordanHigh"]
     },
     "JP": {
         "country": "Japan",
@@ -771,7 +771,7 @@ var countries2 = {
         "country": "Lebanon",
         "continent_code": "AS",
         "continent": "Asia",
-        "maps": []
+        "maps": ["lebanonLow", "lebanonHigh"]
     },
     "LC": {
         "country": "Saint Lucia",
@@ -909,7 +909,7 @@ var countries2 = {
         "country": "Martinique",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["martiniqueLow", "martiniqueHigh"]
     },
     "MR": {
         "country": "Mauritania",
@@ -921,7 +921,7 @@ var countries2 = {
         "country": "Montserrat",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["montserratLow", "montserratHigh"]
     },
     "MT": {
         "country": "Malta",
@@ -1365,7 +1365,7 @@ var countries2 = {
         "country": "Trinidad and Tobago",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["trinidadTobagoLow", "trinidadTobagoHigh"]
     },
     "TV": {
         "country": "Tuvalu",
@@ -1395,7 +1395,7 @@ var countries2 = {
         "country": "Uganda",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["ugandaLow", "ugandaHigh"]
     },
     "UM": {
         "country": "United States Minor Outlying Islands",
@@ -1413,7 +1413,7 @@ var countries2 = {
         "country": "Uruguay",
         "continent_code": "SA",
         "continent": "South America",
-        "maps": []
+        "maps": ["uruguayLow", "uruguayHigh"]
     },
     "UZ": {
         "country": "Uzbekistan",
@@ -1443,13 +1443,13 @@ var countries2 = {
         "country": "Virgin Islands, British",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["britishVirginIslandsLow", "britishVirginIslandsHigh"]
     },
     "VI": {
         "country": "Virgin Islands, U.S.",
         "continent_code": "NA",
         "continent": "North America",
-        "maps": []
+        "maps": ["usVirginIslandsLow", "usVirginIslandsHigh"]
     },
     "VN": {
         "country": "Viet Nam",
