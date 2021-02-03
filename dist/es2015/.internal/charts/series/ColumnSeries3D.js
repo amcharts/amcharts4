@@ -85,6 +85,7 @@ var ColumnSeries3D = /** @class */ (function (_super) {
         if (dataItem.column) {
             dataItem.column.dx = this.dx;
             dataItem.column.dy = this.dy;
+            dataItem.column.visible = this.visible;
         }
     };
     /**
@@ -150,10 +151,6 @@ var ColumnSeries3D = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    ColumnSeries3D.prototype.setVisibility = function (value) {
-        _super.prototype.setVisibility.call(this, value);
-        this.columnsContainer.visible = value;
-    };
     return ColumnSeries3D;
 }(ColumnSeries));
 export { ColumnSeries3D };

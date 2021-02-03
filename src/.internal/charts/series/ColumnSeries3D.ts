@@ -186,6 +186,8 @@ export class ColumnSeries3D extends ColumnSeries {
 		if (dataItem.column) {
 			dataItem.column.dx = this.dx;
 			dataItem.column.dy = this.dy;
+
+			dataItem.column.visible = this.visible;
 		}
 	}
 
@@ -252,11 +254,6 @@ export class ColumnSeries3D extends ColumnSeries {
 	public get angle(): number {
 		return this.getPropertyValue("angle");
 	}
-
-	public setVisibility(value: boolean) {
-		super.setVisibility(value);
-		this.columnsContainer.visible = value;
-	}	
 }
 
 /**

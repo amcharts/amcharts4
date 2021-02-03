@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.15] - 2021-02-03
+
+### Fixed
+- Fixed issue with toggling multiple `ColumnSeries3D` (introduced in last version).
+
+
 ## [4.10.14] - 2021-02-02
 
 ### Added
