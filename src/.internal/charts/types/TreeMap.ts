@@ -96,7 +96,7 @@ export class TreeMapDataItem extends XYChartDataItem {
 		super();
 		this.className = "TreeMapDataItem";
 
-		this.values.value = {};
+		this.values.value = {workingValue:0};
 
 		this.values.x0 = {};
 

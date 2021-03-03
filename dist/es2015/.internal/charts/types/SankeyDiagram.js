@@ -85,6 +85,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
      */
     SankeyDiagram.prototype.validateData = function () {
         var _this = this;
+        this._valueHeight = undefined;
         _super.prototype.validateData.call(this);
         this._levelCount = 0;
         this.nodes.each(function (key, node) {

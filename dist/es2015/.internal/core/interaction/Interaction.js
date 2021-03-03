@@ -2476,7 +2476,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.applyCursorDownStyle = function (io, pointer) {
         // Not applicable for touch pointers since they don't display a cursor
-        if (pointer.touch) {
+        if (pointer && pointer.touch) {
             return;
         }
         var downStyle = io.cursorOptions.downStyle;
@@ -2498,7 +2498,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.restoreCursorDownStyle = function (io, pointer) {
         // Not applicable for touch pointers since they don't display a cursor
-        if (pointer.touch) {
+        if (pointer && pointer.touch) {
             return;
         }
         var downStyle = io.cursorOptions.downStyle;

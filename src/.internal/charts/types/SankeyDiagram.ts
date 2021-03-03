@@ -260,6 +260,7 @@ export class SankeyDiagram extends FlowDiagram {
 	 * @ignore Exclude from docs
 	 */
 	public validateData(): void {
+		this._valueHeight = undefined;		
 		super.validateData();
 
 		this._levelCount = 0;

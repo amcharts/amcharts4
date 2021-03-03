@@ -3031,7 +3031,7 @@ export class Interaction extends BaseObjectEvents {
 	public applyCursorDownStyle(io: InteractionObject, pointer: IPointer): void {
 
 		// Not applicable for touch pointers since they don't display a cursor
-		if (pointer.touch) {
+		if (pointer && pointer.touch) {
 			return;
 		}
 
@@ -3056,7 +3056,7 @@ export class Interaction extends BaseObjectEvents {
 	public restoreCursorDownStyle(io: InteractionObject, pointer: IPointer): void {
 
 		// Not applicable for touch pointers since they don't display a cursor
-		if (pointer.touch) {
+		if (pointer && pointer.touch) {
 			return;
 		}
 

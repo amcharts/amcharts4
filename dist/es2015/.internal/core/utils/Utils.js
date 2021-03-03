@@ -240,8 +240,17 @@ export function splitTextByCharCount(text, maxChars, fullWords, rtl) {
         // Split by words first
         // Split by spacing
         var currentIndex = -1;
-        var tmpText = text.replace(/([,;:!?\\\/\.]+[\s]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
+        //let tmpText = text.replace(/([,;:!?\\\/\.]+[\s]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
+        var tmpText = text.replace(/([,;:!?\\\/\.]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
         var words = tmpText.split($strings.PLACEHOLDER);
+        // Glue end-of-word punctuation to the word itself
+        for (var i = 1; i < words.length; i++) {
+            var word = words[i];
+            if ((word == "." || word == ",") && words[i - 1].match(/[\w]+$/)) {
+                words[i - 1] += word;
+                words[i] = "";
+            }
+        }
         // Process each word
         for (var i = 0; i < words.length; i++) {
             // Get word and symbol count

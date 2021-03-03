@@ -46,7 +46,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          */
         _this.rows = [];
         _this.className = "TreeMapDataItem";
-        _this.values.value = {};
+        _this.values.value = { workingValue: 0 };
         _this.values.x0 = {};
         _this.values.y0 = {};
         _this.values.x1 = {};

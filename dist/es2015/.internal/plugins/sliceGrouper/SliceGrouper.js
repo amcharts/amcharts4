@@ -13,6 +13,7 @@ import { List } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
 import * as $object from "../../core/utils/Object";
+import * as $type from "../../core/utils/Type";
 import { options } from "../../core/Options";
 /**
  * ============================================================================
@@ -132,6 +133,7 @@ var SliceGrouper = /** @class */ (function (_super) {
         var series = this.target;
         var chart = series.baseSprite;
         var dataProvider = series.data && series.data.length ? series : chart;
+        this._dataProvider = dataProvider;
         // Invalidate calculated data whenever data updates
         var event = options.queue || options.onlyShowOnViewport ? "inited" : "datavalidated";
         this._disposers.push(dataProvider.events.on(event, function (ev) {
@@ -411,6 +413,16 @@ var SliceGrouper = /** @class */ (function (_super) {
         this.groupSlice = undefined;
         this.smallSlices.clear();
         this.bigSlices.clear();
+        if (this._dataProvider && $type.isArray(this._dataProvider.data)) {
+            for (var i = 0; i < this._dataProvider.data.length; i++) {
+                var row = this._dataProvider.data[i];
+                if (row.sliceGrouperOther) {
+                    this._dataProvider.data.splice(i, 1);
+                    this._dataProvider.invalidateData();
+                    break;
+                }
+            }
+        }
         _super.prototype.dispose.call(this);
     };
     SliceGrouper.prototype.disposeClickEvents = function () {

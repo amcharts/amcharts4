@@ -2601,6 +2601,7 @@ export class XYSeries extends Series {
 
 		let delay: number = 0;
 		let anim: Animation;
+
 		$iter.each($iter.indexed(this.dataItems.iterator()), (a) => {
 			let i = a[0];
 			let dataItem = a[1];

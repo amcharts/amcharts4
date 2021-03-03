@@ -21,6 +21,7 @@ import { registry } from "../../core/Registry";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
 import { Component } from "../../core/Component";
 import * as $object from "../../core/utils/Object";
+import * as $type from "../../core/utils/Type";
 import { options } from "../../core/Options";
 
 
@@ -153,6 +154,8 @@ export class SliceGrouper extends Plugin {
 	 */
 	protected _closed: boolean = true;
 
+	protected _dataProvider: Component;
+
 	/**
 	 * Constructor
 	 */
@@ -175,10 +178,12 @@ export class SliceGrouper extends Plugin {
 		const series = this.target;
 		const chart = <PercentChart>series.baseSprite;
 		const dataProvider: Component = series.data && series.data.length ? series : chart;
+		this._dataProvider = dataProvider;
 
 		// Invalidate calculated data whenever data updates
 		const event = options.queue || options.onlyShowOnViewport ? "inited" : "datavalidated";
 		this._disposers.push(dataProvider.events.on(event, (ev) => {
+
 
 			if (this._ignoreDataUpdate) {
 				this._ignoreDataUpdate = false;
@@ -479,6 +484,16 @@ export class SliceGrouper extends Plugin {
 		this.groupSlice = undefined;
 		this.smallSlices.clear();
 		this.bigSlices.clear();
+		if (this._dataProvider && $type.isArray(this._dataProvider.data)) {
+			for(let i = 0; i < this._dataProvider.data.length; i++) {
+				const row = this._dataProvider.data[i];
+				if (row.sliceGrouperOther) {
+					this._dataProvider.data.splice(i, 1);
+					this._dataProvider.invalidateData();
+					break;
+				}
+			}
+		}
 		super.dispose();
 	}
 

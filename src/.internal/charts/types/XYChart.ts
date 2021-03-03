@@ -942,7 +942,7 @@ export class XYChart extends SerialChart {
 		let renderer: AxisRenderer = axis.renderer;
 
 		renderer.gridContainer.parent = this.plotContainer;
-		renderer.gridContainer.toBack();		
+		renderer.gridContainer.toBack();
 
 		renderer.breakContainer.parent = this.plotContainer;
 		renderer.breakContainer.toFront();
@@ -1172,7 +1172,7 @@ export class XYChart extends SerialChart {
 				let dataItems: XYSeriesDataItem[] = [];
 
 				$array.each(snapToSeries, (snpSeries) => {
-					if(!snpSeries.isHidden && !snpSeries.isHiding){
+					if (!snpSeries.isHidden && !snpSeries.isHiding) {
 
 						let xAxis = snpSeries.xAxis;
 						let yAxis = snpSeries.yAxis;
@@ -1617,11 +1617,17 @@ export class XYChart extends SerialChart {
 		let xAxis = this.xAxes.getIndex(0);
 		if (xAxis) {
 			this._panStartXRange = { start: xAxis.start, end: xAxis.end };
+			if (xAxis.renderer.inversed) {
+				this._panStartXRange = $math.invertRange(this._panStartXRange)
+			}
 		}
 
 		let yAxis = this.yAxes.getIndex(0);
 		if (yAxis) {
 			this._panStartYRange = { start: yAxis.start, end: yAxis.end };
+			if (yAxis.renderer.inversed) {
+				this._panStartYRange = $math.invertRange(this._panStartYRange)
+			}
 		}
 	}
 
@@ -1643,8 +1649,8 @@ export class XYChart extends SerialChart {
 				delta = panEndRange.start;
 			}
 
-			if(panStartRange.end > 1){
-				if(panEndRange.end > panStartRange.end){
+			if (panStartRange.end > 1) {
+				if (panEndRange.end > panStartRange.end) {
 					delta = panEndRange.end - panStartRange.end;
 				}
 			}
@@ -1904,41 +1910,47 @@ export class XYChart extends SerialChart {
 	 * @param instantly  If set to `true` will skip zooming animation
 	 * @return Recalculated range that is common to all involved axes
 	 */
-	protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean, declination?: number): IRange {
+	protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean, declination?: number, stop?: boolean): IRange {
 		let realRange: IRange = { start: 0, end: 1 };
 
 		this.showSeriesTooltip(); // hides
 
 		if (!this.dataInvalid) {
 			$iter.each(axes.iterator(), (axis) => {
-				if(axis.zoomable){
-					if (axis.renderer.inversed) {
-						range = $math.invertRange(range);
-					}
 
-					axis.hideTooltip(0);
-
-					if (round) {
-						//let diff = range.end - range.start;
-						if (axis instanceof CategoryAxis) {
-							let cellWidth = axis.getCellEndPosition(0) - axis.getCellStartPosition(0);
-
-							range.start = axis.roundPosition(range.start + cellWidth / 2 - (axis.startLocation) * cellWidth, axis.startLocation);
-							range.end = axis.roundPosition(range.end - cellWidth / 2 + (1 - axis.endLocation) * cellWidth, axis.endLocation);
+				if (stop && 1 / (range.end - range.start) >= axis.maxZoomFactor) {
+					// void
+				}
+				else {
+					if (axis.zoomable) {
+						if (axis.renderer.inversed) {
+							range = $math.invertRange(range);
 						}
-						else {
-							range.start = axis.roundPosition(range.start + 0.0001, 0, axis.startLocation);
-							range.end = axis.roundPosition(range.end + 0.0001, 0, axis.endLocation);
+
+						axis.hideTooltip(0);
+
+						if (round) {
+							//let diff = range.end - range.start;
+							if (axis instanceof CategoryAxis) {
+								let cellWidth = axis.getCellEndPosition(0) - axis.getCellStartPosition(0);
+
+								range.start = axis.roundPosition(range.start + cellWidth / 2 - (axis.startLocation) * cellWidth, axis.startLocation);
+								range.end = axis.roundPosition(range.end - cellWidth / 2 + (1 - axis.endLocation) * cellWidth, axis.endLocation);
+							}
+							else {
+								range.start = axis.roundPosition(range.start + 0.0001, 0, axis.startLocation);
+								range.end = axis.roundPosition(range.end + 0.0001, 0, axis.endLocation);
+							}
 						}
+
+						let axisRange: IRange = axis.zoom(range, instantly, instantly, declination);
+
+						if (axis.renderer.inversed) {
+							axisRange = $math.invertRange(axisRange);
+						}
+
+						realRange = axisRange;
 					}
-
-					let axisRange: IRange = axis.zoom(range, instantly, instantly, declination);
-
-					if (axis.renderer.inversed) {
-						axisRange = $math.invertRange(axisRange);
-					}
-
-					realRange = axisRange;
 				}
 			});
 		}
@@ -2088,7 +2100,7 @@ export class XYChart extends SerialChart {
 				let newEndX = Math.min(rangeX.end + shiftStep * (rangeX.end - rangeX.start) * shift / 100 * (1 - locationX), 1 + maxPanOut);
 				newEndX = Math.max(newEndX, location2X);
 
-				this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
+				this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX }, undefined, undefined, undefined, true);
 			}
 
 			if (mouseWheelBehavior == "zoomY" || mouseWheelBehavior == "zoomXY") {
@@ -2102,7 +2114,7 @@ export class XYChart extends SerialChart {
 				let newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY * (rangeY.end - rangeY.start), 1 + maxPanOut);
 				newEndY = Math.max(newEndY, location2Y);
 
-				this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
+				this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY }, undefined, undefined, undefined, true);
 			}
 		}
 	}
@@ -2471,13 +2483,13 @@ export class XYChart extends SerialChart {
 		}
 
 		this.xAxes.each((axis) => {
-			if(axis instanceof CategoryAxis){
+			if (axis instanceof CategoryAxis) {
 				axis.disposeData();
 			}
 		})
 
 		this.yAxes.each((axis) => {
-			if(axis instanceof CategoryAxis){
+			if (axis instanceof CategoryAxis) {
 				axis.disposeData();
 			}
 		})

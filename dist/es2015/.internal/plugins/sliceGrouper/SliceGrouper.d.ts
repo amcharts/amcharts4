@@ -16,6 +16,7 @@ import { Slice } from "../../core/elements/Slice";
 import { Sprite } from "../../core/Sprite";
 import { Optional } from "../../core/utils/Type";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
+import { Component } from "../../core/Component";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -128,6 +129,7 @@ export declare class SliceGrouper extends Plugin {
      * Is group slice currently closed or expanded?
      */
     protected _closed: boolean;
+    protected _dataProvider: Component;
     /**
      * Constructor
      */

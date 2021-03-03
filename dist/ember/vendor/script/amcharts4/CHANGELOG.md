@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.16] - 2021-03-03
+
+### Fixed
+- In some rare cases an critical error could happen on hoverable objects on touch-only displays.
+- Zooming and drag-rotating a resized `MapChart` could throw off the map position.
+- It was possible to continue zooming the chart using mouse wheel even when max zoom was reached.
+- Zooming "inverted" horizontal axis was incorrect.
+- Updating data on `SankeyDiagram` in some cases could result in an SO.
+- `TreeMap` was showing incorrectly sized nodes with empty children array.
+- Sometimes wrapping long strings were causing punctuation at the end of the word to wrap into the next line.
+- Dynamically switching `logarithmic` setting for a `ValueAxis` was not updating its scale properly in some cases.
+- `SliceGrouper` plugin was not updating properly when manipulating data and/or series.
+
+
 ## [4.10.15] - 2021-02-03
 
 ### Fixed

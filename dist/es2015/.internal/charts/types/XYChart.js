@@ -1232,10 +1232,16 @@ var XYChart = /** @class */ (function (_super) {
         var xAxis = this.xAxes.getIndex(0);
         if (xAxis) {
             this._panStartXRange = { start: xAxis.start, end: xAxis.end };
+            if (xAxis.renderer.inversed) {
+                this._panStartXRange = $math.invertRange(this._panStartXRange);
+            }
         }
         var yAxis = this.yAxes.getIndex(0);
         if (yAxis) {
             this._panStartYRange = { start: yAxis.start, end: yAxis.end };
+            if (yAxis.renderer.inversed) {
+                this._panStartYRange = $math.invertRange(this._panStartYRange);
+            }
         }
     };
     /**
@@ -1482,33 +1488,38 @@ var XYChart = /** @class */ (function (_super) {
      * @param instantly  If set to `true` will skip zooming animation
      * @return Recalculated range that is common to all involved axes
      */
-    XYChart.prototype.zoomAxes = function (axes, range, instantly, round, declination) {
+    XYChart.prototype.zoomAxes = function (axes, range, instantly, round, declination, stop) {
         var realRange = { start: 0, end: 1 };
         this.showSeriesTooltip(); // hides
         if (!this.dataInvalid) {
             $iter.each(axes.iterator(), function (axis) {
-                if (axis.zoomable) {
-                    if (axis.renderer.inversed) {
-                        range = $math.invertRange(range);
-                    }
-                    axis.hideTooltip(0);
-                    if (round) {
-                        //let diff = range.end - range.start;
-                        if (axis instanceof CategoryAxis) {
-                            var cellWidth = axis.getCellEndPosition(0) - axis.getCellStartPosition(0);
-                            range.start = axis.roundPosition(range.start + cellWidth / 2 - (axis.startLocation) * cellWidth, axis.startLocation);
-                            range.end = axis.roundPosition(range.end - cellWidth / 2 + (1 - axis.endLocation) * cellWidth, axis.endLocation);
+                if (stop && 1 / (range.end - range.start) >= axis.maxZoomFactor) {
+                    // void
+                }
+                else {
+                    if (axis.zoomable) {
+                        if (axis.renderer.inversed) {
+                            range = $math.invertRange(range);
                         }
-                        else {
-                            range.start = axis.roundPosition(range.start + 0.0001, 0, axis.startLocation);
-                            range.end = axis.roundPosition(range.end + 0.0001, 0, axis.endLocation);
+                        axis.hideTooltip(0);
+                        if (round) {
+                            //let diff = range.end - range.start;
+                            if (axis instanceof CategoryAxis) {
+                                var cellWidth = axis.getCellEndPosition(0) - axis.getCellStartPosition(0);
+                                range.start = axis.roundPosition(range.start + cellWidth / 2 - (axis.startLocation) * cellWidth, axis.startLocation);
+                                range.end = axis.roundPosition(range.end - cellWidth / 2 + (1 - axis.endLocation) * cellWidth, axis.endLocation);
+                            }
+                            else {
+                                range.start = axis.roundPosition(range.start + 0.0001, 0, axis.startLocation);
+                                range.end = axis.roundPosition(range.end + 0.0001, 0, axis.endLocation);
+                            }
                         }
+                        var axisRange = axis.zoom(range, instantly, instantly, declination);
+                        if (axis.renderer.inversed) {
+                            axisRange = $math.invertRange(axisRange);
+                        }
+                        realRange = axisRange;
                     }
-                    var axisRange = axis.zoom(range, instantly, instantly, declination);
-                    if (axis.renderer.inversed) {
-                        axisRange = $math.invertRange(axisRange);
-                    }
-                    realRange = axisRange;
                 }
             });
         }
@@ -1635,7 +1646,7 @@ var XYChart = /** @class */ (function (_super) {
                 newStartX = Math.min(newStartX, location2X);
                 var newEndX = Math.min(rangeX.end + shiftStep * (rangeX.end - rangeX.start) * shift / 100 * (1 - locationX), 1 + maxPanOut);
                 newEndX = Math.max(newEndX, location2X);
-                this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
+                this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX }, undefined, undefined, undefined, true);
             }
             if (mouseWheelBehavior == "zoomY" || mouseWheelBehavior == "zoomXY") {
                 var locationY = plotPoint.y / plotContainer.maxHeight;
@@ -1644,7 +1655,7 @@ var XYChart = /** @class */ (function (_super) {
                 newStartY = Math.min(newStartY, location2Y);
                 var newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY * (rangeY.end - rangeY.start), 1 + maxPanOut);
                 newEndY = Math.max(newEndY, location2Y);
-                this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
+                this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY }, undefined, undefined, undefined, true);
             }
         }
     };

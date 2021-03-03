@@ -155,17 +155,11 @@ export interface IPieSeriesProperties extends IPercentSeriesProperties {
 
 	/**
 	 * Start angle for the series' slices in degrees. (0-360)
-	 *
-	 * @ignore Exclude from docs
-	 * @todo Redo so that users can set it
 	 */
 	startAngle?: number;
 
 	/**
 	 * End angle for the series' slices in degrees. (0-360)
-	 *
-	 * @ignore Exclude from docs
-	 * @todo Redo so that users can set it
 	 */
 	endAngle?: number;
 }

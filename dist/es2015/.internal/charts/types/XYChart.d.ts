@@ -673,7 +673,7 @@ export declare class XYChart extends SerialChart {
      * @param instantly  If set to `true` will skip zooming animation
      * @return Recalculated range that is common to all involved axes
      */
-    protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean, declination?: number): IRange;
+    protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean, declination?: number, stop?: boolean): IRange;
     /**
      * Indicates if bullet container is masked.
      *

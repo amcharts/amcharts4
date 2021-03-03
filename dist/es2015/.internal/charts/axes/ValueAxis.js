@@ -1131,15 +1131,20 @@ var ValueAxis = /** @class */ (function (_super) {
             if (max == -Infinity) {
                 max = 10;
             }
-            min = Math.pow(10, Math.floor(Math.log(Math.abs(min)) * Math.LOG10E));
-            max = Math.pow(10, Math.ceil(Math.log(Math.abs(max)) * Math.LOG10E));
             if (this.strictMinMax) {
                 if (this._minDefined > 0) {
                     min = this._minDefined;
                 }
-                if (this._maxDefined > 0) {
-                    max = this._maxDefined;
+                else {
+                    min = min;
                 }
+                if (this._maxDefined > 0) {
+                    max = max;
+                }
+            }
+            else {
+                min = Math.pow(10, Math.floor(Math.log(Math.abs(min)) * Math.LOG10E));
+                max = Math.pow(10, Math.ceil(Math.log(Math.abs(max)) * Math.LOG10E));
             }
         }
         // repeat diff, exponent and power again with rounded values
@@ -1592,6 +1597,9 @@ var ValueAxis = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("logarithmic", value)) {
                 this.invalidate();
+                this.series.each(function (series) {
+                    series.invalidateDataItems();
+                });
             }
         },
         enumerable: true,

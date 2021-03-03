@@ -486,6 +486,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		this._maxZoomed = this._maxDefined;
 		this._minZoomed = this._minDefined;
+
 		this._maxAdjusted = this._maxDefined;
 		this._minAdjusted = this._minDefined;
 	}
@@ -636,6 +637,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				this._dsc = false;
 				this._minZoomed = min;
 				this._maxZoomed = max;
+
 				this._step = step;
 				this.dispatchImmediately("selectionextremeschanged");
 			}
@@ -741,7 +743,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 						value += this._step;
 					}
 				}
-
 
 				let stepPower = Math.pow(10, Math.floor(Math.log(Math.abs(this._step)) * Math.LOG10E));
 				if (stepPower < 1) {
@@ -1365,7 +1366,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			this.start = 0;
 			this.end = 1;
 
-			this.renderer.labels.each((label)=>{
+			this.renderer.labels.each((label) => {
 				label.dataItem.text = "";
 			})
 		}
@@ -1544,16 +1545,20 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				max = 10;
 			}
 
-			min = Math.pow(10, Math.floor(Math.log(Math.abs(min)) * Math.LOG10E));
-			max = Math.pow(10, Math.ceil(Math.log(Math.abs(max)) * Math.LOG10E));
-
 			if (this.strictMinMax) {
 				if (this._minDefined > 0) {
 					min = this._minDefined;
 				}
-				if (this._maxDefined > 0) {
-					max = this._maxDefined;
+				else {
+					min = min;
 				}
+				if (this._maxDefined > 0) {
+					max = max;
+				}
+			}
+			else {
+				min = Math.pow(10, Math.floor(Math.log(Math.abs(min)) * Math.LOG10E));
+				max = Math.pow(10, Math.ceil(Math.log(Math.abs(max)) * Math.LOG10E));
 			}
 		}
 		// repeat diff, exponent and power again with rounded values
@@ -1634,7 +1639,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				min = min - step;
 			}
 		}
-
 		return { min: min, max: max, step: step };
 	}
 
@@ -1979,6 +1983,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			this._maxZoomed = selectionMax;
 		}
 
+
 		if (!this.keepSelection) {
 			this.zoom({ start: start, end: end }, false, false, declination);
 		}
@@ -2025,6 +2030,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	public set logarithmic(value: boolean) {
 		if (this.setPropertyValue("logarithmic", value)) {
 			this.invalidate();
+			this.series.each((series) => {
+				series.invalidateDataItems();
+			})
 		}
 	}
 

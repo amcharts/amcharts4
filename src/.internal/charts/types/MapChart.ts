@@ -864,6 +864,7 @@ export class MapChart extends SerialChart {
 				}
 
 				d3Projection.rotate([dln, dlt, dlg]);
+
 				if (geoLocal) {
 					if (panBehavior == "rotateLat" || panBehavior == "rotateLongLat") {
 						this.deltaLatitude = this._downDeltaLatitude + geoLocal.latitude - downGeoLocal.latitude;
@@ -1995,7 +1996,7 @@ export class MapChart extends SerialChart {
 			if (this.projection.d3Projection.rotate) {
 				this.projection.d3Projection.rotate([this.deltaLongitude, this.deltaLatitude, this.deltaGamma]);
 				this.invalidateProjection();
-				this.updateExtremes();
+				//this.updateExtremes(); // removal fixes #3292
 			}
 		}
 	}

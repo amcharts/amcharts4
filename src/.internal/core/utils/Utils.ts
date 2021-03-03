@@ -274,6 +274,7 @@ export function splitTextByCharCount(text: string, maxChars: number, fullWords?:
 	// Init result
 	let res: string[] = [];
 
+
 	// Split by words or by charts
 	if (fullWords) {
 
@@ -281,8 +282,19 @@ export function splitTextByCharCount(text: string, maxChars: number, fullWords?:
 
 		// Split by spacing
 		let currentIndex: number = -1;
-		let tmpText = text.replace(/([,;:!?\\\/\.]+[\s]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
+		//let tmpText = text.replace(/([,;:!?\\\/\.]+[\s]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
+		let tmpText = text.replace(/([,;:!?\\\/\.]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
 		let words = tmpText.split($strings.PLACEHOLDER);
+
+		// Glue end-of-word punctuation to the word itself
+		for (let i = 1; i < words.length; i++) {
+			let word = words[i];
+			if ((word == "." || word == ",") && words[i - 1].match(/[\w]+$/)) {
+				words[i - 1] += word;
+				words[i] = "";
+			}
+		}
+
 
 		// Process each word
 		for (let i = 0; i < words.length; i++) {
