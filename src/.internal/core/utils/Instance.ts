@@ -95,6 +95,7 @@ function createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement |
 		let uid = sprite.uid;
 
 		registry.invalidSprites[uid] = [];
+		registry.validatedSpritesBatchPurge[uid] = {};
 		registry.invalidDatas[uid] = [];
 		registry.invalidPositions[uid] = [];
 		registry.invalidLayouts[uid] = [];

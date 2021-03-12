@@ -103,12 +103,21 @@ export class Registry {
 	protected _placeholders: { [index: string]: string } = {};
 
 	/**
-	 * A list of invalid(ated) [[Sprite]] objects that need to be re-validated
+	 * Lists of invalid(ated) [[Sprite]] objects that need to be re-validated
 	 * during next cycle.
 	 *
 	 * @ignore Exclude from docs
 	 */
 	public invalidSprites: { [index: string]: Array<Sprite> } = {};
+
+        /**
+         * Objects with the keys given by the uids of no longer
+         * invalid [[Sprite]] objects that should be removed from the
+         * invalid Sprites.
+         *
+         * @ignore Exclude from docs
+         */
+        public validatedSpritesBatchPurge: { [index: string]: any } = {};
 
 	/**
 	 * Components are added to this list when their data provider changes to
@@ -194,6 +203,7 @@ export class Registry {
 		this.uid = this.getUniqueId();
 
 		this.invalidSprites.noBase = [];
+		this.validatedSpritesBatchPurge.noBase = {};
 		this.invalidDatas.noBase = [];
 		this.invalidLayouts.noBase = [];
 		this.invalidPositions.noBase = [];
@@ -375,10 +385,16 @@ export class Registry {
 	 */
 	public removeFromInvalidSprites(sprite: Sprite) {
 		if (sprite.baseId) {
-			$array.remove(this.invalidSprites[sprite.baseId], sprite);
+			if (!this.validatedSpritesBatchPurge[spriteBaseId][sprite.uid]) {
+				// not doing batch purge, so remove sprite from invalid sprites right here
+				$array.remove(this.invalidSprites[sprite.baseId], sprite);
+			}
 		}
 
-		$array.remove(this.invalidSprites["noBase"], sprite);
+		if (!this.validatedSpritesBatchPurge[spriteBaseId][sprite.uid]) {
+			// not doing batch purge, so remove sprite from invalid sprites right here
+			$array.remove(this.invalidSprites["noBase"], sprite);
+		}
 	}
 
 
