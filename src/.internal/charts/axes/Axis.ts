@@ -185,13 +185,13 @@ export class AxisDataItem extends DataItem {
 	 *
 	 * ```TypeScript
 	 * // Hide all ticks and labels closer than 20% to axis end.
-	 * axis.renderer.ticks.template.minPosition = 0.8;
-	 * axis.renderer.labels.template.minPosition = 0.8;
+	 * axis.renderer.ticks.template.maxPosition = 0.8;
+	 * axis.renderer.labels.template.maxPosition = 0.8;
 	 * ```
 	 * ```JavaScript
 	 * // Hide all ticks and labels closer than 20% to axis end.
-	 * axis.renderer.ticks.template.minPosition = 0.8;
-	 * axis.renderer.labels.template.minPosition = 0.8;
+	 * axis.renderer.ticks.template.maxPosition = 0.8;
+	 * axis.renderer.labels.template.maxPosition = 0.8;
 	 * ```
 	 * ```JSON
 	 * {
@@ -201,10 +201,10 @@ export class AxisDataItem extends DataItem {
 	 *     // Hide all ticks and labels closer than 20% to axis end.
 	 *     "renderer": {
 	 *       "ticks": {
-	 *         "minPosition": 0.8
+	 *         "maxPosition": 0.8
 	 *       },
 	 *       "labels": {
-	 *         "minPosition": 0.8
+	 *         "maxPosition": 0.8
 	 *       }
 	 *     }
 	 *   }]

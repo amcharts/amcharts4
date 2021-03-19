@@ -1701,6 +1701,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * from 100 to 200, we will now have axis displaying from 50 to 200 because
 	 * we asked to expand minimum value by 50% (0.5).
 	 *
+	 * NOTE: this setting is not compatible with `strictMinMax`.
+	 *
 	 * @param {number}
 	 */
 	public set extraMin(value: number) {
@@ -1725,6 +1727,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * E.g.: 0.5 will mean half of the current range. If we have axis displaying
 	 * from 100 to 200, we will now have axis displaying from 100 to 250 because
 	 * we asked to expand maximum value by 50% (0.5).
+	 *
+	 * NOTE: this setting is not compatible with `strictMinMax`.
 	 *
 	 * @param {number}
 	 */

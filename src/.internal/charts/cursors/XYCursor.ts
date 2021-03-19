@@ -104,6 +104,15 @@ export interface IXYCursorProperties extends ICursorProperties {
 	 * @since 4.7.18
 	 */
 	maxTooltipDistance?: number;
+
+	/**
+	 * Should zoom selection "snap" into equal categories/intervals after panning
+	 * the chart? (when `behavior == "panX"`)
+	 *
+	 * @default true
+	 * @since 4.10.17
+	 */
+	snapOnPan?: boolean;
 }
 
 /**
@@ -207,6 +216,8 @@ export class XYCursor extends Cursor {
 		this.maxPanOut = 0.1;
 
 		let interfaceColors = new InterfaceColorSet();
+
+		this.snapOnPan = true;
 
 		// Create selection element
 		let selection: Sprite = this.createChild(Sprite);
@@ -1046,11 +1057,30 @@ export class XYCursor extends Cursor {
 		return this.getPropertyValue("snapToSeries");
 	}
 
+
 	/**
-	 * [handleSnap description]
+	 * Should zoom selection "snap" into equal categories/intervals after panning
+	 * the chart? (when `behavior == "panX"`)
+	 *
+	 * @default true
+	 * @since 4.10.17
+	 * @return Snap on pan?
+	 */
+	public get snapOnPan(): boolean {
+		return this.getPropertyValue("snapOnPan");
+	}
+
+	/**
+	 * @param value Snap on pan?
+	 */
+	public set snapOnPan(value: boolean) {
+		this.setPropertyValue("snapOnPan", value);
+	}
+
+	/**
+	 * Snaps the zoom selection after chart is panned.
 	 *
 	 * @ignore
-	 * @todo Description
 	 */
 	public handleSnap(series: XYSeries) {
 		if (!this.downPoint) {

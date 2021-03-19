@@ -81,6 +81,14 @@ export interface IXYCursorProperties extends ICursorProperties {
      * @since 4.7.18
      */
     maxTooltipDistance?: number;
+    /**
+     * Should zoom selection "snap" into equal categories/intervals after panning
+     * the chart? (when `behavior == "panX"`)
+     *
+     * @default true
+     * @since 4.10.17
+     */
+    snapOnPan?: boolean;
 }
 /**
  * Defines events for [[XYCursor]].
@@ -410,10 +418,21 @@ export declare class XYCursor extends Cursor {
     */
     snapToSeries: XYSeries | XYSeries[];
     /**
-     * [handleSnap description]
+     * Should zoom selection "snap" into equal categories/intervals after panning
+     * the chart? (when `behavior == "panX"`)
+     *
+     * @default true
+     * @since 4.10.17
+     * @return Snap on pan?
+     */
+    /**
+    * @param value Snap on pan?
+    */
+    snapOnPan: boolean;
+    /**
+     * Snaps the zoom selection after chart is panned.
      *
      * @ignore
-     * @todo Description
      */
     handleSnap(series: XYSeries): void;
     /**

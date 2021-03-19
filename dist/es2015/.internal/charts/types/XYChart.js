@@ -1267,7 +1267,7 @@ var XYChart = /** @class */ (function (_super) {
             else if (panEndRange.end > 1) {
                 delta = panEndRange.end - 1;
             }
-            this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, true);
+            this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, cursor.snapOnPan);
             this._panEndXRange = undefined;
             this._panStartXRange = undefined;
         }
@@ -1280,7 +1280,7 @@ var XYChart = /** @class */ (function (_super) {
             if (panEndRange.end > 1) {
                 delta = panEndRange.end - 1;
             }
-            this.zoomAxes(this.yAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, true);
+            this.zoomAxes(this.yAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, cursor.snapOnPan);
             this._panEndYRange = undefined;
             this._panStartYRange = undefined;
         }
@@ -1491,15 +1491,23 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.zoomAxes = function (axes, range, instantly, round, declination, stop) {
         var realRange = { start: 0, end: 1 };
         this.showSeriesTooltip(); // hides
+        var originalRange = range;
         if (!this.dataInvalid) {
             $iter.each(axes.iterator(), function (axis) {
-                if (stop && 1 / (range.end - range.start) >= axis.maxZoomFactor) {
+                var maxZoomFactor = axis.maxZoomFactor;
+                if ($type.isNumber(axis.minZoomCount)) {
+                    maxZoomFactor = maxZoomFactor / axis.minZoomCount;
+                }
+                if (stop && 1 / (range.end - range.start) >= maxZoomFactor) {
                     // void
                 }
                 else {
                     if (axis.zoomable) {
                         if (axis.renderer.inversed) {
-                            range = $math.invertRange(range);
+                            range = $math.invertRange(originalRange);
+                        }
+                        else {
+                            range = originalRange;
                         }
                         axis.hideTooltip(0);
                         if (round) {

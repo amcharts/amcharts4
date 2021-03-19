@@ -45,6 +45,8 @@ function createChild(htmlElement, classType) {
         htmlContainer = document.createElement("div");
         htmlContainer.style.width = "200px";
         htmlContainer.style.height = "200px";
+        htmlContainer.style.top = "0";
+        htmlContainer.style.left = "0";
         htmlContainer.style.visibility = "hidden";
         htmlContainer.style.position = "absolute";
         document.body.appendChild(htmlContainer);

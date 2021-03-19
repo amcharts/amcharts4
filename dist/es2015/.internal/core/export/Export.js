@@ -821,6 +821,9 @@ var Export = /** @class */ (function (_super) {
                                                     case 1:
                                                         after = a[2];
                                                         fullUrl = $utils.joinUrl(topUrl, a[1]);
+                                                        if (this.webFontFilter && !fullUrl.match(this.webFontFilter)) {
+                                                            return [2 /*return*/, null];
+                                                        }
                                                         _a.label = 2;
                                                     case 2:
                                                         _a.trys.push([2, 7, , 8]);
@@ -4114,6 +4117,10 @@ var Export = /** @class */ (function (_super) {
             // Set up menu
             if ($type.hasValue(config.menu) && !$type.hasValue(config.menu.type)) {
                 config.menu.type = "ExportMenu";
+            }
+            if ($type.hasValue(config.dataFields) && $type.isObject(config.dataFields)) {
+                this.dataFields = config.dataFields;
+                delete config.dataFields;
             }
         }
         _super.prototype.processConfig.call(this, config);

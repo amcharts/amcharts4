@@ -562,7 +562,15 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
 	 * @default 0.4
 	 * @since 4.9.2
 	 */
-	velocityDecay?:number;
+	velocityDecay?: number;
+
+	/**
+	 * Renders series hidden until Xth tick.
+	 *
+	 * @default 10
+	 * @since 4.10.17
+	 */
+	showOnTick?: number;
 }
 
 /**
@@ -684,6 +692,7 @@ export class ForceDirectedSeries extends Series {
 	protected _collisionForce: d3force.ForceCollide<d3force.SimulationNodeDatum>;
 
 
+	protected _tick = 0;
 
 	/**
 	 * Constructor
@@ -709,6 +718,8 @@ export class ForceDirectedSeries extends Series {
 		this.manyBodyStrength = -15;
 		this.centerStrength = 0.8;
 
+		this.showOnTick = 10;
+
 		this.setPropertyValue("dragFixedNodes", false);
 		this.setPropertyValue("velocityDecay", 0.4);
 
@@ -722,8 +733,8 @@ export class ForceDirectedSeries extends Series {
 
 			let d3forceSimulation = this.d3forceSimulation;
 
-			let w = $math.max(50, this.innerWidth);
-			let h = $math.max(50, this.innerHeight);
+			let w = $math.max($math.max(50, this.innerWidth), this.innerWidth);
+			let h = $math.max($math.max(50, this.innerHeight), this.innerHeight);
 
 			if (d3forceSimulation) {
 				d3forceSimulation.force("x", d3force.forceX().x(w / 2).strength(this.centerStrength * 100 / w));
@@ -834,7 +845,7 @@ export class ForceDirectedSeries extends Series {
 
 		// helps to avoid initial scatter
 		for (let i = 0; i < 10; i++) {
-			d3forceSimulation.tick();
+			//d3forceSimulation.tick();
 		}
 		d3forceSimulation.alphaDecay(1 - Math.pow(0.001, 1 / 600));
 
@@ -917,6 +928,15 @@ export class ForceDirectedSeries extends Series {
 	 * @todo description
 	 */
 	public updateLinksAndNodes() {
+		if (this._tick < this.showOnTick) {
+			this._tick++;
+			this.opacity = 0;
+		}
+		else if (this._tick == this.showOnTick) {
+			this.opacity = 1;
+			this._tick++;
+		}
+
 		if (this._linkForce) {
 			this._linkForce.distance((linkDatum) => {
 				return this.getDistance(linkDatum)
@@ -1095,7 +1115,6 @@ export class ForceDirectedSeries extends Series {
 			this.updateNodeList();
 			return;
 		}
-
 		if (!node.isActive) {
 			node.hide(0);
 		}
@@ -1164,7 +1183,7 @@ export class ForceDirectedSeries extends Series {
 			})
 		}
 		node.isActive = true;
-		node.show();
+		node.show(0);
 		this.updateNodeList();
 	}
 
@@ -1527,6 +1546,24 @@ export class ForceDirectedSeries extends Series {
 				}
 			}, undefined, false)
 		});
+	}
+
+	/**
+	 * Renders series hidden until Xth tick.
+	 *
+	 * @default 10
+	 * @since 4.10.17
+	 * @param value Number of ticks to delay rendering
+	 */
+	public set showOnTick(value: number) {
+		this.setPropertyValue("showOnTick", value);
+	}
+
+	/**
+	 * @return Number of ticks to delay rendering
+	 */
+	public get showOnTick(): number {
+		return this.getPropertyValue("showOnTick");
 	}
 }
 

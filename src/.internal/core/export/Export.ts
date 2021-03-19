@@ -1520,6 +1520,32 @@ export class Export extends Validatable {
 	public useWebFonts: boolean = true;
 
 	/**
+	 * A regular expression that will be matched against each URL of an external
+	 * font being loaded. Font will only be loaded of regular expression matches.
+	 *
+	 * Has no effect of `useWebFonts` is set to `false`.
+	 *
+	 * ```TypeScript
+	 * chart.exporting.webFontFilter = /pacifico|roboto/;
+	 * ```
+	 * ```JavaScript
+	 * chart.exporting.webFontFilter = /pacifico|roboto/;
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "exporting": {
+	 *     // ...
+	 *     "webFontFilter": /pacifico|roboto/
+	 *   }
+	 * }
+	 * ```
+	 *
+	 * @since 4.10.17
+	 */
+	public webFontFilter: RegExp;
+
+	/**
 	 * Many modern displays have use more actual pixels per displayed pixel. This
 	 * results in sharper images on screen. Unfortunately, when exported to a
 	 * bitmap image of the sam width/height size it will lose those extra pixels,
@@ -2027,6 +2053,10 @@ export class Export extends Validatable {
 							const after = a[2];
 
 							const fullUrl = $utils.joinUrl(topUrl, a[1]);
+
+							if (this.webFontFilter && !fullUrl.match(this.webFontFilter)) {
+								return null;
+							}
 
 							try {
 								// Fetch the actual font-file (.woff)
@@ -5602,10 +5632,13 @@ export class Export extends Validatable {
 				config.menu.type = "ExportMenu";
 			}
 
+			if ($type.hasValue(config.dataFields) && $type.isObject(config.dataFields)) {
+				this.dataFields = config.dataFields;
+				delete config.dataFields;
+			}
 		}
 
 		super.processConfig(config);
-
 	}
 
 }

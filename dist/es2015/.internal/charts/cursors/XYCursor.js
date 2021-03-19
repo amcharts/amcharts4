@@ -68,6 +68,7 @@ var XYCursor = /** @class */ (function (_super) {
         _this.behavior = "zoomX";
         _this.maxPanOut = 0.1;
         var interfaceColors = new InterfaceColorSet();
+        _this.snapOnPan = true;
         // Create selection element
         var selection = _this.createChild(Sprite);
         selection.shouldClone = false;
@@ -852,11 +853,31 @@ var XYCursor = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(XYCursor.prototype, "snapOnPan", {
+        /**
+         * Should zoom selection "snap" into equal categories/intervals after panning
+         * the chart? (when `behavior == "panX"`)
+         *
+         * @default true
+         * @since 4.10.17
+         * @return Snap on pan?
+         */
+        get: function () {
+            return this.getPropertyValue("snapOnPan");
+        },
+        /**
+         * @param value Snap on pan?
+         */
+        set: function (value) {
+            this.setPropertyValue("snapOnPan", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
-     * [handleSnap description]
+     * Snaps the zoom selection after chart is panned.
      *
      * @ignore
-     * @todo Description
      */
     XYCursor.prototype.handleSnap = function (series) {
         if (!this.downPoint) {

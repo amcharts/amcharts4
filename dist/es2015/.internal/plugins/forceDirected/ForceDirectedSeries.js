@@ -413,6 +413,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
      */
     function ForceDirectedSeries() {
         var _this = _super.call(this) || this;
+        _this._tick = 0;
         _this.className = "ForceDirectedSeries";
         _this.d3forceSimulation = d3force.forceSimulation();
         _this.maxRadius = percent(8);
@@ -425,6 +426,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         _this.height = percent(100);
         _this.manyBodyStrength = -15;
         _this.centerStrength = 0.8;
+        _this.showOnTick = 10;
         _this.setPropertyValue("dragFixedNodes", false);
         _this.setPropertyValue("velocityDecay", 0.4);
         _this.events.on("maxsizechanged", function () {
@@ -434,8 +436,8 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
                 _this.handleFixed(dataItem);
             });
             var d3forceSimulation = _this.d3forceSimulation;
-            var w = $math.max(50, _this.innerWidth);
-            var h = $math.max(50, _this.innerHeight);
+            var w = $math.max($math.max(50, _this.innerWidth), _this.innerWidth);
+            var h = $math.max($math.max(50, _this.innerHeight), _this.innerHeight);
             if (d3forceSimulation) {
                 d3forceSimulation.force("x", d3force.forceX().x(w / 2).strength(_this.centerStrength * 100 / w));
                 d3forceSimulation.force("y", d3force.forceY().y(h / 2).strength(_this.centerStrength * 100 / h));
@@ -524,7 +526,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         });
         // helps to avoid initial scatter
         for (var i = 0; i < 10; i++) {
-            d3forceSimulation.tick();
+            //d3forceSimulation.tick();
         }
         d3forceSimulation.alphaDecay(1 - Math.pow(0.001, 1 / 600));
         this.chart.feedLegend();
@@ -593,6 +595,14 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
      */
     ForceDirectedSeries.prototype.updateLinksAndNodes = function () {
         var _this = this;
+        if (this._tick < this.showOnTick) {
+            this._tick++;
+            this.opacity = 0;
+        }
+        else if (this._tick == this.showOnTick) {
+            this.opacity = 1;
+            this._tick++;
+        }
         if (this._linkForce) {
             this._linkForce.distance(function (linkDatum) {
                 return _this.getDistance(linkDatum);
@@ -797,7 +807,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             });
         }
         node.isActive = true;
-        node.show();
+        node.show(0);
         this.updateNodeList();
     };
     /**
@@ -1164,6 +1174,26 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
             }, undefined, false);
         });
     };
+    Object.defineProperty(ForceDirectedSeries.prototype, "showOnTick", {
+        /**
+         * @return Number of ticks to delay rendering
+         */
+        get: function () {
+            return this.getPropertyValue("showOnTick");
+        },
+        /**
+         * Renders series hidden until Xth tick.
+         *
+         * @default 10
+         * @since 4.10.17
+         * @param value Number of ticks to delay rendering
+         */
+        set: function (value) {
+            this.setPropertyValue("showOnTick", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return ForceDirectedSeries;
 }(Series));
 export { ForceDirectedSeries };

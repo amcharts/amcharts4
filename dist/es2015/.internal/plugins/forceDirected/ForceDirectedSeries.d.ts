@@ -315,6 +315,13 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
      * @since 4.9.2
      */
     velocityDecay?: number;
+    /**
+     * Renders series hidden until Xth tick.
+     *
+     * @default 10
+     * @since 4.10.17
+     */
+    showOnTick?: number;
 }
 /**
  * Defines events for [[ForceDirectedSeries]].
@@ -415,6 +422,7 @@ export declare class ForceDirectedSeries extends Series {
      * @ignore
      */
     protected _collisionForce: d3force.ForceCollide<d3force.SimulationNodeDatum>;
+    protected _tick: number;
     /**
      * Constructor
      */
@@ -662,4 +670,15 @@ export declare class ForceDirectedSeries extends Series {
      * @param dataItem  Data item
      */
     createLegendMarker(marker: Container, dataItem?: this["_dataItem"]): void;
+    /**
+     * Renders series hidden until Xth tick.
+     *
+     * @default 10
+     * @since 4.10.17
+     * @param value Number of ticks to delay rendering
+     */
+    /**
+    * @return Number of ticks to delay rendering
+    */
+    showOnTick: number;
 }

@@ -1902,6 +1902,22 @@ define('@amcharts/amcharts4-geodata/italyLow', [], function () {
   }
   throw new Error("You must add 'geodata/italyLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/italyProvincesHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_italyProvincesHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/italyProvincesHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/italyProvincesLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_italyProvincesLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/italyProvincesLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/jamaicaHigh', [], function () {
   'use strict';
   var output = self.am4geodata_jamaicaHigh;

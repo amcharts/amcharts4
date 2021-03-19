@@ -1658,7 +1658,7 @@ export class XYChart extends SerialChart {
 				delta = panEndRange.end - 1;
 			}
 
-			this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, true);
+			this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, cursor.snapOnPan);
 			this._panEndXRange = undefined;
 			this._panStartXRange = undefined;
 		}
@@ -1673,7 +1673,7 @@ export class XYChart extends SerialChart {
 				delta = panEndRange.end - 1;
 			}
 
-			this.zoomAxes(this.yAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, true);
+			this.zoomAxes(this.yAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, cursor.snapOnPan);
 			this._panEndYRange = undefined;
 			this._panStartYRange = undefined;
 		}
@@ -1915,16 +1915,26 @@ export class XYChart extends SerialChart {
 
 		this.showSeriesTooltip(); // hides
 
+		let originalRange = range;
+
 		if (!this.dataInvalid) {
 			$iter.each(axes.iterator(), (axis) => {
 
-				if (stop && 1 / (range.end - range.start) >= axis.maxZoomFactor) {
+				let maxZoomFactor = axis.maxZoomFactor;
+				if ($type.isNumber(axis.minZoomCount)) {
+					maxZoomFactor = maxZoomFactor / axis.minZoomCount
+				}
+
+				if (stop && 1 / (range.end - range.start) >= maxZoomFactor) {
 					// void
 				}
 				else {
 					if (axis.zoomable) {
 						if (axis.renderer.inversed) {
-							range = $math.invertRange(range);
+							range = $math.invertRange(originalRange);
+						}
+						else {
+							range = originalRange;
 						}
 
 						axis.hideTooltip(0);

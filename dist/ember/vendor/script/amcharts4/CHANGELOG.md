@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.17] - 2021-03-19
+
+### Added
+- New setting for `Export`: `webFontFilter`. Allows it to set to a regular expression. If set only those external fonts that their URL match regular exporession will be loaded.
+- New setting for `ForceDirectedSeries`: `showOnTick` (default `10`). Render series hidden until Xth tick.
+- New setting for `XYCursor`: `snapOnPan` (default `true`). Indicates whether to "snap" zoom selection to equal periods when panning by cursor ends.
+
+### Fixed
+- Zooming of chart with multiple vertical axes of which one was inverted was incorrect.
+- `minZoomCount` was not being taken into account when zooming with mouse wheel.
+- JSON config: `exporting.dataFields` setting was being ignored.
+- Creating chart before its container is ready, was resulting in extra element in DOM in some cases.
+
+
 ## [4.10.16] - 2021-03-03
 
 ### Fixed
