@@ -170,7 +170,7 @@ export class FunnelSlice extends Container {
 			let cpl = { x: tl.x + (bl.x - tl.x) / 2 - ed * h, y: tl.y + 0.5 * h };
 
 			let qp1 = $path.lineTo(br);
-			let qp2 = "";
+			let qp2 = $path.lineTo(tl);
 
 			if(ed != 0){
 				qp1 = $path.quadraticCurveTo(br, cpr);
@@ -195,7 +195,7 @@ export class FunnelSlice extends Container {
 			let cpl = { y: tb.y + (bb.y - tb.y) / 2 + ed * w, x: tb.x + 0.5 * w };
 
 			let qp1 = $path.lineTo(bt);
-			let qp2 = ""
+			let qp2 = $path.lineTo(tb);
 			if(ed != 0){
 				qp1 = $path.quadraticCurveTo(bt, cpr);
 				qp2 = $path.quadraticCurveTo(tb, cpl);

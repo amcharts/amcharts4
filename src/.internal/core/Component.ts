@@ -840,14 +840,14 @@ export class Component extends Container {
 	 *
 	 * @param rawDataItem One or many raw data item objects
 	 */
-	public addData(rawDataItem: Object | Object[], removeCount?: number, skipRaw?:boolean): void {
+	public addData(rawDataItem: Object | Object[], removeCount?: number, skipRaw?: boolean): void {
 
 		// need to check if data is invalid, as addData might be called multiple times
 		if (!this.dataInvalid && this.inited) {
 			this._parseDataFrom = this.data.length; // save length of parsed data
 		}
 
-		if(!skipRaw){
+		if (!skipRaw) {
 			if (rawDataItem instanceof Array) {
 				// can't use concat because new array is returned
 				$array.each(rawDataItem, (dataItem) => {
@@ -879,7 +879,7 @@ export class Component extends Container {
 	 *
 	 * @param count number of elements to remove
 	 */
-	public removeData(count: $type.Optional<number>, skipRaw?:boolean) {
+	public removeData(count: $type.Optional<number>, skipRaw?: boolean) {
 		if ($type.isNumber(count) && count > 0) {
 			while (count > 0) {
 				let dataItem = this.mainDataSet.getIndex(0);
@@ -895,7 +895,7 @@ export class Component extends Container {
 						}
 					}
 				});
-				if(!skipRaw){
+				if (!skipRaw) {
 					this.data.shift();
 				}
 
@@ -1045,14 +1045,14 @@ export class Component extends Container {
 
 		for (let i = 0; i < this.startIndex; i++) {
 			let dataItem = this.dataItems.getIndex(i);
-			if(dataItem){
+			if (dataItem) {
 				dataItem.__disabled = true;
 			}
 		}
 
 		for (let i = this.endIndex; i < this.dataItems.length; i++) {
 			let dataItem = this.dataItems.getIndex(i);
-			if(dataItem){
+			if (dataItem) {
 				dataItem.__disabled = true;
 			}
 		}
@@ -1242,11 +1242,11 @@ export class Component extends Container {
 
 			this.dataUsers.each((dataUser) => {
 				if (dataUser.hidden) {
-					dataUser.hide(0);										
+					dataUser.hide(0);
 				}
 			});
 		}
-		
+
 		this.dataValidationProgress = 1;
 		this._parseDataFrom = 0; // reset this index, it is set to dataItems.length if addData() method was used.
 
@@ -1290,18 +1290,18 @@ export class Component extends Container {
 	protected setData(value: any[]) {
 		// array might be the same, but there might be items added
 		// todo: check if array changed, toString maybe?
-		//if (this._data != value) {
-		this._parseDataFrom = 0;
-		this.disposeData();
-		this._data = value;
-		if (value && value.length > 0) {
-			this.invalidateData();
+		if (!this.isDisposed()) {
+			this._parseDataFrom = 0;
+			this.disposeData();
+			this._data = value;
+			if (value && value.length > 0) {
+				this.invalidateData();
+			}
+			else {
+				this.dispatchImmediately("beforedatavalidated");
+				this.dispatch("datavalidated");
+			}
 		}
-		else {
-			this.dispatchImmediately("beforedatavalidated");
-			this.dispatch("datavalidated");
-		}
-		//}
 	}
 
 	/**

@@ -1095,6 +1095,14 @@ var TreeMap = /** @class */ (function (_super) {
                 --k;
             }
             var valueLeft = sums[k] - valueOffset, valueRight = value - valueLeft;
+            if (value == 0) {
+                var node = nodes.getIndex(i);
+                node.x0 = x0;
+                node.y0 = y0;
+                node.x1 = x1;
+                node.y1 = y1;
+                return;
+            }
             if ((x1 - x0) > (y1 - y0)) {
                 var xk = (x0 * valueRight + x1 * valueLeft) / value;
                 partition(i, k, valueLeft, x0, y0, xk, y1);

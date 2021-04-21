@@ -712,16 +712,16 @@ var BaseObject = /** @class */ (function () {
     };
     BaseObject.prototype.processEvents = function (item, config) {
         var _this = this;
-        if ($type.isObject(config)) {
+        if ($type.isArray(config)) {
+            $array.each(config, function (entry, index) {
+                item.on(entry.type, entry.callback, _this);
+            });
+        }
+        else if ($type.isObject(config)) {
             $object.each(config, function (key, entry) {
                 if (!item.has(key, entry)) {
                     item.on(key, entry);
                 }
-            });
-        }
-        else if ($type.isArray(config)) {
-            $array.each(config, function (entry, index) {
-                item.on(entry.type, entry.callback, _this);
             });
         }
     };
@@ -928,7 +928,7 @@ var BaseObject = /** @class */ (function () {
         });
         // Truncate the list if it contains less items than the config
         // array
-        while (configValue.length > item.length) {
+        while (configValue.length < item.length) {
             item.pop();
         }
     };

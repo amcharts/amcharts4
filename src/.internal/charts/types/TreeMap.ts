@@ -1382,6 +1382,7 @@ export class TreeMap extends XYChart {
 		}
 
 		function partition(i: number, j: number, value: number, x0: number, y0: number, x1: number, y1: number) {
+
 			if (i >= j - 1) {
 				let node = nodes.getIndex(i);
 				node.x0 = x0;
@@ -1411,6 +1412,15 @@ export class TreeMap extends XYChart {
 
 			let valueLeft = sums[k] - valueOffset,
 				valueRight = value - valueLeft;
+
+			if(value == 0){
+				let node = nodes.getIndex(i);
+				node.x0 = x0;
+				node.y0 = y0;
+				node.x1 = x1;
+				node.y1 = y1;				
+				return;
+			}				
 
 			if ((x1 - x0) > (y1 - y0)) {
 				let xk = (x0 * valueRight + x1 * valueLeft) / value;

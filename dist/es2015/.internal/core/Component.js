@@ -841,18 +841,18 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.setData = function (value) {
         // array might be the same, but there might be items added
         // todo: check if array changed, toString maybe?
-        //if (this._data != value) {
-        this._parseDataFrom = 0;
-        this.disposeData();
-        this._data = value;
-        if (value && value.length > 0) {
-            this.invalidateData();
+        if (!this.isDisposed()) {
+            this._parseDataFrom = 0;
+            this.disposeData();
+            this._data = value;
+            if (value && value.length > 0) {
+                this.invalidateData();
+            }
+            else {
+                this.dispatchImmediately("beforedatavalidated");
+                this.dispatch("datavalidated");
+            }
         }
-        else {
-            this.dispatchImmediately("beforedatavalidated");
-            this.dispatch("datavalidated");
-        }
-        //}
     };
     /**
      * Returns (creates if necessary) a [[DataSource]] bound to any specific

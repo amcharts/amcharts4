@@ -99,7 +99,7 @@ const countries: Countries = {
 	"ID": [ "indonesiaLow", "indonesiaHigh" ],
 	"IE": [ "irelandLow", "irelandHigh" ],
 	"IL": [ "israelLow", "israelHigh", "israelPalestineLow", "israelPalestineHigh" ],
-	"IT": [ "italyLow", "italyHigh" ],
+	"IT": [ "italyLow", "italyHigh", "italyProvincesLow", "italyProvincesHigh" ],
 	"IQ": [ "iraqLow", "iraqHigh" ],
 	"IR": [ "iranLow", "iranHigh" ],
 	"JM": [ "jamaicaLow", "jamaicaHigh" ],

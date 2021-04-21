@@ -131,11 +131,11 @@ var SliceGrouper = /** @class */ (function (_super) {
     SliceGrouper.prototype.processSeries = function () {
         var _this = this;
         var series = this.target;
-        var chart = series.baseSprite;
+        var chart = series.chart;
         var dataProvider = series.data && series.data.length ? series : chart;
         this._dataProvider = dataProvider;
         // Invalidate calculated data whenever data updates
-        var event = options.queue || options.onlyShowOnViewport ? "inited" : "datavalidated";
+        var event = (options.queue || options.onlyShowOnViewport) && !chart.inited ? "inited" : "datavalidated";
         this._disposers.push(dataProvider.events.on(event, function (ev) {
             if (_this._ignoreDataUpdate) {
                 _this._ignoreDataUpdate = false;

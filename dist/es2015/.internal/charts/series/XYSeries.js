@@ -1547,7 +1547,7 @@ var XYSeries = /** @class */ (function (_super) {
                     if (openValue == closeValue) {
                         var baseInterval = xAxis.baseInterval;
                         var dateFormatter = xAxis.dateFormatter;
-                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc, undefined, dateFormatter.timezoneMinutes).getTime();
+                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc, undefined, dateFormatter.timezoneMinutes, dateFormatter.timezone).getTime();
                         closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc).getTime();
                     }
                     var middleValue = void 0;
@@ -1613,7 +1613,7 @@ var XYSeries = /** @class */ (function (_super) {
                     if (openValue == closeValue) {
                         var baseInterval = yAxis.baseInterval;
                         var dateFormatter = yAxis.dateFormatter;
-                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc, undefined, dateFormatter.timezoneMinutes).getTime();
+                        openValue = $time.round(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.firstDayOfWeek, dateFormatter.utc, undefined, dateFormatter.timezoneMinutes, dateFormatter.timezone).getTime();
                         closeValue = $time.add(new Date(openValue), baseInterval.timeUnit, baseInterval.count, dateFormatter.utc).getTime();
                     }
                     var middleValue = void 0;
@@ -1784,13 +1784,15 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.show = function (duration) {
         var _this = this;
-        if (this.appeared && this.xAxis instanceof DateAxis && this.xAxis.groupData) {
-            this._tmin.setKey(this.yAxis.uid, undefined);
-            this._tmax.setKey(this.yAxis.uid, undefined);
-        }
-        if (this.appeared && this.yAxis instanceof DateAxis && this.yAxis.groupData) {
-            this._tmin.setKey(this.xAxis.uid, undefined);
-            this._tmax.setKey(this.xAxis.uid, undefined);
+        if (this.isHidden) {
+            if (this.appeared && this.xAxis instanceof DateAxis && this.xAxis.groupData) {
+                this._tmin.setKey(this.yAxis.uid, undefined);
+                this._tmax.setKey(this.yAxis.uid, undefined);
+            }
+            if (this.appeared && this.yAxis instanceof DateAxis && this.yAxis.groupData) {
+                this._tmin.setKey(this.xAxis.uid, undefined);
+                this._tmax.setKey(this.xAxis.uid, undefined);
+            }
         }
         var fields;
         if (this.xAxis instanceof ValueAxis && this.xAxis != this.baseAxis) {

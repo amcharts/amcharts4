@@ -38,6 +38,10 @@ export interface IColorSetStepOptions {
 	brighten: number;
 	lighten: number;
 	lightness: number;
+
+	/**
+	 * @ignore
+	 */
 	saturation: number;
 }
 

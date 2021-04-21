@@ -662,7 +662,10 @@ export function numberToString(value: number): string {
 export function anyToDate(value: Date | number | string): Date {
 	if ($type.isDate(value)) {
 		// TODO maybe don't create a new Date ?
-		return new Date(value);
+		const date = new Date(value);
+		// This is needed because IE does not copy over milliseconds
+		date.setMilliseconds(value.getMilliseconds());
+		return date;
 	}
 
 	else if ($type.isNumber(value)) {

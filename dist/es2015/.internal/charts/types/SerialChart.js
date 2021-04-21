@@ -206,11 +206,13 @@ var SerialChart = /** @class */ (function (_super) {
                         series.setPropertyValue("showOnInit", false);
                         series.showOnInit = true;
                     }
-                    series.events.once("datavalidated", function () {
-                        if (series.data == _this.data) {
-                            series._data = [];
-                        }
-                    });
+                    if (!series.isDisposed()) {
+                        series.events.once("datavalidated", function () {
+                            if (series.data == _this.data) {
+                                series._data = [];
+                            }
+                        });
+                    }
                 }
             }));
         }

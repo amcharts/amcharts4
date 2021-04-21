@@ -317,11 +317,13 @@ export class SerialChart extends Chart {
 							series.showOnInit = true;
 						}
 
-						series.events.once("datavalidated", () => {
-							if (series.data == this.data) {
-								(<any>series)._data = [];
-							}
-						})
+						if(!series.isDisposed()) {
+							series.events.once("datavalidated", () => {
+								if (series.data == this.data) {
+									(<any>series)._data = [];
+								}
+							})
+						}
 					}
 				})
 			)

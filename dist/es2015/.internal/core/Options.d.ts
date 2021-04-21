@@ -64,6 +64,8 @@ export interface Options {
      *
      * This setting will effect [[LineSeries]] and derivative classes.
      *
+     * IMPORTANT: This setting is not compatible with [[StepLineSeries]].
+     *
      * @default 0.5
      * @since 4.2.5
      */

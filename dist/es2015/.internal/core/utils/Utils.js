@@ -562,7 +562,10 @@ export function numberToString(value) {
 export function anyToDate(value) {
     if ($type.isDate(value)) {
         // TODO maybe don't create a new Date ?
-        return new Date(value);
+        var date = new Date(value);
+        // This is needed because IE does not copy over milliseconds
+        date.setMilliseconds(value.getMilliseconds());
+        return date;
     }
     else if ($type.isNumber(value)) {
         return new Date(value);

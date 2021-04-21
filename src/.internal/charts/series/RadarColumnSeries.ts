@@ -23,6 +23,7 @@ import * as $object from "../../core/utils/Object";
 import { Percent } from "../../core/utils/Percent";
 import * as $iter from "../../core/utils/Iterator";
 import * as $array from "../../core/utils/Array";
+import * as $type from "../../core/utils/Type";
 
 /**
  * ============================================================================
@@ -190,7 +191,7 @@ export class RadarColumnSeries extends ColumnSeries {
 				}
 			});
 		}
-	}	
+	}
 
 	/**
 	 * Validates data item's element, effectively redrawing it.
@@ -263,6 +264,15 @@ export class RadarColumnSeries extends ColumnSeries {
 		else {
 			tRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yField, startLocation, "valueY"), y: this.yAxis.getY(dataItem, yField, startLocation, "valueY") });
 			bRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yOpenField, endLocation, "valueY"), y: this.yAxis.getY(dataItem, yOpenField, endLocation, "valueY") });
+
+			if ($type.isNumber(width)) {				
+				let abs = Math.abs(tRadius - bRadius);
+				if (abs > width) {
+					let d = (abs - width) / 2;
+					tRadius += d;
+					bRadius -= d;
+				}
+			}
 
 			lAngle = this.xAxis.getAngle(dataItem, xField, dataItem.locations[xField], "valueX");
 
@@ -376,15 +386,15 @@ export class RadarColumnSeries extends ColumnSeries {
 		return $path.arc(renderer.startAngle, renderer.endAngle - renderer.startAngle, renderer.pixelRadius, renderer.pixelInnerRadius);
 	}
 
-	protected positionBulletReal(bullet:Sprite, positionX:number, positionY:number){
+	protected positionBulletReal(bullet: Sprite, positionX: number, positionY: number) {
 		let xAxis = this.xAxis;
 		let yAxis = this.yAxis;
 
-		if(positionX < xAxis.start || positionX > xAxis.end || positionY < yAxis.start || positionY > yAxis.end){
+		if (positionX < xAxis.start || positionX > xAxis.end || positionY < yAxis.start || positionY > yAxis.end) {
 			bullet.visible = false;
 		}
 
-		bullet.moveTo(this.xAxis.renderer.positionToPoint(positionX, positionY));		
+		bullet.moveTo(this.xAxis.renderer.positionToPoint(positionX, positionY));
 	}
 
 	protected setXAxis(axis: Axis) {
@@ -402,7 +412,7 @@ export class RadarColumnSeries extends ColumnSeries {
 		let rendererY = <AxisRendererRadial>this.yAxis.renderer;
 
 		rendererX.axisRendererY = rendererY;
-	}	
+	}
 }
 
 /**

@@ -887,16 +887,16 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 	}
 
 	protected processEvents(item: EventDispatcher<any>, config: any): void {
-		if ($type.isObject(config)) {
+		if ($type.isArray(config)) {
+			$array.each(config, (entry: { type: string, callback: any }, index) => {
+				item.on(entry.type, entry.callback, this);
+			});
+		}
+		else if ($type.isObject(config)) {
 			$object.each(config, (key, entry) => {
 				if (!item.has(key, entry)) {
 					item.on(key, entry);
 				}
-			});
-		}
-		else if ($type.isArray(config)) {
-			$array.each(config, (entry: { type: string, callback: any }, index) => {
-				item.on(entry.type, entry.callback, this);
 			});
 		}
 	}
@@ -1138,7 +1138,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 
 		// Truncate the list if it contains less items than the config
 		// array
-		while (configValue.length > item.length) {
+		while (configValue.length < item.length) {
 			item.pop();
 		}
 

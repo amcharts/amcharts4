@@ -19,6 +19,7 @@ import * as $object from "../../core/utils/Object";
 import { Percent } from "../../core/utils/Percent";
 import * as $iter from "../../core/utils/Iterator";
 import * as $array from "../../core/utils/Array";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * DATA ITEM
@@ -164,6 +165,14 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         else {
             tRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yField, startLocation, "valueY"), y: this.yAxis.getY(dataItem, yField, startLocation, "valueY") });
             bRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yOpenField, endLocation, "valueY"), y: this.yAxis.getY(dataItem, yOpenField, endLocation, "valueY") });
+            if ($type.isNumber(width)) {
+                var abs = Math.abs(tRadius - bRadius);
+                if (abs > width) {
+                    var d = (abs - width) / 2;
+                    tRadius += d;
+                    bRadius -= d;
+                }
+            }
             lAngle = this.xAxis.getAngle(dataItem, xField, dataItem.locations[xField], "valueX");
             rAngle = this.xAxis.getAngle(dataItem, xOpenField, dataItem.locations[xOpenField], "valueX");
         }

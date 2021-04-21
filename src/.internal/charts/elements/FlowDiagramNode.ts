@@ -211,12 +211,14 @@ export class FlowDiagramNode extends Container {
 		this.outgoingDataItems.each(function(dataItem) {
 			if (!dataItem.toNode || (dataItem.toNode && !dataItem.toNode.isHidden)) {
 				dataItem.setWorkingValue("value", dataItem.getValue("value"), duration);
+				dataItem.link.show();
 			}
 		})
 
 		this.incomingDataItems.each(function(dataItem) {
 			if (!dataItem.fromNode || (dataItem.fromNode && !dataItem.fromNode.isHidden)) {
 				dataItem.setWorkingValue("value", dataItem.getValue("value"), duration);
+				dataItem.link.show();
 			}
 		})
 
@@ -234,10 +236,12 @@ export class FlowDiagramNode extends Container {
 
 		this.outgoingDataItems.each(function(dataItem) {
 			dataItem.setWorkingValue("value", 0, duration);
+			dataItem.link.hide();
 		})
 
 		this.incomingDataItems.each(function(dataItem) {
 			dataItem.setWorkingValue("value", 0, duration);
+			dataItem.link.hide();
 		})
 
 		return animation;

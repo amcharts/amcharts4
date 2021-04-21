@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.18] - 2021-04-21
+
+### Fixed
+- `SliceGrouper` was not working when chart was a child of another `Container`.
+- `SliceGrouper` was not updating properly when `am4core.options.queue = true` was set.
+- `DateAxis` labels were showing zeros instead of proper milliseconds in IE.
+- In some cases hidden link in `SankeyDiagram` could cause rollover tooltip to appear.
+- Stroke of the slices in a `FunnelChart` was not being drawn complete.
+- JSON config: value list of the `List` element was not being properly truncated to supplied lenght.
+- JSON config: event list as array was not working properly.
+- Using `timezone` setting in some timezones could offset Series' bullets.
+- Absolute pixel `width` in `RadarColumn` was being ignored.
+
+
 ## [4.10.17] - 2021-03-19
 
 ### Added

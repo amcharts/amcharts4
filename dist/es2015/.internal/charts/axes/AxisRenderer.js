@@ -563,11 +563,11 @@ var AxisRenderer = /** @class */ (function (_super) {
          *
          * ```TypeScript
          * categoryAxis.renderer.ticks.template.disabled = false;
-         * categoryAxis.renderer.ticks.template.strokeOpacty = 0.5;
+         * categoryAxis.renderer.ticks.template.strokeOpacity = 0.5;
          * ```
          * ```JavaScript
          * categoryAxis.renderer.ticks.template.disabled = false;
-         * categoryAxis.renderer.ticks.template.strokeOpacty = 0.5;
+         * categoryAxis.renderer.ticks.template.strokeOpacity = 0.5;
          * ```
          * ```JSON
          * {
@@ -577,7 +577,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          *     "renderer": {
          *       "ticks": {
          *         "disabled": false,
-         *         "strokeOpacty": 0.5
+         *         "strokeOpacity": 0.5
          *       }
          *     }
          *   }]

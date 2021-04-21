@@ -176,12 +176,12 @@ export class SliceGrouper extends Plugin {
 	private processSeries(): void {
 
 		const series = this.target;
-		const chart = <PercentChart>series.baseSprite;
+		const chart = <PercentChart>series.chart;
 		const dataProvider: Component = series.data && series.data.length ? series : chart;
 		this._dataProvider = dataProvider;
 
 		// Invalidate calculated data whenever data updates
-		const event = options.queue || options.onlyShowOnViewport ? "inited" : "datavalidated";
+		const event = (options.queue || options.onlyShowOnViewport) && !chart.inited ? "inited" : "datavalidated";
 		this._disposers.push(dataProvider.events.on(event, (ev) => {
 
 

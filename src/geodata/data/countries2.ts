@@ -665,7 +665,7 @@ const countries2: Countries2 = {
 		"country": "Italy",
 		"continent_code": "EU",
 		"continent": "Europe",
-		"maps": [ "italyLow", "italyHigh" ]
+		"maps": [ "italyLow", "italyHigh", "italyProvincesLow", "italyProvincesHigh" ]
 	},
 	"JE": {
 		"country": "Jersey",
