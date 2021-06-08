@@ -1079,10 +1079,10 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 		// It's an array
 		// Create a list item for entry
 		const itemCount = item.length;
+		let extraCount = 0;
 		$array.each(configValue, (entry, index) => {
 
 			if ($type.isObject(entry)) {
-
 
 				// An object.
 				//
@@ -1102,6 +1102,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 					return;
 				}
 				else {
+					extraCount++;
 					listItem = this.createEntryInstance(entry);
 					if (parent) {
 						listItem.parent = parent;
@@ -1138,7 +1139,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 
 		// Truncate the list if it contains less items than the config
 		// array
-		while (configValue.length < item.length) {
+		while ((configValue.length + extraCount) < item.length) {
 			item.pop();
 		}
 

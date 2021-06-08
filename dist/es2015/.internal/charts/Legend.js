@@ -563,6 +563,7 @@ var Legend = /** @class */ (function (_super) {
             if (_this.valueLabels.template.align == "right" || label.measuredWidth > maxAdjustedLabelWidth) {
                 if (!(label.width instanceof Percent)) {
                     label.width = Math.min(label.maxWidth, maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight);
+                    label.maxWidth = label.width;
                 }
             }
         });

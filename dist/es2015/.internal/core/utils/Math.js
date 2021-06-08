@@ -688,7 +688,7 @@ export function getArcPoint(radius, arc) {
  * @return {boolean}
  */
 export function isInRectangle(point, rectangle) {
-    if (point.x >= rectangle.x && point.x <= rectangle.x + rectangle.width && point.y > rectangle.y && point.y < rectangle.y + rectangle.height) {
+    if (point.x >= rectangle.x && point.x <= rectangle.x + rectangle.width && point.y >= rectangle.y && point.y <= rectangle.y + rectangle.height) {
         return true;
     }
     return false;

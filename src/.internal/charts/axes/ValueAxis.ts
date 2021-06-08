@@ -639,6 +639,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				this._maxZoomed = max;
 
 				this._step = step;
+
 				this.dispatchImmediately("selectionextremeschanged");
 			}
 		}
@@ -745,13 +746,14 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				}
 
 				let stepPower = Math.pow(10, Math.floor(Math.log(Math.abs(this._step)) * Math.LOG10E));
+
 				if (stepPower < 1) {
 					// exponent is less then 1 too. Count decimals of exponent
 					let decCount = Math.round(Math.abs(Math.log(Math.abs(stepPower)) * Math.LOG10E)) + 2;
 					decCount = Math.min(13, decCount);
 					// round value to avoid floating point issues
-					value = $math.ceil(value, decCount);
-
+					value = $math.round(value, decCount);
+					// ceil causes problems: https://codepen.io/team/amcharts/pen/XWMjZwy?editors=1010
 					if (oldValue == value) {
 						value = maxZoomed;
 						break;

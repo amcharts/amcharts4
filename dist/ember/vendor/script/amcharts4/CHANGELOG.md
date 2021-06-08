@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.19] - 2021-06-08
+
+### Fixed
+- Export: dynamic CSS `<style>` added by `Export` was not applying global `nonce` option.
+- `RangeSelector` plugin: some pre-set period buttons were behaving incorrectly when there was no animated theme enabled.
+- In some cases labels for `ValueAxis` were prone to a floating-point issue.
+- `OverlapBuster` plugin. Was not always working properly without animated theme.
+- Minor tweak to multiple series tooltip arrangements.
+- JSON config: sometimes items pushed to `children` were not being created.
+- Truncation of Legend's labels sometimes were being knocked off by the `XYCursor` activities.
+
+
 ## [4.10.18] - 2021-04-21
 
 ### Fixed

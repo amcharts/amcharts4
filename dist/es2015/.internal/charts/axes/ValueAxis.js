@@ -469,7 +469,8 @@ var ValueAxis = /** @class */ (function (_super) {
                     var decCount = Math.round(Math.abs(Math.log(Math.abs(stepPower)) * Math.LOG10E)) + 2;
                     decCount = Math.min(13, decCount);
                     // round value to avoid floating point issues
-                    value_1 = $math.ceil(value_1, decCount);
+                    value_1 = $math.round(value_1, decCount);
+                    // ceil causes problems: https://codepen.io/team/amcharts/pen/XWMjZwy?editors=1010
                     if (oldValue == value_1) {
                         value_1 = maxZoomed;
                         break;

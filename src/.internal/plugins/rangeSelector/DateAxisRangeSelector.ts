@@ -345,8 +345,9 @@ export class DateAxisRangeSelector extends RangeSelector {
 			this.zoomToDates(date);
 		}
 
+		const animated = this.axis.rangeChangeDuration > 0;
 		let groupingChanged = false;
-		let zoomFinished = false;
+		let zoomFinished = !animated;
 
 		this.axis.events.once("groupperiodchanged", (ev) => {
 			groupingChanged = true;

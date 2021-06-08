@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [UNRELEASED] - ????-??-??
+
+### Added
+- New Maps: Lesotho, Liberia, Regions of Uganda, French Polynesia, Province map of Ireland.
+
+### Fixed
+- Fixed ID and naming issues in the maps of Uganda.
+
+
 ## [4.1.20] - 2021-04-19
 
 ### Added

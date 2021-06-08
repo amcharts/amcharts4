@@ -671,7 +671,7 @@ const countries2: Countries2 = {
 		"country": "Jersey",
 		"continent_code": "EU",
 		"continent": "Europe",
-		"maps": []
+		"maps": [ "channelIslandsLow", "channelIslandsHigh" ]
 	},
 	"JM": {
 		"country": "Jamaica",
@@ -721,12 +721,6 @@ const countries2: Countries2 = {
 		"continent": "Africa",
 		"maps": [ "comorosLow", "comorosHigh" ]
 	},
-	"KN": {
-		"country": "Saint Kitts and Nevis",
-		"continent_code": "NA",
-		"continent": "North America",
-		"maps": []
-	},
 	"KP": {
 		"country": "Korea, Democratic People's Republic of",
 		"continent_code": "AS",
@@ -739,7 +733,7 @@ const countries2: Countries2 = {
 		"continent": "Asia",
 		"maps": [ "southKoreaLow", "southKoreaHigh" ]
 	},
-	"KT": {
+	"KN": {
 		"country": "Saint Kitts and Nevis",
 		"continent_code": "AS",
 		"continent": "Asia",
@@ -797,13 +791,13 @@ const countries2: Countries2 = {
 		"country": "Liberia",
 		"continent_code": "AF",
 		"continent": "Africa",
-		"maps": []
+		"maps": [ "liberiaLow", "liberiaHigh" ]
 	},
 	"LS": {
 		"country": "Lesotho",
 		"continent_code": "AF",
 		"continent": "Africa",
-		"maps": []
+		"maps": [ "lesothoLow", "lesothoHigh" ]
 	},
 	"LT": {
 		"country": "Lithuania",
@@ -905,7 +899,7 @@ const countries2: Countries2 = {
 		"country": "Northern Mariana Islands",
 		"continent_code": "OC",
 		"continent": "Oceania",
-		"maps": []
+		"maps": [ "northernMarianaLow", "northernMarianaHigh" ]
 	},
 	"MQ": {
 		"country": "Martinique",
@@ -1397,7 +1391,7 @@ const countries2: Countries2 = {
 		"country": "Uganda",
 		"continent_code": "AF",
 		"continent": "Africa",
-		"maps": [ "ugandaLow", "ugandaHigh" ]
+		"maps": [ "ugandaLow", "ugandaHigh", "ugandaRegionsLow", "ugandaRegionsHigh" ]
 	},
 	"UM": {
 		"country": "United States Minor Outlying Islands",

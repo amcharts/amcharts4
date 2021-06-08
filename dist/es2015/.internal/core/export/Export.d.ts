@@ -1813,6 +1813,8 @@ export declare class Export extends Validatable {
      * chart.exporting.extraSprites.push(chart2);
      * ```
      *
+     * IMPORTANT: This setting is ignored when exporting to SVG format.
+     *
      * @since 4.2.0
      * @param value Sprite
      */

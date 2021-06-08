@@ -152,6 +152,9 @@ function loadStylesheet(doc, url, f) {
                 case 3:
                     s = doc.createElement("style");
                     s.textContent = response.response;
+                    if (options.nonce != "") {
+                        s.setAttribute("nonce", options.nonce);
+                    }
                     doc.head.appendChild(s);
                     _a.label = 4;
                 case 4:
@@ -2706,7 +2709,7 @@ var Export = /** @class */ (function (_super) {
                 }
                 dataFields = this.adapter.apply("formatDataFields", {
                     dataFields: this.dataFields,
-                    format: "csv"
+                    format: "json"
                 }).dataFields;
                 if (!this._dynamicDataFields) {
                     data = [];
@@ -3231,6 +3234,8 @@ var Export = /** @class */ (function (_super) {
          * ```JavaScript
          * chart.exporting.extraSprites.push(chart2);
          * ```
+         *
+         * IMPORTANT: This setting is ignored when exporting to SVG format.
          *
          * @since 4.2.0
          * @param value Sprite

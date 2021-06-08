@@ -879,6 +879,7 @@ var BaseObject = /** @class */ (function () {
         // It's an array
         // Create a list item for entry
         var itemCount = item.length;
+        var extraCount = 0;
         $array.each(configValue, function (entry, index) {
             if ($type.isObject(entry)) {
                 // An object.
@@ -898,6 +899,7 @@ var BaseObject = /** @class */ (function () {
                     return;
                 }
                 else {
+                    extraCount++;
                     listItem = _this.createEntryInstance(entry);
                     if (parent) {
                         listItem.parent = parent;
@@ -928,7 +930,7 @@ var BaseObject = /** @class */ (function () {
         });
         // Truncate the list if it contains less items than the config
         // array
-        while (configValue.length < item.length) {
+        while ((configValue.length + extraCount) < item.length) {
             item.pop();
         }
     };

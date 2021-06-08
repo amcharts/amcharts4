@@ -241,8 +241,9 @@ var DateAxisRangeSelector = /** @class */ (function (_super) {
         if (date) {
             this.zoomToDates(date);
         }
+        var animated = this.axis.rangeChangeDuration > 0;
         var groupingChanged = false;
-        var zoomFinished = false;
+        var zoomFinished = !animated;
         this.axis.events.once("groupperiodchanged", function (ev) {
             groupingChanged = true;
             if (zoomFinished) {

@@ -281,6 +281,12 @@ var OverlapBuster = /** @class */ (function (_super) {
         if (target.invalid) {
             target.validate();
         }
+        if (target.measuredWidth == 0) {
+            target.measure();
+        }
+        if (sprite.measuredWidth == 0) {
+            sprite.measure();
+        }
         var ax1 = target.pixelX;
         var ay1 = target.pixelY;
         var ax2 = ax1 + target.measuredWidth * this.tolerance;

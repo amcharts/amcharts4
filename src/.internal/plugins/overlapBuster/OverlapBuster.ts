@@ -300,8 +300,8 @@ export class OverlapBuster extends Plugin {
 	 */
 	private stopAnimation(target: Sprite): void {
 		if (target.isInTransition()) {
-			let animation =  target.animations.pop();
-			while(animation) {
+			let animation = target.animations.pop();
+			while (animation) {
 				animation.kill();
 				animation = target.animations.pop();
 			}
@@ -362,27 +362,33 @@ export class OverlapBuster extends Plugin {
 	 * @param sprite  Second element to test again
 	 * @return Overlapping?
 	 */
-		public hitTest(target: Sprite, sprite: Sprite): boolean {
-			// validate, otherwise we will not know measuredWidth and measuredHeight
-			if (target.invalid) {
-				target.validate();
-			}
-			if (target.invalid) {
-				target.validate();
-			}
-
-			let ax1 = target.pixelX;
-			let ay1 = target.pixelY;
-			let ax2 = ax1 + target.measuredWidth * this.tolerance;
-			let ay2 = ay1 + target.measuredHeight * this.tolerance;
-
-			let bx1 = sprite.pixelX;
-			let by1 = sprite.pixelY;
-			let bx2 = bx1 + sprite.measuredWidth * this.tolerance;
-			let by2 = by1 + sprite.measuredHeight * this.tolerance;
-
-			return !(bx1 > ax2 || bx2 < ax1 || by1 > ay2 || by2 < ay1);
+	public hitTest(target: Sprite, sprite: Sprite): boolean {
+		// validate, otherwise we will not know measuredWidth and measuredHeight
+		if (target.invalid) {
+			target.validate();
 		}
+		if (target.invalid) {
+			target.validate();
+		}
+		if (target.measuredWidth == 0) {
+			target.measure();
+		}
+		if (sprite.measuredWidth == 0) {
+			sprite.measure();
+		}
+
+		let ax1 = target.pixelX;
+		let ay1 = target.pixelY;
+		let ax2 = ax1 + target.measuredWidth * this.tolerance;
+		let ay2 = ay1 + target.measuredHeight * this.tolerance;
+
+		let bx1 = sprite.pixelX;
+		let by1 = sprite.pixelY;
+		let bx2 = bx1 + sprite.measuredWidth * this.tolerance;
+		let by2 = by1 + sprite.measuredHeight * this.tolerance;
+
+		return !(bx1 > ax2 || bx2 < ax1 || by1 > ay2 || by2 < ay1);
+	}
 
 
 }

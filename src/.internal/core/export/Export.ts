@@ -156,6 +156,9 @@ async function loadStylesheet(doc: Document, url: string, f: (topUrl: string, ru
 
 	const s = doc.createElement("style");
 	s.textContent = response.response;
+	if (options.nonce != "") {
+		s.setAttribute("nonce", options.nonce)
+	}
 	doc.head.appendChild(s);
 
 	try {
@@ -4153,7 +4156,7 @@ export class Export extends Validatable {
 		let data: any[];
 		const dataFields = this.adapter.apply("formatDataFields", {
 			dataFields: this.dataFields,
-			format: "csv"
+			format: "json"
 		}).dataFields;
 		if (!this._dynamicDataFields) {
 			data = [];
@@ -4780,6 +4783,8 @@ export class Export extends Validatable {
 	 * ```JavaScript
 	 * chart.exporting.extraSprites.push(chart2);
 	 * ```
+	 *
+	 * IMPORTANT: This setting is ignored when exporting to SVG format.
 	 *
 	 * @since 4.2.0
 	 * @param value Sprite
