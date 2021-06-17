@@ -109,13 +109,11 @@ export declare class AxisDataItem extends DataItem {
      *
      * ```TypeScript
      * // Hide all ticks and labels closer than 20% to axis beginning.
-     * axis.renderer.ticks.template.minPosition = 0.2;
-     * axis.renderer.labels.template.minPosition = 0.2;
+     * axis.dataItems.template.minPosition = 0.2;
      * ```
      * ```JavaScript
      * // Hide all ticks and labels closer than 20% to axis beginning.
-     * axis.renderer.ticks.template.minPosition = 0.2;
-     * axis.renderer.labels.template.minPosition = 0.2;
+     * axis.dataItems.template.minPosition = 0.2;
      * ```
      * ```JSON
      * {
@@ -123,13 +121,8 @@ export declare class AxisDataItem extends DataItem {
      *   "xAxes": [{
      *     // ...
      *     // Hide all ticks and labels closer than 20% to axis beginning.
-     *     "renderer": {
-     *       "ticks": {
-     *         "minPosition": 0.2
-     *       },
-     *       "labels": {
-     *         "minPosition": 0.2
-     *       }
+     *     "dataItems": {
+     *       "minPosition": 0.2
      *     }
      *   }]
      * }
@@ -146,13 +139,11 @@ export declare class AxisDataItem extends DataItem {
      *
      * ```TypeScript
      * // Hide all ticks and labels closer than 20% to axis end.
-     * axis.renderer.ticks.template.maxPosition = 0.8;
-     * axis.renderer.labels.template.maxPosition = 0.8;
+     * axis.dataItems.template.maxPosition = 0.8;
      * ```
      * ```JavaScript
      * // Hide all ticks and labels closer than 20% to axis end.
-     * axis.renderer.ticks.template.maxPosition = 0.8;
-     * axis.renderer.labels.template.maxPosition = 0.8;
+     * axis.dataItems.template.maxPosition = 0.8;
      * ```
      * ```JSON
      * {
@@ -160,13 +151,8 @@ export declare class AxisDataItem extends DataItem {
      *   "xAxes": [{
      *     // ...
      *     // Hide all ticks and labels closer than 20% to axis end.
-     *     "renderer": {
-     *       "ticks": {
-     *         "maxPosition": 0.8
-     *       },
-     *       "labels": {
-     *         "maxPosition": 0.8
-     *       }
+     *     "dataItems": {
+     *       "maxPosition": 0.8
      *     }
      *   }]
      * }

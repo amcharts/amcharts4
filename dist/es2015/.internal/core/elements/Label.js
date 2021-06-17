@@ -18,6 +18,7 @@ import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
 import * as $dom from "../utils/DOM";
 import { defaultRules, ResponsiveBreakpoints } from "../utils/Responsive";
+import { options } from "../Options";
 ;
 /**
  * ============================================================================
@@ -377,12 +378,11 @@ var Label = /** @class */ (function (_super) {
                         //lineInfo.element.content += $utils.trim(getTextFormatter().format(currentFormat + chunk.text, output));
                         lineInfo.text = chunk.text;
                         lineInfo.style = getTextFormatter().translateStyleShortcuts(currentFormat);
-                        var tspan = this.getSvgElement(lineInfo.text, lineInfo.style);
                         if (this.textPathElement) {
-                            this.textPathElement.add(tspan);
+                            this.getSvgElement(lineInfo.text, lineInfo.style, this.textPathElement);
                         }
                         else {
-                            lineInfo.element.add(tspan);
+                            this.getSvgElement(lineInfo.text, lineInfo.style, lineInfo.element);
                         }
                         this.getLineBBox(lineInfo);
                         lineInfo.bbox.width = Math.ceil(lineInfo.bbox.width);
@@ -1353,11 +1353,28 @@ var Label = /** @class */ (function (_super) {
         configurable: true
     });
     // temp, replacing textFormatter method
-    Label.prototype.getSvgElement = function (text, style) {
+    Label.prototype.getSvgElement = function (text, style, parent) {
         var element = this.paper.add("tspan");
         element.textContent = text;
         if (style) {
-            element.node.setAttribute("style", style);
+            if (options.nonce && parent) {
+                //element.node.setAttribute("nonce", "test123");
+                var classid = "amcharts_element_style_" + btoa(style).replace(/[^\w]*/g, "");
+                element.node.setAttribute("class", classid);
+                var defs = document.createElementNS($dom.SVGNS, "defs");
+                parent.node.appendChild(defs);
+                var e = document.createElement("style");
+                e.type = "text/css";
+                e.innerHTML = "." + classid + " { " + style + "}";
+                e.setAttribute("nonce", options.nonce);
+                defs.appendChild(e);
+            }
+            else {
+                element.node.setAttribute("style", style);
+            }
+        }
+        if (parent) {
+            parent.add(element);
         }
         return element;
     };

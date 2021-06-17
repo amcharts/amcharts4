@@ -571,7 +571,7 @@ export declare class Label extends Container {
      * @return Available height (px)
      */
     readonly availableHeight: number;
-    getSvgElement(text: string, style?: string): AMElement;
+    getSvgElement(text: string, style?: string, parent?: Group): AMElement;
     /**
      * Invalidates the whole element, including layout AND all its child
      * elements.

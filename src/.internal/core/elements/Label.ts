@@ -25,6 +25,7 @@ import * as $type from "../utils/Type";
 import { Paper } from "../rendering/Paper";
 import * as $dom from "../utils/DOM";
 import { defaultRules, ResponsiveBreakpoints } from "../utils/Responsive";
+import { options } from "../Options";
 
 
 /**
@@ -675,13 +676,11 @@ export class Label extends Container {
 						lineInfo.style = getTextFormatter().translateStyleShortcuts(currentFormat);
 
 
-						let tspan = this.getSvgElement(lineInfo.text, lineInfo.style);
-
 						if (this.textPathElement) {
-							this.textPathElement.add(tspan);
+							this.getSvgElement(lineInfo.text, lineInfo.style, this.textPathElement);
 						}
 						else {
-							lineInfo.element.add(tspan);
+							this.getSvgElement(lineInfo.text, lineInfo.style, lineInfo.element);
 						}
 
 						this.getLineBBox(lineInfo);
@@ -1747,12 +1746,35 @@ export class Label extends Container {
 	}
 
 	// temp, replacing textFormatter method
-	public getSvgElement(text: string, style?: string): AMElement {
+	public getSvgElement(text: string, style?: string, parent?: Group): AMElement {
 		let element = this.paper.add("tspan");
 		element.textContent = text;
 		if (style) {
-			element.node.setAttribute("style", style);
+
+			if (options.nonce && parent) {
+				//element.node.setAttribute("nonce", "test123");
+				const classid = "amcharts_element_style_" + btoa(style).replace(/[^\w]*/g, "");
+				element.node.setAttribute("class", classid);
+
+				const defs = <SVGDefsElement>document.createElementNS($dom.SVGNS, "defs");
+				parent.node.appendChild(defs);
+
+				const e = document.createElement("style");
+				e.type = "text/css";
+				e.innerHTML = "." + classid + " { " + style + "}";
+				e.setAttribute("nonce", options.nonce)
+				defs.appendChild(e);
+			}
+			else {
+				element.node.setAttribute("style", style);
+			}
+
 		}
+
+		if (parent) {
+			parent.add(element);
+		}
+
 		return element;
 	}
 

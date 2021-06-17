@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.20] - 2021-06-17
+
+### Fixed
+- In-line formatting of labels was triggering errors on pages with strict CSP rules.
+
+
 ## [4.10.19] - 2021-06-08
 
 ### Fixed
