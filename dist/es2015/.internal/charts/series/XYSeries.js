@@ -2010,6 +2010,9 @@ var XYSeries = /** @class */ (function (_super) {
                                 dataItem.setCalculatedValue(field_2, prevValue, "stack");
                                 return false;
                             }
+                            else if (!prevSeries.stacked) {
+                                return false;
+                            }
                         }
                         else {
                             dataItem.setCalculatedValue(field_2, prevValue, "stack");

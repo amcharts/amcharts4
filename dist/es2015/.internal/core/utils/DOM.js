@@ -86,7 +86,10 @@ export function addClass(element, className) {
         return;
     }
     if (element.classList) {
-        element.classList.add(className);
+        var classes = className.split(" ");
+        $array.each(classes, function (name) {
+            element.classList.add(name);
+        });
     }
     else {
         var currentClassName = element.getAttribute("class");

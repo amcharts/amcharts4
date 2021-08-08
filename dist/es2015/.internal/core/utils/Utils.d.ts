@@ -145,7 +145,7 @@ export declare function escapeForRgex(value: string): string;
  * @param maxChars  Maximum number of characters per line
  * @return An array of split text
  */
-export declare function splitTextByCharCount(text: string, maxChars: number, fullWords?: boolean, rtl?: boolean): string[];
+export declare function splitTextByCharCount(text: string, maxChars: number, fullWords?: boolean, rtl?: boolean, fullWordFallback?: boolean): string[];
 /**
  * Truncates the text to certain character count.
  *

@@ -223,8 +223,9 @@ var DateAxisRangeSelector = /** @class */ (function (_super) {
      *
      * @param  interval  Interval
      */
-    DateAxisRangeSelector.prototype.setPeriodInterval = function (interval) {
+    DateAxisRangeSelector.prototype.setPeriodInterval = function (interval, simulated) {
         var _this = this;
+        if (simulated === void 0) { simulated = false; }
         var date;
         var group = this.getGroupInterval(this.axis.mainBaseInterval);
         if (interval == "max") {
@@ -244,18 +245,22 @@ var DateAxisRangeSelector = /** @class */ (function (_super) {
         var animated = this.axis.rangeChangeDuration > 0;
         var groupingChanged = false;
         var zoomFinished = !animated;
-        this.axis.events.once("groupperiodchanged", function (ev) {
-            groupingChanged = true;
-            if (zoomFinished) {
-                _this.setPeriodInterval(interval);
-            }
-        });
-        this.axis.events.once("rangechangeended", function (ev) {
-            zoomFinished = true;
-            if (groupingChanged) {
-                _this.setPeriodInterval(interval);
-            }
-        });
+        if (!simulated) {
+            this.axis.events.once("groupperiodchanged", function (ev) {
+                console.log("grouping", zoomFinished, groupingChanged);
+                groupingChanged = true;
+                if (zoomFinished) {
+                    _this.setPeriodInterval(interval, true);
+                }
+            });
+            this.axis.events.once("rangechangeended", function (ev) {
+                console.log("range", zoomFinished, groupingChanged);
+                zoomFinished = true;
+                if (groupingChanged) {
+                    _this.setPeriodInterval(interval, true);
+                }
+            });
+        }
         this.dispatchImmediately("periodselected", {
             interval: interval,
             startDate: date

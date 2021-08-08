@@ -264,7 +264,7 @@ export function escapeForRgex(value: string): string {
  * @param maxChars  Maximum number of characters per line
  * @return An array of split text
  */
-export function splitTextByCharCount(text: string, maxChars: number, fullWords?: boolean, rtl?: boolean): string[] {
+export function splitTextByCharCount(text: string, maxChars: number, fullWords?: boolean, rtl?: boolean, fullWordFallback?: boolean): string[] {
 
 	// Maybe the text fits?
 	if (text.length <= maxChars) {
@@ -309,8 +309,8 @@ export function splitTextByCharCount(text: string, maxChars: number, fullWords?:
 			}
 
 			// Check word length
-			//if ((wordLength > maxChars) && fullWords !== true) {
-			if (wordLength > maxChars) {
+			if ((wordLength > maxChars) && (fullWords !== true || fullWordFallback != false)) {
+			//if (wordLength > maxChars) {
 				// A single word is longer than allowed symbol count
 				// Break it up
 				if (rtl) {

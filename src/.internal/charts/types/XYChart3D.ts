@@ -253,7 +253,7 @@ export class XYChart3D extends XYChart {
 	 */
 	protected fixLayout(): void {
 
-		this.chartContainer.marginTop = -this.dy3D;
+		this.chartContainer.paddingTop = -this.dy3D;
 		this.chartContainer.paddingRight = this.dx3D;
 
 		if (this.scrollbarX) {

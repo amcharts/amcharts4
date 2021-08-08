@@ -2735,9 +2735,13 @@ export class XYSeries extends Series {
 						else {
 							prevValue = prevDataItem.getValue(field) + prevDataItem.getValue(field, "stack");
 						}
+
 						if (this.stackToNegative) {
 							if ((value >= 0 && prevRealValue >= 0) || (value < 0 && prevRealValue < 0)) {
 								dataItem.setCalculatedValue(field, prevValue, "stack");
+								return false;
+							}
+							else if(!prevSeries.stacked){
 								return false;
 							}
 						}

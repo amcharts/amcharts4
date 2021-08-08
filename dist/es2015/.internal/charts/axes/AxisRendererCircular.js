@@ -231,6 +231,9 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         var innerRadius = this.pixelInnerRadius;
         if (this.axisRendererY) {
             var realRadius = $math.fitToRange(this.axisRendererY.positionToCoordinate(position2), 0, Infinity);
+            if (realRadius == 0) {
+                realRadius = 0.000001;
+            }
             var point = { x: realRadius * $math.cos(angle), y: realRadius * $math.sin(angle) };
             return point;
         }

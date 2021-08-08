@@ -189,7 +189,7 @@ export class DateFormatter extends BaseObject {
 	 * @param format  Format
 	 * @return Formatted date string
 	 */
-	public format(source: any, format?: string | Intl.DateTimeFormatOptions): string {
+	public format(source: any, format?: string | Intl.DateTimeFormatOptions, applyTimezone?: boolean): string {
 
 		// No language?
 		if (!this.language) {
@@ -248,7 +248,7 @@ export class DateFormatter extends BaseObject {
 			if ($type.hasValue(this.timezoneOffset)) {
 				date.setMinutes(date.getMinutes() + date.getTimezoneOffset() - this.timezoneOffset);
 			}
-			else if ($type.hasValue(this.timezone)) {
+			else if ($type.hasValue(this.timezone) && applyTimezone !== false) {
 				date = $time.setTimezone(date, this.timezone);
 			}
 

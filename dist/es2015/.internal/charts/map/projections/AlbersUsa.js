@@ -63,4 +63,4 @@ export { AlbersUsa };
  * @ignore
  */
 registry.registeredClasses["AlbersUsa"] = AlbersUsa;
-//# sourceMappingURL=AlbersUsa.js.map
+//# sourceMappingURL=AlbersUSA.js.map

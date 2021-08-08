@@ -1432,8 +1432,14 @@ var MapChart = /** @class */ (function (_super) {
          * @return Data source
          */
         get: function () {
+            var _this = this;
             if (!this._dataSources["geodata"]) {
-                this.getDataSource("geodata");
+                var dataSource = this.getDataSource("geodata");
+                dataSource.events.on("parseended", function () {
+                    _this.events.once("datavalidated", function () {
+                        _this.goHome(0);
+                    });
+                });
             }
             return this._dataSources["geodata"];
         },
@@ -1509,15 +1515,15 @@ var MapChart = /** @class */ (function (_super) {
         series.events.on("validated", this.updateCenterGeoPoint, this, false);
     };
     /**
-     * This function is used to sort element's JSON config properties, so that
-     * some properties that absolutely need to be processed last, can be put at
-     * the end.
-     *
-     * @ignore Exclude from docs
-     * @param a  Element 1
-     * @param b  Element 2
-     * @return Sorting number
-     */
+       * This function is used to sort element's JSON config properties, so that
+       * some properties that absolutely need to be processed last, can be put at
+       * the end.
+       *
+       * @ignore Exclude from docs
+       * @param a  Element 1
+       * @param b  Element 2
+       * @return Sorting number
+       */
     MapChart.prototype.configOrder = function (a, b) {
         if (a == b) {
             return 0;

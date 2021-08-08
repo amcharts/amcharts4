@@ -724,6 +724,16 @@ export interface IExportCSVOptions {
 	 */
 	disabled?: boolean;
 
+
+	/**
+	 * Add BOM character to output file, so that it can be used with UTF-8
+	 * characters properly in Excel.
+	 *
+	 * @default false
+	 * @since 4.10.21
+	 */
+	addBOM?: boolean;
+
 }
 
 /**
@@ -1651,7 +1661,8 @@ export class Export extends Validatable {
 
 		this._formatOptions.setKey("csv", {
 			addColumnNames: true,
-			emptyAs: ""
+			emptyAs: "",
+			addBOM: true
 		});
 
 		this._formatOptions.setKey("xlsx", {
@@ -1958,7 +1969,7 @@ export class Export extends Validatable {
 				if (type == "pdfdata") {
 					return this.download(data, this.filePrefix + ".pdf");
 				}
-				return this.download(data, this.filePrefix + "." + type);
+				return this.download(data, this.filePrefix + "." + type, (options && (<IExportCSVOptions>options).addBOM));
 			}
 
 		}
@@ -4269,7 +4280,7 @@ export class Export extends Validatable {
 	 * @return Promise
 	 * @async
 	 */
-	public async download(uri: string, fileName: string): Promise<boolean> {
+	public async download(uri: string, fileName: string, addBOM: boolean = false): Promise<boolean> {
 
 		if (this.msBlobDownloadSupport()) {
 
@@ -4338,6 +4349,9 @@ export class Export extends Validatable {
 				}
 			}
 			else {
+				if (addBOM) {
+					uri = "\ufeff" + uri;
+				}
 				let blob = new Blob([uri], { type: contentType });
 				let url = window.URL.createObjectURL(blob);
 				link.href = url;
@@ -4357,6 +4371,9 @@ export class Export extends Validatable {
 				chars[i] = charCode;
 			}
 
+			if (addBOM) {
+				chars = [0xEF, 0xBB, 0xBF].concat(chars);
+			}
 			let blob = new Blob([new Uint8Array(chars)], { type: contentType });
 			let url = window.URL.createObjectURL(blob);
 			link.href = url;

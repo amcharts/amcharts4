@@ -335,6 +335,11 @@ export class AxisRendererCircular extends AxisRenderer {
 
 		if (this.axisRendererY) {
 			let realRadius = $math.fitToRange(this.axisRendererY.positionToCoordinate(position2), 0, Infinity)
+
+			if(realRadius == 0){
+				realRadius = 0.000001;
+			}
+
 			let point = { x: realRadius * $math.cos(angle), y: realRadius * $math.sin(angle) };
 			return point;
 		}
@@ -415,6 +420,7 @@ export class AxisRendererCircular extends AxisRenderer {
 		let point: IPoint = this.positionToPoint(position);
 
 		if ($type.isNumber(point.x) && $type.isNumber(point.y) && grid.element) {
+
 			let angle: number = $math.DEGREES * Math.atan2(point.y, point.x);
 			let radius: number = $utils.relativeRadiusToValue($type.hasValue(grid.radius) ? grid.radius : percent(100), this.pixelRadius);
 

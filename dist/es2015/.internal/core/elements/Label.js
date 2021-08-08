@@ -507,7 +507,7 @@ var Label = /** @class */ (function (_super) {
                                         }
                                         else {
                                             // Don't split mid-word
-                                            splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, true, this.rtl);
+                                            splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, true, this.rtl, false);
                                             // Check if the first word is too long
                                             if ((splitLines[0].length > maxChars) || maxChars === 1) {
                                                 // Yes - move the whole chunk to the next line
@@ -519,7 +519,11 @@ var Label = /** @class */ (function (_super) {
                                         }
                                         // Use the first line to update last item
                                         if (excessChars > 0) {
-                                            lastNode.textContent = getTextFormatter().cleanUp($utils.trim(splitLines.shift()));
+                                            var lineText_1 = splitLines.shift();
+                                            if (firstChunk) {
+                                                lineText_1 = $utils.trim(lineText_1);
+                                            }
+                                            lastNode.textContent = getTextFormatter().cleanUp(lineText_1);
                                         }
                                         // Measure again, just in case
                                         lineInfo.bbox = lineInfo.element.getBBox();

@@ -1208,9 +1208,11 @@ export class XYChart extends SerialChart {
 							series.hideTooltip();
 							if (series.xAxis != closestSeries.xAxis) {
 								series.xAxis.hideTooltip();
+								exceptAxes.push(series.xAxis);
 							}
 							if (series.yAxis != closestSeries.yAxis) {
 								series.yAxis.hideTooltip();
+								exceptAxes.push(series.yAxis);
 							}
 						}
 					})

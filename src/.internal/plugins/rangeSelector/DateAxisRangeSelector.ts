@@ -326,7 +326,7 @@ export class DateAxisRangeSelector extends RangeSelector {
 	 * 
 	 * @param  interval  Interval
 	 */
-	public setPeriodInterval(interval: ITimeInterval | "ytd" | "max"): void {
+	public setPeriodInterval(interval: ITimeInterval | "ytd" | "max", simulated: boolean = false): void {
 		let date;
 		const group = this.getGroupInterval(this.axis.mainBaseInterval);
 		if (interval == "max") {
@@ -349,19 +349,23 @@ export class DateAxisRangeSelector extends RangeSelector {
 		let groupingChanged = false;
 		let zoomFinished = !animated;
 
-		this.axis.events.once("groupperiodchanged", (ev) => {
-			groupingChanged = true;
-			if (zoomFinished) {
-				this.setPeriodInterval(interval);
-			}
-		});
+		if (!simulated) {
+			this.axis.events.once("groupperiodchanged", (ev) => {
+				console.log("grouping", zoomFinished, groupingChanged)
+				groupingChanged = true;
+				if (zoomFinished) {
+					this.setPeriodInterval(interval, true);
+				}
+			});
 
-		this.axis.events.once("rangechangeended", (ev) => {
-			zoomFinished = true;
-			if (groupingChanged) {
-				this.setPeriodInterval(interval);
-			}
-		});
+			this.axis.events.once("rangechangeended", (ev) => {
+				console.log("range", zoomFinished, groupingChanged)
+				zoomFinished = true;
+				if (groupingChanged) {
+					this.setPeriodInterval(interval, true);
+				}
+			});
+		}
 
 		this.dispatchImmediately("periodselected", {
 			interval: interval,

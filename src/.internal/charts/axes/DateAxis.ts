@@ -2307,7 +2307,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		this.tooltipDate = date;
 
 		if ($type.hasValue(this.tooltipDateFormat)) {
-			text = this._df.format(date, this.tooltipDateFormat);
+			text = this._df.format(date, this.tooltipDateFormat, ["day", "month", "week", "year"].indexOf(this.baseInterval.timeUnit) == -1);
 		}
 		else {
 			let dateFormat = this.dateFormats.getKey(this.baseInterval.timeUnit);
@@ -2583,8 +2583,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public zoomToValues(startValue: number, endValue: number, skipRangeEvent?: boolean, instantly?: boolean, adjust?: boolean): void {
 		if (!this.groupData) {
-			let start: number = (startValue - this.min) / (this.max - this.min);
-			let end: number = (endValue - this.min) / (this.max - this.min);
+			//let start: number = (startValue - this.min) / (this.max - this.min);
+			//let end: number = (endValue - this.min) / (this.max - this.min);
+
+			let start = this.valueToPosition(startValue);
+			let end = this.valueToPosition(endValue);
 
 			this.zoom({ start: start, end: end }, skipRangeEvent, instantly);
 		}

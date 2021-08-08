@@ -2102,7 +2102,7 @@ export class MapChart extends SerialChart {
 		this._dataSources["geodata"] = value;
 		this._dataSources["geodata"].component = this;
 		this.events.on("inited", () => {
-			this.loadData("geodata")
+			this.loadData("geodata");
 		}, this, false);
 		this.setDataSourceEvents(value, "geodata");
 	}
@@ -2114,7 +2114,12 @@ export class MapChart extends SerialChart {
 	 */
 	public get geodataSource(): DataSource {
 		if (!this._dataSources["geodata"]) {
-			this.getDataSource("geodata");
+			let dataSource = this.getDataSource("geodata");
+			dataSource.events.on("parseended", () => {
+				this.events.once("datavalidated", () => {
+					this.goHome(0);
+				})
+			})
 		}
 		return this._dataSources["geodata"];
 	}
@@ -2180,15 +2185,15 @@ export class MapChart extends SerialChart {
 
 
 	/**
- 	 * This function is used to sort element's JSON config properties, so that
- 	 * some properties that absolutely need to be processed last, can be put at
- 	 * the end.
- 	 *
- 	 * @ignore Exclude from docs
- 	 * @param a  Element 1
- 	 * @param b  Element 2
- 	 * @return Sorting number
- 	 */
+	   * This function is used to sort element's JSON config properties, so that
+	   * some properties that absolutely need to be processed last, can be put at
+	   * the end.
+	   *
+	   * @ignore Exclude from docs
+	   * @param a  Element 1
+	   * @param b  Element 2
+	   * @return Sorting number
+	   */
 	protected configOrder(a: string, b: string): Ordering {
 		if (a == b) {
 			return 0;

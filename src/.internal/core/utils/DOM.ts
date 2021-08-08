@@ -96,7 +96,10 @@ export function addClass(element: HTMLElement | SVGSVGElement, className: string
 		return;
 	}
 	if (element.classList) {
-		element.classList.add(className);
+		const classes = className.split(" ");
+		$array.each(classes, (name) => {
+			element.classList.add(name);
+		});
 	}
 	else {
 		let currentClassName = element.getAttribute("class");

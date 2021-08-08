@@ -5,6 +5,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.21] - 2021-08-08
+
+### Added
+- Export: new setting in CSV options: `addBOM` (default `true`).
+
+### Changed
+- `userClassName` now supports multiple class names separated by space.
+- Exporting CSV will now have add BOM code to exported file.
+- Upgrading to `pdfmake 0.2.2` to work around security issues in older version.
+- Upgrading to `xlsx 0.17.0` to work around security issues in older version.
+
+### Fixed
+- In some cases axis labels could be hidden across multiple data updates.
+- Fixed issue with stacked/clustered negative values.
+- `MapChart` now respects `home*` zoom/position with externally loaded geodata.
+- Sizing/positioning of 3D charts with titles fixed.
+- RangeSelector plugin: fixed zoom range resetting issues.
+- Issue with inverted radial axis fixed.
+- Axis with `snapToSeries` set was snapping to hidden series.
+- Using timezone was causing `DateAxis` tooltips to show incorrect time in some cases.
+- Issue with label text with a lot of in-line formatting not wrapping properly fixed.
+
+
 ## [4.10.20] - 2021-06-17
 
 ### Fixed

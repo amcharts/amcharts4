@@ -1,3 +1,3 @@
-export * from "../.internal/plugins/wordCloud/WordCloud";
-export * from "../.internal/plugins/wordCloud/WordCloudSeries";
+export * from "../.internal/plugins/WordCloud/WordCloud";
+export * from "../.internal/plugins/WordCloud/WordCloudSeries";
 //# sourceMappingURL=wordCloud.js.map

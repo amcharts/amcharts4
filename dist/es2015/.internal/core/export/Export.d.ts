@@ -472,6 +472,14 @@ export interface IExportCSVOptions {
      * @since 4.9.11
      */
     disabled?: boolean;
+    /**
+     * Add BOM character to output file, so that it can be used with UTF-8
+     * characters properly in Excel.
+     *
+     * @default false
+     * @since 4.10.21
+     */
+    addBOM?: boolean;
 }
 /**
  * Represents options for JSON export
@@ -1720,7 +1728,7 @@ export declare class Export extends Validatable {
      * @return Promise
      * @async
      */
-    download(uri: string, fileName: string): Promise<boolean>;
+    download(uri: string, fileName: string, addBOM?: boolean): Promise<boolean>;
     /**
      * Returns `true` if browser has any supported methods to trigger download
      * of a binary file.

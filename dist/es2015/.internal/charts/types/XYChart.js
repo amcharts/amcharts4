@@ -889,9 +889,11 @@ var XYChart = /** @class */ (function (_super) {
                             series.hideTooltip();
                             if (series.xAxis != closestSeries.xAxis) {
                                 series.xAxis.hideTooltip();
+                                exceptAxes_1.push(series.xAxis);
                             }
                             if (series.yAxis != closestSeries.yAxis) {
                                 series.yAxis.hideTooltip();
+                                exceptAxes_1.push(series.yAxis);
                             }
                         }
                     });

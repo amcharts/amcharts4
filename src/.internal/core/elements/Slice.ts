@@ -371,6 +371,9 @@ export class Slice extends Container {
 	 */
 	public set shiftRadius(value: number) {
 		this.setPropertyValue("shiftRadius", value);
+
+		value = this.getPropertyValue("shiftRadius");
+
 		this.dx = value * this.radius * this.ix;
 		this.dy = value * this.radiusY * this.iy;
 	}

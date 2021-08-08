@@ -333,6 +333,11 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         _super.prototype.validate.call(this);
         this.getMinMax();
+        if (!$type.isNumber(this._minAdjusted)) {
+            this.dataItems.each(function (dataItem) {
+                dataItem.value = null;
+            });
+        }
         this.fixAxisBreaks();
         this.calculateZoom();
         this.validateAxisElements();

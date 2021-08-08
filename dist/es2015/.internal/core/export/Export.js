@@ -443,7 +443,8 @@ var Export = /** @class */ (function (_super) {
         });
         _this._formatOptions.setKey("csv", {
             addColumnNames: true,
-            emptyAs: ""
+            emptyAs: "",
+            addBOM: true
         });
         _this._formatOptions.setKey("xlsx", {
             addColumnNames: true,
@@ -721,7 +722,7 @@ var Export = /** @class */ (function (_super) {
                                 if (type == "pdfdata") {
                                     return [2 /*return*/, this.download(data, this.filePrefix + ".pdf")];
                                 }
-                                return [2 /*return*/, this.download(data, this.filePrefix + "." + type)];
+                                return [2 /*return*/, this.download(data, this.filePrefix + "." + type, (options && options.addBOM))];
                             }
                         }
                         else {
@@ -2814,7 +2815,8 @@ var Export = /** @class */ (function (_super) {
      * @return Promise
      * @async
      */
-    Export.prototype.download = function (uri, fileName) {
+    Export.prototype.download = function (uri, fileName, addBOM) {
+        if (addBOM === void 0) { addBOM = false; }
         return __awaiter(this, void 0, void 0, function () {
             var parts, contentType, decoded, blob_1, chars, i, charCode, blob, link_1, parts, contentType, decoded, blob_2, url_2, chars, i, charCode, blob, url_3, link, parts, contentType, iframe, idoc;
             return __generator(this, function (_a) {
@@ -2864,6 +2866,9 @@ var Export = /** @class */ (function (_super) {
                         }
                     }
                     else {
+                        if (addBOM) {
+                            uri = "\ufeff" + uri;
+                        }
                         blob_2 = new Blob([uri], { type: contentType });
                         url_2 = window.URL.createObjectURL(blob_2);
                         link_1.href = url_2;
@@ -2879,6 +2884,9 @@ var Export = /** @class */ (function (_super) {
                     for (i = 0; i < uri.length; ++i) {
                         charCode = uri.charCodeAt(i);
                         chars[i] = charCode;
+                    }
+                    if (addBOM) {
+                        chars = [0xEF, 0xBB, 0xBF].concat(chars);
                     }
                     blob = new Blob([new Uint8Array(chars)], { type: contentType });
                     url_3 = window.URL.createObjectURL(blob);

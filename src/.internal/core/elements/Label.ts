@@ -840,7 +840,6 @@ export class Label extends Container {
 										// Don't split the words mid-word if it's not the first chunk
 										// in the line
 										if (firstChunk) {
-
 											// Split mid-word if necessary
 											splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, true, this.rtl);
 
@@ -848,7 +847,7 @@ export class Label extends Container {
 										else {
 
 											// Don't split mid-word
-											splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, true, this.rtl);
+											splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, true, this.rtl, false);
 
 											// Check if the first word is too long
 											if ((splitLines[0].length > maxChars) || maxChars === 1) {
@@ -865,7 +864,11 @@ export class Label extends Container {
 
 										// Use the first line to update last item
 										if (excessChars > 0) {
-											lastNode.textContent = getTextFormatter().cleanUp($utils.trim(splitLines.shift()));
+											let lineText = splitLines.shift();
+											if (firstChunk) {
+												lineText = $utils.trim(lineText);
+											}
+											lastNode.textContent = getTextFormatter().cleanUp(lineText);
 										}
 
 										// Measure again, just in case
@@ -884,7 +887,6 @@ export class Label extends Container {
 									if (splitLines.length > 0) {
 
 										let restOfLine: string = "";
-
 										// Add leftovers from splitting the current chunk
 										if ($type.hasValue(splitLines)) {
 											if (this.rtl) {

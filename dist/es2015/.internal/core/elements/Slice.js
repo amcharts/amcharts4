@@ -281,6 +281,7 @@ var Slice = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("shiftRadius", value);
+            value = this.getPropertyValue("shiftRadius");
             this.dx = value * this.radius * this.ix;
             this.dy = value * this.radiusY * this.iy;
         },

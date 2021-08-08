@@ -147,7 +147,7 @@ export declare class DateAxisRangeSelector extends RangeSelector {
      *
      * @param  interval  Interval
      */
-    setPeriodInterval(interval: ITimeInterval | "ytd" | "max"): void;
+    setPeriodInterval(interval: ITimeInterval | "ytd" | "max", simulated?: boolean): void;
     private getGroupInterval;
     /**
      * Zooms the axis using start date.

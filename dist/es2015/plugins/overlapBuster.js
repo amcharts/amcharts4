@@ -1,2 +1,2 @@
-export * from "../.internal/plugins/overLapBuster/OverlapBuster";
+export * from "../.internal/plugins/overlapBuster/OverlapBuster";
 //# sourceMappingURL=overlapBuster.js.map

@@ -1087,8 +1087,11 @@ export class XYCursor extends Cursor {
 			let x = series.getTooltipX() + series.xAxis.pixelX;
 			let y = series.getTooltipY() + series.yAxis.pixelY;
 
-			if (this.xAxis) {
-				if (this.xAxis.renderer.opposite) {
+			let xAxis = series.xAxis;
+			let yAxis = series.yAxis;
+
+			if (xAxis) {
+				if (xAxis.renderer.opposite) {
 					y -= this.pixelHeight;
 				}
 			}
@@ -1101,8 +1104,8 @@ export class XYCursor extends Cursor {
 
 			x -= this.pixelWidth;
 
-			if (this.yAxis) {
-				if (this.yAxis.renderer.opposite) {
+			if (yAxis) {
+				if (yAxis.renderer.opposite) {
 					x += this.pixelWidth;
 				}
 			}
@@ -1110,10 +1113,6 @@ export class XYCursor extends Cursor {
 			let tooltip = series.tooltip;
 			let duration = tooltip.animationDuration;
 			let easing = tooltip.animationEasing;
-
-
-			let xAxis = series.xAxis;
-			let yAxis = series.yAxis;
 
 			if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
 				series.yAxis.showTooltipAtPosition(this.yPosition);
@@ -1129,8 +1128,11 @@ export class XYCursor extends Cursor {
 				}
 			}
 
-			this.lineX.animate([{ property: "y", to: y }], duration, easing);
-			this.lineY.animate([{ property: "x", to: x }], duration, easing);
+		//	this.lineX.animate([{ property: "y", to: y }], duration, easing);
+		//	this.lineY.animate([{ property: "x", to: x }], duration, easing);
+
+			this.lineY.x = x;
+			this.lineX.y = y;
 
 			if (!this.xAxis) {
 				this.lineX.animate([{ property: "x", to: xx }], duration, easing);

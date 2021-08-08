@@ -1747,7 +1747,7 @@ var DateAxis = /** @class */ (function (_super) {
         date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count, this._firstWeekDay, this._df.utc, new Date(this.min), this._df.timezoneMinutes, this._df.timezone);
         this.tooltipDate = date;
         if ($type.hasValue(this.tooltipDateFormat)) {
-            text = this._df.format(date, this.tooltipDateFormat);
+            text = this._df.format(date, this.tooltipDateFormat, ["day", "month", "week", "year"].indexOf(this.baseInterval.timeUnit) == -1);
         }
         else {
             var dateFormat = this.dateFormats.getKey(this.baseInterval.timeUnit);
@@ -1970,8 +1970,10 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.zoomToValues = function (startValue, endValue, skipRangeEvent, instantly, adjust) {
         var _this = this;
         if (!this.groupData) {
-            var start = (startValue - this.min) / (this.max - this.min);
-            var end = (endValue - this.min) / (this.max - this.min);
+            //let start: number = (startValue - this.min) / (this.max - this.min);
+            //let end: number = (endValue - this.min) / (this.max - this.min);
+            var start = this.valueToPosition(startValue);
+            var end = this.valueToPosition(endValue);
             this.zoom({ start: start, end: end }, skipRangeEvent, instantly);
         }
         else {

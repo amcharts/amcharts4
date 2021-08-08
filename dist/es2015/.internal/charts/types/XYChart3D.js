@@ -182,7 +182,7 @@ var XYChart3D = /** @class */ (function (_super) {
      * 3D depth and angle.
      */
     XYChart3D.prototype.fixLayout = function () {
-        this.chartContainer.marginTop = -this.dy3D;
+        this.chartContainer.paddingTop = -this.dy3D;
         this.chartContainer.paddingRight = this.dx3D;
         if (this.scrollbarX) {
             this.scrollbarX.dy = this.dy3D;

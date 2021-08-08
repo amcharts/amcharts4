@@ -583,6 +583,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		this.getMinMax();
 
+		if (!$type.isNumber(this._minAdjusted)) {
+			this.dataItems.each((dataItem) => {
+				dataItem.value = null;
+			})
+		}
+
 		this.fixAxisBreaks();
 
 		this.calculateZoom();

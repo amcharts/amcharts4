@@ -117,7 +117,7 @@ var DateFormatter = /** @class */ (function (_super) {
      * @param format  Format
      * @return Formatted date string
      */
-    DateFormatter.prototype.format = function (source, format) {
+    DateFormatter.prototype.format = function (source, format, applyTimezone) {
         // No language?
         if (!this.language) {
             if (this.sprite) {
@@ -166,7 +166,7 @@ var DateFormatter = /** @class */ (function (_super) {
             if ($type.hasValue(this.timezoneOffset)) {
                 date.setMinutes(date.getMinutes() + date.getTimezoneOffset() - this.timezoneOffset);
             }
-            else if ($type.hasValue(this.timezone)) {
+            else if ($type.hasValue(this.timezone) && applyTimezone !== false) {
                 date = $time.setTimezone(date, this.timezone);
             }
             // Check if it's a valid date

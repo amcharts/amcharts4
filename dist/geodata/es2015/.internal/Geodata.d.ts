@@ -12,7 +12,7 @@ export interface MultiLineString {
 }
 export interface Feature {
     type: "Feature";
-    geometry: Polygon | MultiPolygon | MultiLineString;
+    geometry: Polygon | MultiPolygon | MultiLineString | null;
     properties: object;
     id: string;
 }

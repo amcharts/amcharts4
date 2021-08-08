@@ -1029,15 +1029,15 @@ export declare class MapChart extends SerialChart {
      */
     handleSeriesAdded(event: IListEvents<MapSeries>["inserted"]): void;
     /**
-     * This function is used to sort element's JSON config properties, so that
-     * some properties that absolutely need to be processed last, can be put at
-     * the end.
-     *
-     * @ignore Exclude from docs
-     * @param a  Element 1
-     * @param b  Element 2
-     * @return Sorting number
-     */
+       * This function is used to sort element's JSON config properties, so that
+       * some properties that absolutely need to be processed last, can be put at
+       * the end.
+       *
+       * @ignore Exclude from docs
+       * @param a  Element 1
+       * @param b  Element 2
+       * @return Sorting number
+       */
     protected configOrder(a: string, b: string): Ordering;
     /**
      * Adds `projection` to "as is" fields.

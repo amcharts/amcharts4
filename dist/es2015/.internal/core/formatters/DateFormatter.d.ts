@@ -147,7 +147,7 @@ export declare class DateFormatter extends BaseObject {
      * @param format  Format
      * @return Formatted date string
      */
-    format(source: any, format?: string | Intl.DateTimeFormatOptions): string;
+    format(source: any, format?: string | Intl.DateTimeFormatOptions, applyTimezone?: boolean): string;
     /**
      * Parses format into structured infromation.
      *

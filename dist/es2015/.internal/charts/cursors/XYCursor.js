@@ -883,8 +883,10 @@ var XYCursor = /** @class */ (function (_super) {
         if (!this.downPoint) {
             var x = series.getTooltipX() + series.xAxis.pixelX;
             var y = series.getTooltipY() + series.yAxis.pixelY;
-            if (this.xAxis) {
-                if (this.xAxis.renderer.opposite) {
+            var xAxis = series.xAxis;
+            var yAxis = series.yAxis;
+            if (xAxis) {
+                if (xAxis.renderer.opposite) {
                     y -= this.pixelHeight;
                 }
             }
@@ -893,16 +895,14 @@ var XYCursor = /** @class */ (function (_super) {
             var xx = x;
             var yy = y;
             x -= this.pixelWidth;
-            if (this.yAxis) {
-                if (this.yAxis.renderer.opposite) {
+            if (yAxis) {
+                if (yAxis.renderer.opposite) {
                     x += this.pixelWidth;
                 }
             }
             var tooltip = series.tooltip;
             var duration = tooltip.animationDuration;
             var easing = tooltip.animationEasing;
-            var xAxis = series.xAxis;
-            var yAxis = series.yAxis;
             if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis) && yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
                 series.yAxis.showTooltipAtPosition(this.yPosition);
                 series.xAxis.showTooltipAtPosition(this.xPosition);
@@ -915,8 +915,10 @@ var XYCursor = /** @class */ (function (_super) {
                     series.xAxis.showTooltipAtPosition(this.xPosition);
                 }
             }
-            this.lineX.animate([{ property: "y", to: y }], duration, easing);
-            this.lineY.animate([{ property: "x", to: x }], duration, easing);
+            //	this.lineX.animate([{ property: "y", to: y }], duration, easing);
+            //	this.lineY.animate([{ property: "x", to: x }], duration, easing);
+            this.lineY.x = x;
+            this.lineX.y = y;
             if (!this.xAxis) {
                 this.lineX.animate([{ property: "x", to: xx }], duration, easing);
             }
