@@ -848,6 +848,7 @@ export class Label extends Container {
 
 											// Don't split mid-word
 											splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, true, this.rtl, false);
+											splitLines = splitLines.length ? splitLines : [chunk.text];
 
 											// Check if the first word is too long
 											if ((splitLines[0].length > maxChars) || maxChars === 1) {
