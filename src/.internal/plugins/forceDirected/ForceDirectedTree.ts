@@ -468,6 +468,14 @@ export class ForceDirectedTree extends SerialChart {
 					this.zoomOut();
 				}, this, false);
 				this._disposers.push(this._backgroundZoomoutDisposer);
+
+				this._disposers.push(this.seriesContainer.events.on("sizechanged", () => {
+					this.series.each((series) => {
+						series.nodes.each((node) => {
+							node.updateLabelSize();
+						})
+					})
+				}))
 			}
 			else {
 				this.seriesContainer.resizable = false;

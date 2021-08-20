@@ -322,6 +322,13 @@ var ForceDirectedTree = /** @class */ (function (_super) {
                         _this.zoomOut();
                     }, this, false);
                     this._disposers.push(this._backgroundZoomoutDisposer);
+                    this._disposers.push(this.seriesContainer.events.on("sizechanged", function () {
+                        _this.series.each(function (series) {
+                            series.nodes.each(function (node) {
+                                node.updateLabelSize();
+                            });
+                        });
+                    }));
                 }
                 else {
                     this.seriesContainer.resizable = false;

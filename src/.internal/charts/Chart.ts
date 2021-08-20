@@ -241,8 +241,11 @@ export class Chart extends Component {
 			let chartContainer = this.chartContainer;
 			chartContainer.x = undefined;
 			chartContainer.y = undefined;
-			legend.x = undefined;
-			legend.y = undefined;
+			if (legend.position != "absolute") {
+				legend.x = undefined;
+				legend.y = undefined;
+			}
+
 			switch (legend.position) {
 				case "left":
 					chartAndLegendContainer.layout = "horizontal";
@@ -262,6 +265,10 @@ export class Chart extends Component {
 				case "bottom":
 					chartAndLegendContainer.layout = "vertical";
 					legend.toFront();
+					break;
+				case "absolute":
+					legend.isMeasured = false;
+					break;
 			}
 		}
 	}

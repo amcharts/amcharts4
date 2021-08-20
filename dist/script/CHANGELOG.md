@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.22] - 2021-08-20
+
+### Changed
+- `package.json` for ES2015 package was properly updated with new version dependencies.
+
+### Fixed
+- Another issue with label text with a lot of in-line formatting not wrapping properly fixed.
+- ForceDirectedTree was not updating label `maxWidth` on zoom.
+- Legend's `position = "absolute"` was not working.
+
+
 ## [4.10.21] - 2021-08-08
 
 ### Added

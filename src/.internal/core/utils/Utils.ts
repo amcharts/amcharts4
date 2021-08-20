@@ -373,7 +373,7 @@ export function splitTextByCharCount(text: string, maxChars: number, fullWords?:
 	// Do we have only one word that does not fit?
 	// Since fullWords is set and we can't split the word, we end up with empty
 	// set.
-	if (res.length == 1 && fullWords && (res[0].length > maxChars)) {
+	if (res.length == 1 && fullWords && fullWordFallback && (res[0].length > maxChars)) {
 		res = [];
 	}
 

@@ -107,7 +107,7 @@ export declare class ForceDirectedNode extends Container {
     /**
      * @ignore
      */
-    protected updateLabelSize(): void;
+    updateLabelSize(): void;
     /**
      * Copies all parameters from another [[ForceDirectedNode]].
      *

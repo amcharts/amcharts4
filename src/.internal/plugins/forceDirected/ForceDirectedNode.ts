@@ -207,7 +207,7 @@ export class ForceDirectedNode extends Container {
 	/**
 	 * @ignore
 	 */
-	protected updateLabelSize() {
+	public updateLabelSize() {
 		if (this.label.text) {
 			let circle = this.circle;
 			let radius = circle.pixelRadius;
@@ -218,8 +218,14 @@ export class ForceDirectedNode extends Container {
 				radius = dsRadius;
 			}
 
-			this.label.width = 2 * radius;
-			this.label.height = 2 * radius;
+			let scale = 1;
+
+			if (this.parent && this.parent.parent) {
+				scale = this.parent.parent.scale;
+			}
+
+			this.label.width = 2 * radius * scale;
+			this.label.height = 2 * radius * scale;
 		}
 	}
 

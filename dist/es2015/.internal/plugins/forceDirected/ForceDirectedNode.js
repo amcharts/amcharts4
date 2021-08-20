@@ -110,8 +110,12 @@ var ForceDirectedNode = /** @class */ (function (_super) {
             if ($type.isNumber(dsRadius)) {
                 radius = dsRadius;
             }
-            this.label.width = 2 * radius;
-            this.label.height = 2 * radius;
+            var scale = 1;
+            if (this.parent && this.parent.parent) {
+                scale = this.parent.parent.scale;
+            }
+            this.label.width = 2 * radius * scale;
+            this.label.height = 2 * radius * scale;
         }
     };
     /**

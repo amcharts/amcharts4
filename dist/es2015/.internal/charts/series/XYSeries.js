@@ -1083,6 +1083,7 @@ var XYSeries = /** @class */ (function (_super) {
         var scrollbarSeries = this.scrollbarSeries;
         if (scrollbarSeries) {
             this.scrollbarSeries.addData(rawDataItem, removeCount, true);
+            this.scrollbarSeries._parseDataFrom = this._parseDataFrom;
         }
     };
     XYSeries.prototype.setData = function (value) {
