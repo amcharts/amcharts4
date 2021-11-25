@@ -664,6 +664,7 @@ var Component = /** @class */ (function (_super) {
         $object.each(this._dataSources, function (key, source) {
             _this.removeDispose(source);
         });
+        this.disposeData();
         _super.prototype.dispose.call(this);
     };
     /**

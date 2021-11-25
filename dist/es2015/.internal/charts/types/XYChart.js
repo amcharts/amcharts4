@@ -1387,6 +1387,7 @@ var XYChart = /** @class */ (function (_super) {
                 scrollbar.toBack();
                 scrollbar.orientation = "horizontal";
                 scrollbar.events.on("rangechanged", this.handleXScrollbarChange, this, false);
+                this.events.on("datavalidated", function () { return scrollbar.updateThumb(false); }, this, false);
                 // accessibility related
                 scrollbar.adapter.add("positionValue", function (arg) {
                     var xAxis = _this.xAxes.getIndex(0);
@@ -1429,6 +1430,7 @@ var XYChart = /** @class */ (function (_super) {
                 scrollbar.toFront();
                 scrollbar.orientation = "vertical";
                 scrollbar.events.on("rangechanged", this.handleYScrollbarChange, this, false);
+                this.events.on("datavalidated", function () { return scrollbar.updateThumb(false); }, this, false);
                 // accessibility related
                 scrollbar.adapter.add("positionValue", function (arg) {
                     var yAxis = _this.yAxes.getIndex(0);

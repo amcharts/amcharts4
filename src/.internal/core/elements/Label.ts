@@ -376,7 +376,7 @@ export class Label extends Container {
 			this.invalidate();
 		}
 		else {
-			this.alignSVGText();
+			//this.alignSVGText();
 		}
 	}
 
@@ -1099,7 +1099,7 @@ export class Label extends Container {
 	}
 
 	/**
-	 * Aligns the lines horizontally ant vertically, based on properties.
+	 * Aligns the lines horizontally and vertically, based on properties.
 	 *
 	 * @ignore Exclude from docs
 	 */

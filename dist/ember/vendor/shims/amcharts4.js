@@ -6014,6 +6014,30 @@ define('@amcharts/amcharts4-geodata/region/world/africaLow', [], function () {
   }
   throw new Error("You must add 'geodata/region/world/africaLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/region/world/africaMoroccoHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_world_africaMoroccoHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/world/africaMoroccoHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/region/world/africaMoroccoLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_world_africaMoroccoLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/world/africaMoroccoLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/region/world/africaMoroccoUltra', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_world_africaMoroccoUltra;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/world/africaMoroccoUltra' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/region/world/africaUltra', [], function () {
   'use strict';
   var output = self.am4geodata_region_world_africaUltra;

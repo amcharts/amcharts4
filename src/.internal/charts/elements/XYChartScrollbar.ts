@@ -571,9 +571,11 @@ export class XYChartScrollbar extends Scrollbar {
 
 	/**
 	 * Updates scrollbar thumb.
+	 * 
+	 * @ignore
 	 */
-	protected updateThumb() {
-		super.updateThumb();
+	public updateThumb(dispatchEvents: boolean = true) {
+		super.updateThumb(dispatchEvents);
 		if (this._unselectedOverlay) {
 			let thumb = this.thumb;
 			let x: number = thumb.pixelX || 0;

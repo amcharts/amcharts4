@@ -69,6 +69,7 @@ export declare class NumberFormatter extends BaseObject {
      * format.
      */
     protected _bytePrefixes: INumberSuffix[];
+    protected _forceLTR: boolean;
     /**
      * Holds reference to parent [[Sprite]] object.
      */
@@ -285,6 +286,7 @@ export declare class NumberFormatter extends BaseObject {
     * @return Output format
     */
     outputFormat: string;
+    forceLTR: boolean;
     /**
      * Replaces brackets with temporary placeholders.
      *

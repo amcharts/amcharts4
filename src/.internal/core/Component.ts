@@ -1099,6 +1099,7 @@ export class Component extends Container {
 		$object.each(this._dataSources, (key, source) => {
 			this.removeDispose(source);
 		});
+		this.disposeData();
 		super.dispose();
 	}
 

@@ -660,6 +660,7 @@ export class Interaction extends BaseObjectEvents {
 						}
 					}),
 					io.events.on("over", (e) => {
+				//console.log("whelab over")
 						if (io.wheelable) {
 							this.lockWheel();
 						}
@@ -1274,8 +1275,8 @@ export class Interaction extends BaseObjectEvents {
 
 		// Calculate deltas
 		if (ev instanceof WheelEvent) {
-			deltaX = Math.round((-1 * (<any>ev).wheelDeltaX) || ev.deltaX) * mod;
-			deltaY = Math.round((-1 * (<any>ev).wheelDeltaY) || ev.deltaY) * mod;
+			deltaX = Math.round((-1 * (<any>ev).wheelDeltaX) || (ev.deltaX * mod));
+			deltaY = Math.round((-1 * (<any>ev).wheelDeltaY) || (ev.deltaY * mod));
 		} else {
 			throw new Error("Invalid event type");
 		}
@@ -1501,7 +1502,7 @@ export class Interaction extends BaseObjectEvents {
 			}
 
 			// Should we delay "out" if this is happening on a touch device?
-			if (pointer.touch && !force && !this.old(pointer)) {
+			if (pointer && pointer.touch && !force && !this.old(pointer)) {
 
 				// This is a touch pointer, and it hasn't moved, let's pretend
 				// the object is still hovered, and act as per "behavior" setting

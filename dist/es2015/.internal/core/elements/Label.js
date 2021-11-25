@@ -145,7 +145,7 @@ var Label = /** @class */ (function (_super) {
             this.invalidate();
         }
         else {
-            this.alignSVGText();
+            //this.alignSVGText();
         }
     };
     /**
@@ -711,7 +711,7 @@ var Label = /** @class */ (function (_super) {
         }
     };
     /**
-     * Aligns the lines horizontally ant vertically, based on properties.
+     * Aligns the lines horizontally and vertically, based on properties.
      *
      * @ignore Exclude from docs
      */

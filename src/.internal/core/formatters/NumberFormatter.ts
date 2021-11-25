@@ -87,6 +87,8 @@ export class NumberFormatter extends BaseObject {
 	 */
 	protected _bytePrefixes: INumberSuffix[];
 
+	protected _forceLTR: boolean = false;
+
 	/**
 	 * Holds reference to parent [[Sprite]] object.
 	 */
@@ -207,6 +209,10 @@ export class NumberFormatter extends BaseObject {
 			// Format
 			formatted = details.template.split($strings.PLACEHOLDER).join(this.applyFormat(source, details));
 
+		}
+
+		if (this.forceLTR) {
+			formatted = "‎" + formatted;
 		}
 
 		return formatted;
@@ -860,6 +866,15 @@ export class NumberFormatter extends BaseObject {
 	 */
 	public get outputFormat(): string {
 		return this._outputFormat;
+	}
+
+	public set forceLTR(value: boolean) {
+		this._forceLTR = value;
+		this.invalidateSprite();
+	}
+
+	public get forceLTR(): boolean {
+		return this._forceLTR;
 	}
 
 	/**

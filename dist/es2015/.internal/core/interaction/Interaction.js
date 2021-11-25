@@ -464,6 +464,7 @@ var Interaction = /** @class */ (function (_super) {
                         }
                     }),
                     io.events.on("over", function (e) {
+                        //console.log("whelab over")
                         if (io.wheelable) {
                             _this.lockWheel();
                         }
@@ -961,8 +962,8 @@ var Interaction = /** @class */ (function (_super) {
         mod *= this.getMouseOption(io, "sensitivity");
         // Calculate deltas
         if (ev instanceof WheelEvent) {
-            deltaX = Math.round((-1 * ev.wheelDeltaX) || ev.deltaX) * mod;
-            deltaY = Math.round((-1 * ev.wheelDeltaY) || ev.deltaY) * mod;
+            deltaX = Math.round((-1 * ev.wheelDeltaX) || (ev.deltaX * mod));
+            deltaY = Math.round((-1 * ev.wheelDeltaY) || (ev.deltaY * mod));
         }
         else {
             throw new Error("Invalid event type");
@@ -1152,7 +1153,7 @@ var Interaction = /** @class */ (function (_super) {
                 return;
             }
             // Should we delay "out" if this is happening on a touch device?
-            if (pointer.touch && !force && !this.old(pointer)) {
+            if (pointer && pointer.touch && !force && !this.old(pointer)) {
                 // This is a touch pointer, and it hasn't moved, let's pretend
                 // the object is still hovered, and act as per "behavior" setting
                 var behavior = this.getHoverOption(io, "touchOutBehavior");

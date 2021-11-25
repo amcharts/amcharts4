@@ -1796,6 +1796,7 @@ export class XYChart extends SerialChart {
 			scrollbar.toBack();
 			scrollbar.orientation = "horizontal";
 			scrollbar.events.on("rangechanged", this.handleXScrollbarChange, this, false);
+			this.events.on("datavalidated", () => scrollbar.updateThumb(false), this, false);
 			// accessibility related
 			scrollbar.adapter.add("positionValue", (arg) => {
 				let xAxis = this.xAxes.getIndex(0);
@@ -1838,6 +1839,7 @@ export class XYChart extends SerialChart {
 			scrollbar.toFront();
 			scrollbar.orientation = "vertical";
 			scrollbar.events.on("rangechanged", this.handleYScrollbarChange, this, false);
+			this.events.on("datavalidated", () => scrollbar.updateThumb(false), this, false);
 			// accessibility related
 			scrollbar.adapter.add("positionValue", (arg) => {
 				let yAxis = this.yAxes.getIndex(0);

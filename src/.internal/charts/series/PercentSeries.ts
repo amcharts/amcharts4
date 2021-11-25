@@ -1007,10 +1007,12 @@ export class PercentSeries extends Series {
 	protected handleSliceScale(event: AMEvent<this["_slice"], ISpriteEvents>["propertychanged"]): void {
 		let slice: this["_slice"] = event.target;
 		let dataItem: this["_dataItem"] = <this["_dataItem"]>slice.dataItem;
-		$iter.each(dataItem.bullets.iterator(), (a) => {
-			let value = a[1];
-			this.positionBullet(value);
-		});
+		if(dataItem && dataItem.bullets){
+			$iter.each(dataItem.bullets.iterator(), (a) => {
+				let value = a[1];
+				this.positionBullet(value);
+			});
+		}
 	}
 
 	/**

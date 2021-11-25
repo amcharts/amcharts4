@@ -260,43 +260,45 @@ export function viewPortHandler(sprite) {
     }
 }
 export function queueHandler(sprite) {
-    sprite.__disabled = false;
-    sprite.tooltipContainer.__disabled = false;
-    sprite.events.enableType("appeared");
-    sprite.dispatch("removedfromqueue");
-    if (sprite.showOnInit) {
-        sprite.events.on("appeared", function () {
-            removeFromQueue(sprite);
-        });
-    }
-    if (sprite.vpDisposer) {
-        sprite.vpDisposer.dispose();
-    }
-    if (sprite instanceof Container) {
-        sprite.invalidateLabels();
-    }
-    if (sprite.tooltipContainer) {
-        sprite.tooltipContainer.invalidateLayout();
-    }
-    if (sprite instanceof Component) {
-        sprite.invalidateData();
-        sprite.reinit();
-        sprite.events.once("datavalidated", function () {
+    if (sprite && sprite.tooltipContainer) {
+        sprite.__disabled = false;
+        sprite.tooltipContainer.__disabled = false;
+        sprite.events.enableType("appeared");
+        sprite.dispatch("removedfromqueue");
+        if (sprite.showOnInit) {
+            sprite.events.on("appeared", function () {
+                removeFromQueue(sprite);
+            });
+        }
+        if (sprite.vpDisposer) {
+            sprite.vpDisposer.dispose();
+        }
+        if (sprite instanceof Container) {
+            sprite.invalidateLabels();
+        }
+        if (sprite.tooltipContainer) {
+            sprite.tooltipContainer.invalidateLayout();
+        }
+        if (sprite instanceof Component) {
+            sprite.invalidateData();
+            sprite.reinit();
+            sprite.events.once("datavalidated", function () {
+                if (sprite.showOnInit) {
+                    sprite.appear();
+                }
+                else {
+                    removeFromQueue(sprite);
+                }
+            });
+        }
+        else {
+            sprite.reinit();
+            sprite.events.once("inited", function () {
+                removeFromQueue(sprite);
+            });
             if (sprite.showOnInit) {
                 sprite.appear();
             }
-            else {
-                removeFromQueue(sprite);
-            }
-        });
-    }
-    else {
-        sprite.reinit();
-        sprite.events.once("inited", function () {
-            removeFromQueue(sprite);
-        });
-        if (sprite.showOnInit) {
-            sprite.appear();
         }
     }
 }

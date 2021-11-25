@@ -255,8 +255,9 @@ export declare class Scrollbar extends Container {
     protected dispatchRangeChange(): void;
     /**
      * Updates the "thumb" element. A draggable element between the grips.
+     * @ignore
      */
-    protected updateThumb(): void;
+    updateThumb(dispatchEvents?: boolean): void;
     /**
      * Updates extremes of the scrollbar.
      */

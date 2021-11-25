@@ -12,7 +12,7 @@ const rules = new Dictionary<string, CounterDisposer>();
  * @param prefix  Prefix to addtach to class names
  * @return A MultiDisposer with style rules
  */
-export default function (element: ShadowRoot | null, prefix?: string): IDisposer {
+export default function(element: ShadowRoot | null, prefix?: string): IDisposer {
 	const newPrefix = (prefix ? prefix : "amexport");
 
 	let colorSet = new InterfaceColorSet();
@@ -67,7 +67,7 @@ export default function (element: ShadowRoot | null, prefix?: string): IDisposer
 				//"text-indent": "-9999px",
 			}),
 
-			new StyleRule(element, `div:hover .${newPrefix}-item.${newPrefix}-item-level-0, .${newPrefix}-item.${newPrefix}-item-level-0.active`, {
+			new StyleRule(element, `div:hover > div > .${newPrefix}-menu .${newPrefix}-item.${newPrefix}-item-level-0, .${newPrefix}-item.${newPrefix}-item-level-0.active`, {
 				"opacity": "0.9",
 			}),
 

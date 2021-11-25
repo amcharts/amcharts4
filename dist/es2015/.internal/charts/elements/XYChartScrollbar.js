@@ -464,9 +464,12 @@ var XYChartScrollbar = /** @class */ (function (_super) {
     };
     /**
      * Updates scrollbar thumb.
+     *
+     * @ignore
      */
-    XYChartScrollbar.prototype.updateThumb = function () {
-        _super.prototype.updateThumb.call(this);
+    XYChartScrollbar.prototype.updateThumb = function (dispatchEvents) {
+        if (dispatchEvents === void 0) { dispatchEvents = true; }
+        _super.prototype.updateThumb.call(this, dispatchEvents);
         if (this._unselectedOverlay) {
             var thumb = this.thumb;
             var x = thumb.pixelX || 0;

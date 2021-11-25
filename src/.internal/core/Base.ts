@@ -1139,7 +1139,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 
 		// Truncate the list if it contains less items than the config
 		// array
-		while ((configValue.length + extraCount) < item.length) {
+		while (!parent && (configValue.length + extraCount) < item.length) {
 			item.pop();
 		}
 

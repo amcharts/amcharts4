@@ -755,6 +755,7 @@ var Legend = /** @class */ (function (_super) {
         var dataContext = item.dataContext;
         if (!dataContext.visible || dataContext.isHiding || (dataContext instanceof Sprite && dataContext.isHidden)) {
             item.color = item.colorOrig;
+            dataContext.appeared = true;
             item.itemContainer.isActive = false;
             if (dataContext.hidden === true) {
                 dataContext.hidden = false;
@@ -769,6 +770,7 @@ var Legend = /** @class */ (function (_super) {
         }
         else {
             item.itemContainer.isActive = true;
+            dataContext.appeared = true;
             if (dataContext.hide) {
                 dataContext.hide();
             }

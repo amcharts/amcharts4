@@ -291,7 +291,7 @@ export declare class Label extends Container {
      */
     private maybeHideOversized;
     /**
-     * Aligns the lines horizontally ant vertically, based on properties.
+     * Aligns the lines horizontally and vertically, based on properties.
      *
      * @ignore Exclude from docs
      */

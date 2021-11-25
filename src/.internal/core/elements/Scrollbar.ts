@@ -280,7 +280,9 @@ export class Scrollbar extends Container {
 		// and should only be started to access when parent is set
 
 		// Set events
-		this.events.on("transformed", this.updateThumb, this, false);
+		this.events.on("transformed", () => {
+			this.updateThumb()
+		}, this, false);
 
 		// Initial positions
 		this.start = 0;
@@ -489,8 +491,9 @@ export class Scrollbar extends Container {
 
 	/**
 	 * Updates the "thumb" element. A draggable element between the grips.
+	 * @ignore
 	 */
-	protected updateThumb(): void {
+	public updateThumb(dispatchEvents: boolean = true): void {
 
 		if (!this.parent) {
 			return;
@@ -591,7 +594,7 @@ export class Scrollbar extends Container {
 		this.readerValueNow = "" + Math.round(start * 100);
 		this.readerValueText = thumb.readerTitle;
 
-		if (!this._skipRangeEvents && this.updateWhileMoving) {
+		if (!this._skipRangeEvents && this.updateWhileMoving && dispatchEvents) {
 			this.dispatchRangeChange();
 		}
 	}

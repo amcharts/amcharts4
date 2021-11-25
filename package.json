@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@amcharts/amcharts4",
-  "version": "4.10.22",
+  "version": "4.10.23",
   "repository": {
     "type": "git",
     "url": "https://github.com/amcharts/amcharts4.git"
@@ -30,6 +30,8 @@
     "d3-force": "^2.0.1",
     "d3-geo": "^2.0.1",
     "d3-geo-projection": "^3.0.0",
+    "d3-selection": "^1.0.2",
+    "d3-transition": "^1.0.1",
     "pdfmake": "^0.1.36",
     "polylabel": "^1.0.2",
     "raf": "^3.4.1",
@@ -37,7 +39,6 @@
     "rgbcolor": "^1.0.1",
     "stackblur-canvas": "^2.0.0",
     "tslib": "^2.0.1",
-    "venn.js": "^0.2.20",
     "xlsx": "^0.16.4"
   },
   "devDependencies": {

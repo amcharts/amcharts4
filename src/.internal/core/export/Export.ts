@@ -5498,7 +5498,7 @@ export class Export extends Validatable {
 	 * @async
 	 */
 	private async _xlsx(): Promise<any> {
-		return await import(/* webpackChunkName: "xlsx" */ "xlsx");
+		return await import(/* webpackChunkName: "xlsx" */ "xlsx/dist/xlsx.core.min.js");
 	}
 
 	/**

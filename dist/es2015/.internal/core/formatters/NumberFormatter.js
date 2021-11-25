@@ -49,6 +49,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * trigger special formatting if "a" format modifier is used.
          */
         _this._smallNumberThreshold = 1.00;
+        _this._forceLTR = false;
         _this.className = "NumberFormatter";
         _this.applyTheme();
         return _this;
@@ -142,6 +143,9 @@ var NumberFormatter = /** @class */ (function (_super) {
             }
             // Format
             formatted = details.template.split($strings.PLACEHOLDER).join(this.applyFormat(source, details));
+        }
+        if (this.forceLTR) {
+            formatted = "‎" + formatted;
         }
         return formatted;
     };
@@ -749,6 +753,17 @@ var NumberFormatter = /** @class */ (function (_super) {
          */
         set: function (outputFormat) {
             this._outputFormat = outputFormat.toLowerCase();
+            this.invalidateSprite();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NumberFormatter.prototype, "forceLTR", {
+        get: function () {
+            return this._forceLTR;
+        },
+        set: function (value) {
+            this._forceLTR = value;
             this.invalidateSprite();
         },
         enumerable: true,

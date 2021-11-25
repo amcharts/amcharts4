@@ -53,7 +53,7 @@ export default function (element, prefix) {
                 "min-height": "30px",
                 "transition": "all 100ms ease-in-out",
             }),
-            new StyleRule(element, "div:hover ." + newPrefix + "-item." + newPrefix + "-item-level-0, ." + newPrefix + "-item." + newPrefix + "-item-level-0.active", {
+            new StyleRule(element, "div:hover > div > ." + newPrefix + "-menu ." + newPrefix + "-item." + newPrefix + "-item-level-0, ." + newPrefix + "-item." + newPrefix + "-item-level-0.active", {
                 "opacity": "0.9",
             }),
             new StyleRule(element, "." + newPrefix + "-item." + newPrefix + "-item-level-0 > a", {

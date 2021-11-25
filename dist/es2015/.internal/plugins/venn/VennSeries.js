@@ -16,7 +16,7 @@ import { percent } from "../../core/utils/Percent";
 import { Sprite } from "../../core/Sprite";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import * as venn from "venn.js";
+import * as venn from "../../venn.js/index.js";
 /**
  * ============================================================================
  * DATA ITEM

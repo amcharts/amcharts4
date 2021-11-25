@@ -270,11 +270,11 @@ var PieChart = /** @class */ (function (_super) {
          *
          * ```TypeScript
          * // Set pie chart to be at 50% of the available space
-         * pieChart.radius = am4core.percent.percent(50);
+         * pieChart.radius = am4core.percent(50);
          * ```
          * ```JavaScript
          * // Set pie chart to be at 50% of the available space
-         * pieChart.radius = am4core.percent.percent(50);
+         * pieChart.radius = am4core.percent(50);
          * ```
          * ```JSON
          * {
@@ -315,11 +315,11 @@ var PieChart = /** @class */ (function (_super) {
          *
          * ```TypeScript
          * // Set pie chart to be at 50% of the available space
-         * pieChart.innerRadius = am4core.percent.percent(50);
+         * pieChart.innerRadius = am4core.percent(50);
          * ```
          * ```JavaScript
          * // Set pie chart to be at 50% of the available space
-         * pieChart.innerRadius = am4core.percent.percent(50);
+         * pieChart.innerRadius = am4core.percent(50);
          * ```
          * ```JSON
          * {

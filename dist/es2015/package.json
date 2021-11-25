@@ -1,6 +1,6 @@
 {
   "name": "@amcharts/amcharts4",
-  "version": "4.10.22",
+  "version": "4.10.23",
   "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
   "description": "amCharts 4",
   "homepage": "https://www.amcharts.com/",
@@ -36,6 +36,8 @@
     "d3-force": "^2.0.1",
     "d3-geo": "^2.0.1",
     "d3-geo-projection": "^3.0.0",
+    "d3-selection": "^1.0.2",
+    "d3-transition": "^1.0.1",
     "pdfmake": "^0.2.2",
     "polylabel": "^1.0.2",
     "raf": "^3.4.1",
@@ -43,7 +45,6 @@
     "rgbcolor": "^1.0.1",
     "stackblur-canvas": "^2.0.0",
     "tslib": "^2.0.1",
-    "venn.js": "^0.2.20",
     "xlsx": "^0.17.0"
   }
 }

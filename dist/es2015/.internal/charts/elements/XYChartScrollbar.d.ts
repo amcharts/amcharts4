@@ -158,8 +158,10 @@ export declare class XYChartScrollbar extends Scrollbar {
     protected zoomOutAxes(): void;
     /**
      * Updates scrollbar thumb.
+     *
+     * @ignore
      */
-    protected updateThumb(): void;
+    updateThumb(dispatchEvents?: boolean): void;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

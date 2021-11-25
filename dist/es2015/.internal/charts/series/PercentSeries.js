@@ -756,10 +756,12 @@ var PercentSeries = /** @class */ (function (_super) {
         var _this = this;
         var slice = event.target;
         var dataItem = slice.dataItem;
-        $iter.each(dataItem.bullets.iterator(), function (a) {
-            var value = a[1];
-            _this.positionBullet(value);
-        });
+        if (dataItem && dataItem.bullets) {
+            $iter.each(dataItem.bullets.iterator(), function (a) {
+                var value = a[1];
+                _this.positionBullet(value);
+            });
+        }
     };
     /**
      * Repositions bullet and labels when slice moves.

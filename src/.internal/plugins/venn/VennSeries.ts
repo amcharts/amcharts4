@@ -19,7 +19,7 @@ import { Sprite } from "../../core/Sprite";
 import { Animation } from "../../core/utils/Animation";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import * as venn from "venn.js";
+import * as venn from "../../venn.js/index.js";
 
 /**
  * ============================================================================
@@ -208,7 +208,7 @@ export interface IVennSeriesAdapters extends IPercentSeriesAdapters, IVennSeries
 
 /**
  * Creates Venn Diagram Series.
- * 
+ *
  * Venn series uses Ben Frederickson's [venn.js](https://github.com/benfred/venn.js).
  *
  * @see {@link IVennSeriesEvents} for a list of available Events
@@ -273,7 +273,7 @@ export class VennSeries extends PercentSeries {
 
 	/**
 	 * A sprite which is visible when slice is hovered.
-	 * 
+	 *
 	 * This sprite gets the path of a hovered slice so the shape is identical. It
 	 * helps create nice hover effect.
 	 */
@@ -395,7 +395,7 @@ export class VennSeries extends PercentSeries {
 
 	/**
 	 * Inits a Slice label.
-	 * 
+	 *
 	 * @param Label
 	 */
 	protected initLabel(label: this["_label"]) {
@@ -569,7 +569,7 @@ export class VennSeries extends PercentSeries {
 
 	/**
 	 * Returns data item by category.
-	 * 
+	 *
 	 * @param   category  Category
 	 * @return            Data item
 	 */

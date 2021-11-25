@@ -308,47 +308,49 @@ export function viewPortHandler(sprite: Sprite) {
 }
 
 export function queueHandler(sprite: Sprite) {
-	sprite.__disabled = false;
-	sprite.tooltipContainer.__disabled = false;
-	sprite.events.enableType("appeared");
-	sprite.dispatch("removedfromqueue");
+	if (sprite && sprite.tooltipContainer) {
+		sprite.__disabled = false;
+		sprite.tooltipContainer.__disabled = false;
+		sprite.events.enableType("appeared");
+		sprite.dispatch("removedfromqueue");
 
-	if (sprite.showOnInit) {
-		sprite.events.on("appeared", () => {
-			removeFromQueue(sprite);
-		})
-	}
+		if (sprite.showOnInit) {
+			sprite.events.on("appeared", () => {
+				removeFromQueue(sprite);
+			})
+		}
 
-	if (sprite.vpDisposer) {
-		sprite.vpDisposer.dispose();
-	}
-	if (sprite instanceof Container) {
-		sprite.invalidateLabels();
-	}
+		if (sprite.vpDisposer) {
+			sprite.vpDisposer.dispose();
+		}
+		if (sprite instanceof Container) {
+			sprite.invalidateLabels();
+		}
 
-	if (sprite.tooltipContainer) {
-		sprite.tooltipContainer.invalidateLayout();
-	}
-	if (sprite instanceof Component) {
-		sprite.invalidateData();
-		sprite.reinit();
+		if (sprite.tooltipContainer) {
+			sprite.tooltipContainer.invalidateLayout();
+		}
+		if (sprite instanceof Component) {
+			sprite.invalidateData();
+			sprite.reinit();
 
-		sprite.events.once("datavalidated", () => {
+			sprite.events.once("datavalidated", () => {
+				if (sprite.showOnInit) {
+					sprite.appear();
+				}
+				else {
+					removeFromQueue(sprite);
+				}
+			})
+		}
+		else {
+			sprite.reinit();
+			sprite.events.once("inited", () => {
+				removeFromQueue(sprite);
+			})
 			if (sprite.showOnInit) {
 				sprite.appear();
 			}
-			else {
-				removeFromQueue(sprite);
-			}
-		})
-	}
-	else {
-		sprite.reinit();
-		sprite.events.once("inited", () => {
-			removeFromQueue(sprite);
-		})
-		if (sprite.showOnInit) {
-			sprite.appear();
 		}
 	}
 }

@@ -5,6 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.23] - 2021-11-25
+
+### Added
+- New `NumberFormatter` setting: `forceLTR`. If set to `true` will force all numbers to be formatted as LTR, even if RTL is enabled.
+
+### Changed
+- Using minified version of `xlsx` library for XLSX exports.
+
+### Fixed
+- If chart queuing was enabled and chart was disposed quickly before it had a chance to initialize, it was resulting in a critical error.
+- In some cases (after programmatic hover) tapping on a touch device could produce an error in `MapChart`.
+- JSON config: in some cases items in `children` were not being created.
+- Mouse wheel zooming was not working properly in recent versions of Firefox.
+- Fixing security vulnerability ([`CVE-2021-3807`](https://nvd.nist.gov/vuln/detail/CVE-2021-3807)) with `venn.js` dependency.
+- Tweaking hover styles for `ExportMenu` CSS so they do not get invoked unless hovered on chart's container.
+- Reader labels were not being updated on Scrollbar elements when data in chart was updated.
+- `Annotation` plugin will now not go into edit mode after `data` is set.
+- In some cases wrapped and center-aligned axis labels could get a bit offset.
+- In some cases toggling series on and off was not updating related value axis scale on lazy-loaded charts.
+
+
 ## [4.10.22] - 2021-08-20
 
 ### Changed

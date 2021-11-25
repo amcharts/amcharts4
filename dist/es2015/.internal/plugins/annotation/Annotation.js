@@ -1215,6 +1215,7 @@ var Annotation = /** @class */ (function (_super) {
             if (this._fabric || this._exportInited) {
                 // Canvas is ready, update now
                 this.loadData();
+                this.deactivate();
             }
             else {
                 // Canvas is not yeat ready, just save data for later

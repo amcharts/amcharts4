@@ -99,7 +99,9 @@ var Scrollbar = /** @class */ (function (_super) {
         // ... is set in `applyInternalDefaults()` because it accesses `language`
         // and should only be started to access when parent is set
         // Set events
-        _this.events.on("transformed", _this.updateThumb, _this, false);
+        _this.events.on("transformed", function () {
+            _this.updateThumb();
+        }, _this, false);
         // Initial positions
         _this.start = 0;
         _this.end = 1;
@@ -283,8 +285,10 @@ var Scrollbar = /** @class */ (function (_super) {
     };
     /**
      * Updates the "thumb" element. A draggable element between the grips.
+     * @ignore
      */
-    Scrollbar.prototype.updateThumb = function () {
+    Scrollbar.prototype.updateThumb = function (dispatchEvents) {
+        if (dispatchEvents === void 0) { dispatchEvents = true; }
         if (!this.parent) {
             return;
         }
@@ -345,7 +349,7 @@ var Scrollbar = /** @class */ (function (_super) {
         thumb.readerValueText = thumb.readerTitle;
         this.readerValueNow = "" + Math.round(start * 100);
         this.readerValueText = thumb.readerTitle;
-        if (!this._skipRangeEvents && this.updateWhileMoving) {
+        if (!this._skipRangeEvents && this.updateWhileMoving && dispatchEvents) {
             this.dispatchRangeChange();
         }
     };

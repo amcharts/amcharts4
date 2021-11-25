@@ -1015,6 +1015,7 @@ export class Legend extends Component {
 		if (!dataContext.visible || dataContext.isHiding || (dataContext instanceof Sprite && dataContext.isHidden)) {
 			item.color = item.colorOrig;
 
+			dataContext.appeared = true;
 			item.itemContainer.isActive = false;
 
 			if (dataContext.hidden === true) {
@@ -1033,6 +1034,7 @@ export class Legend extends Component {
 		}
 		else {
 			item.itemContainer.isActive = true;
+			dataContext.appeared = true;
 
 			if (dataContext.hide) {
 				dataContext.hide();
