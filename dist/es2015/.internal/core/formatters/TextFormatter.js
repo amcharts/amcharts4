@@ -94,7 +94,7 @@ var TextFormatter = /** @class */ (function (_super) {
     TextFormatter.prototype.escape = function (text) {
         return text.
             replace(/\[\[/g, registry.getPlaceholder("1")).
-            replace(/([^\/]{1})\]\]/g, "$1" + registry.getPlaceholder("2")).
+            replace(/([^\/\]]{1})\]\]/g, "$1" + registry.getPlaceholder("2")).
             replace(/\]\]/g, registry.getPlaceholder("2")).
             replace(/\{\{/g, registry.getPlaceholder("3")).
             replace(/\}\}/g, registry.getPlaceholder("4")).
@@ -113,7 +113,7 @@ var TextFormatter = /** @class */ (function (_super) {
             replace(new RegExp(registry.getPlaceholder("2"), "g"), "]]").
             replace(new RegExp(registry.getPlaceholder("3"), "g"), "{{").
             replace(new RegExp(registry.getPlaceholder("4"), "g"), "}}").
-            replace(new RegExp(registry.getPlaceholder("5"), "g"), "'");
+            replace(new RegExp(registry.getPlaceholder("5"), "g"), "''");
     };
     /**
      * Cleans up the text text for leftover double square brackets.

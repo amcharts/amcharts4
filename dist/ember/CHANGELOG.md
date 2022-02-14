@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.24] - 2022-02-14
+
+### Changed
+- When auto-wrapping labels, text will no longer break on dots to prevent fractional numbers from wrapping.
+
+### Fixed
+- Multiple square bracket and apostrophe escaping was not working properly.
+
+
 ## [4.10.23] - 2021-11-25
 
 ### Added

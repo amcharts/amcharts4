@@ -241,7 +241,7 @@ export function splitTextByCharCount(text, maxChars, fullWords, rtl, fullWordFal
         // Split by spacing
         var currentIndex = -1;
         //let tmpText = text.replace(/([,;:!?\\\/\.]+[\s]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
-        var tmpText = text.replace(/([,;:!?\\\/\.]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
+        var tmpText = text.replace(/([,;:!?\\\/]+|[\s])/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
         var words = tmpText.split($strings.PLACEHOLDER);
         // Glue end-of-word punctuation to the word itself
         for (var i = 1; i < words.length; i++) {
