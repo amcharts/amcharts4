@@ -1528,6 +1528,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (source.strokeModifier) {
 			this.strokeModifier = source.strokeModifier.clone();
 		}
+
+		if (source.focusFilter) {
+			this.focusFilter = source.focusFilter.clone();
+		}
 	}
 
 	/**
@@ -5045,7 +5049,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this.interactions.focusable = value;
 				if (value) {
 					this.setSVGAttribute({ "focusable": value });
-					if (!this._tabindex) {
+					if (!$type.hasValue(this._tabindex)) {
 						this.tabindex = 0;
 					}
 				}
@@ -5230,12 +5234,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this.interactions.tabindex = value;
 			this.setSVGAttribute({ "tabindex": value });
 			this._tabindex = value;
-			if (value > -1) {
-				this.focusable = true;
-			}
-			else {
-				this.focusable = undefined;
-			}
+			this.focusable = true;
 		}
 	}
 

@@ -322,6 +322,15 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
      * @since 4.10.17
      */
     showOnTick?: number;
+    /**
+     * Base value, used when calculating node radius.
+     *
+     * Set it to a value, or `undefined` if you want to calculate from the
+     * lowest value in series.
+     *
+     * @default 0
+     */
+    baseValue?: number;
 }
 /**
  * Defines events for [[ForceDirectedSeries]].
@@ -413,6 +422,10 @@ export declare class ForceDirectedSeries extends Series {
     /**
      * @ignore
      */
+    protected _minValue: number;
+    /**
+     * @ignore
+     */
     forceLinks: d3force.SimulationLinkDatum<d3force.SimulationNodeDatum>[];
     /**
      * @ignore
@@ -436,6 +449,15 @@ export declare class ForceDirectedSeries extends Series {
      * @return             Max
      */
     protected getMaxValue(dataItems: OrderedListTemplate<ForceDirectedSeriesDataItem>, max: number): number;
+    /**
+     * Returns maximum value from all supplied data items.
+     *
+     * @ignore
+     * @param   dataItems  List of data items
+     * @param   max        Default max
+     * @return             Max
+     */
+    protected getMinValue(dataItems: OrderedListTemplate<ForceDirectedSeriesDataItem>, min: number): number;
     /**
      * Validates (processes) data items.
      *
@@ -551,6 +573,16 @@ export declare class ForceDirectedSeries extends Series {
     * @return Minimum radius (px or percent)
     */
     minRadius: number | Percent;
+    /**
+     * Base value. If you set it to null, real minimum value of your data will be used.
+     *
+     * @default 0
+     * @param  value  Minimum value
+     */
+    /**
+    * @return Minimum value
+    */
+    baseValue: number;
     /**
      * Biggest possible radius in pixels of the node circle.
      *

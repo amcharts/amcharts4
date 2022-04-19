@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.25] - 2022-04-19
+
+### Added
+- `baseValue` added to `ForceDirectedSeries` (default: `0`). Used for calculating node radius.
+
+### Fixed
+- `focusFilter` property was not being cloned.
+- Setting `tabindex` to a negative value was not working properly.
+
+
 ## [4.10.24] - 2022-02-14
 
 ### Changed

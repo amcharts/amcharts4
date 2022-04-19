@@ -3,14 +3,22 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [UNRELEASED] - ????-??-??
+## [4.1.23] - 2022-03-31
 
 ### Added
 - New map: `regions/world/africaMorocco*` (Moroccan version of the map of Africa).
+- New map: `latvia2021*` (updated in 2021 region map for Latvia).
+- New map: Taiwan.
+- New map: `spainProvinces2*` (same as `spainProvinces*` except with overseas territories moved close to mainland).
+- New map: `franceDepartments2*` (mainland + overseas departments).
 
 ### Fixed
 - Fixed area IDs in map of Slovenia.
 - Fixed JSON syntax error in `ugandaLow.json`.
+- Added some missing maps to `countries` and `countries2` data files.
+- Fixed some name typos in the map of Hungary.
+- Fixed names in the map of Chad.
+- Fixed Morelos (Mexico) county map.
 
 
 ## [4.1.22] - 2021-09-24

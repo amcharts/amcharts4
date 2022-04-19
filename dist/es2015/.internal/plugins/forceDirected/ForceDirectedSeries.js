@@ -427,6 +427,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         _this.manyBodyStrength = -15;
         _this.centerStrength = 0.8;
         _this.showOnTick = 10;
+        _this.baseValue = 0;
         _this.setPropertyValue("dragFixedNodes", false);
         _this.setPropertyValue("velocityDecay", 0.4);
         _this.events.on("maxsizechanged", function () {
@@ -474,6 +475,29 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         return max;
     };
     /**
+     * Returns maximum value from all supplied data items.
+     *
+     * @ignore
+     * @param   dataItems  List of data items
+     * @param   max        Default max
+     * @return             Max
+     */
+    ForceDirectedSeries.prototype.getMinValue = function (dataItems, min) {
+        var _this = this;
+        dataItems.each(function (dataItem) {
+            if (dataItem.value < min) {
+                min = dataItem.value;
+            }
+            if (dataItem.children) {
+                var cmin = _this.getMaxValue(dataItem.children, min);
+                if (cmin < min) {
+                    min = cmin;
+                }
+            }
+        });
+        return min;
+    };
+    /**
      * Validates (processes) data items.
      *
      * @ignore Exclude from docs
@@ -486,6 +510,7 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         }
         this._dataDisposers.push(new ListDisposer(this.links));
         this._maxValue = this.getMaxValue(this.dataItems, 0);
+        this._minValue = this.getMinValue(this.dataItems, this._maxValue);
         this.forceLinks = [];
         this.colors.reset();
         var index = 0;
@@ -718,7 +743,11 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
         var minSide = (this.innerWidth + this.innerHeight) / 2;
         var minRadius = $utils.relativeToValue(this.minRadius, minSide);
         var maxRadius = $utils.relativeToValue(this.maxRadius, minSide);
-        var radius = minRadius + dataItem.value / this._maxValue * (maxRadius - minRadius);
+        var baseValue = this.baseValue;
+        if (baseValue == null) {
+            baseValue = this._minValue;
+        }
+        var radius = minRadius + (dataItem.value - baseValue) / (this._maxValue - baseValue) * (maxRadius - minRadius);
         if (!$type.isNumber(radius)) {
             radius = minRadius;
         }
@@ -928,6 +957,25 @@ var ForceDirectedSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("minRadius", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ForceDirectedSeries.prototype, "baseValue", {
+        /**
+         * @return Minimum value
+         */
+        get: function () {
+            return this.getPropertyValue("baseValue");
+        },
+        /**
+         * Base value. If you set it to null, real minimum value of your data will be used.
+         *
+         * @default 0
+         * @param  value  Minimum value
+         */
+        set: function (value) {
+            this.setPropertyValue("baseValue", value, true);
         },
         enumerable: true,
         configurable: true

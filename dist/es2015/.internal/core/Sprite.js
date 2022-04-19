@@ -820,6 +820,9 @@ var Sprite = /** @class */ (function (_super) {
         if (source.strokeModifier) {
             this.strokeModifier = source.strokeModifier.clone();
         }
+        if (source.focusFilter) {
+            this.focusFilter = source.focusFilter.clone();
+        }
     };
     /**
      * Destroys this object and all related data.
@@ -4071,7 +4074,7 @@ var Sprite = /** @class */ (function (_super) {
                     this.interactions.focusable = value;
                     if (value) {
                         this.setSVGAttribute({ "focusable": value });
-                        if (!this._tabindex) {
+                        if (!$type.hasValue(this._tabindex)) {
                             this.tabindex = 0;
                         }
                     }
@@ -4266,12 +4269,7 @@ var Sprite = /** @class */ (function (_super) {
                 this.interactions.tabindex = value;
                 this.setSVGAttribute({ "tabindex": value });
                 this._tabindex = value;
-                if (value > -1) {
-                    this.focusable = true;
-                }
-                else {
-                    this.focusable = undefined;
-                }
+                this.focusable = true;
             }
         },
         enumerable: true,

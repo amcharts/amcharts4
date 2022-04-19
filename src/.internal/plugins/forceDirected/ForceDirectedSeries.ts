@@ -571,6 +571,16 @@ export interface IForceDirectedSeriesProperties extends ISeriesProperties {
 	 * @since 4.10.17
 	 */
 	showOnTick?: number;
+
+	/**
+	 * Base value, used when calculating node radius.
+	 *
+	 * Set it to a value, or `undefined` if you want to calculate from the
+	 * lowest value in series.
+	 *
+	 * @default 0
+	 */
+	baseValue?: number;
 }
 
 /**
@@ -679,6 +689,11 @@ export class ForceDirectedSeries extends Series {
 	/**
 	 * @ignore
 	 */
+	protected _minValue: number;
+
+	/**
+	 * @ignore
+	 */
 	public forceLinks: d3force.SimulationLinkDatum<d3force.SimulationNodeDatum>[];
 
 	/**
@@ -719,6 +734,7 @@ export class ForceDirectedSeries extends Series {
 		this.centerStrength = 0.8;
 
 		this.showOnTick = 10;
+		this.baseValue = 0;
 
 		this.setPropertyValue("dragFixedNodes", false);
 		this.setPropertyValue("velocityDecay", 0.4);
@@ -774,6 +790,30 @@ export class ForceDirectedSeries extends Series {
 	}
 
 	/**
+	 * Returns maximum value from all supplied data items.
+	 *
+	 * @ignore
+	 * @param   dataItems  List of data items
+	 * @param   max        Default max
+	 * @return             Max
+	 */
+	protected getMinValue(dataItems: OrderedListTemplate<ForceDirectedSeriesDataItem>, min: number): number {
+		dataItems.each((dataItem) => {
+			if (dataItem.value < min) {
+				min = dataItem.value;
+			}
+
+			if (dataItem.children) {
+				let cmin = this.getMaxValue(dataItem.children, min);
+				if (cmin < min) {
+					min = cmin;
+				}
+			}
+		})
+		return min;
+	}
+
+	/**
 	 * Validates (processes) data items.
 	 *
 	 * @ignore Exclude from docs
@@ -788,6 +828,7 @@ export class ForceDirectedSeries extends Series {
 		this._dataDisposers.push(new ListDisposer(this.links));
 
 		this._maxValue = this.getMaxValue(this.dataItems, 0);
+		this._minValue = this.getMinValue(this.dataItems, this._maxValue);
 
 		this.forceLinks = [];
 
@@ -1069,10 +1110,15 @@ export class ForceDirectedSeries extends Series {
 	protected updateRadius(dataItem: ForceDirectedSeriesDataItem) {
 		let node = dataItem.node;
 		let minSide = (this.innerWidth + this.innerHeight) / 2;
-		let minRadius = $utils.relativeToValue(this.minRadius, minSide)
-		let maxRadius = $utils.relativeToValue(this.maxRadius, minSide)
+		let minRadius = $utils.relativeToValue(this.minRadius, minSide);
+		let maxRadius = $utils.relativeToValue(this.maxRadius, minSide);
 
-		let radius = minRadius + dataItem.value / this._maxValue * (maxRadius - minRadius);
+		let baseValue = this.baseValue;
+		if (baseValue == null) {
+			baseValue = this._minValue;
+		}
+
+		let radius = minRadius + (dataItem.value - baseValue) / (this._maxValue - baseValue) * (maxRadius - minRadius);
 
 		if (!$type.isNumber(radius)) {
 			radius = minRadius;
@@ -1310,6 +1356,24 @@ export class ForceDirectedSeries extends Series {
 	 */
 	public get minRadius(): number | Percent {
 		return this.getPropertyValue("minRadius");
+	}
+
+
+	/**
+	 * Base value. If you set it to null, real minimum value of your data will be used.
+	 *
+	 * @default 0
+	 * @param  value  Minimum value
+	 */
+	public set baseValue(value: number) {
+		this.setPropertyValue("baseValue", value, true);
+	}
+
+	/**
+	 * @return Minimum value
+	 */
+	public get baseValue(): number {
+		return this.getPropertyValue("baseValue");
 	}
 
 	/**

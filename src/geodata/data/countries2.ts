@@ -407,7 +407,7 @@ const countries2: Countries2 = {
 		"country": "Spain",
 		"continent_code": "EU",
 		"continent": "Europe",
-		"maps": [ "spainLow", "spainHigh", "spainProvincesLow", "spainProvincesHigh" ]
+		"maps": [ "spainLow", "spainHigh", "spainProvincesLow", "spainProvincesHigh", "spainProvinces2Low", "spainProvinces2High" ]
 	},
 	"ET": {
 		"country": "Ethiopia",
@@ -449,7 +449,7 @@ const countries2: Countries2 = {
 		"country": "France",
 		"continent_code": "EU",
 		"continent": "Europe",
-		"maps": [ "franceLow", "franceHigh", "franceDepartmentsLow", "franceDepartmentsHigh" ]
+		"maps": [ "franceLow", "franceHigh", "franceDepartmentsLow", "franceDepartmentsHigh", "franceDepartments2Low", "franceDepartments2High" ]
 	},
 	"GA": {
 		"country": "Gabon",
@@ -815,7 +815,7 @@ const countries2: Countries2 = {
 		"country": "Latvia",
 		"continent_code": "EU",
 		"continent": "Europe",
-		"maps": [ "latviaLow", "latviaHigh" ]
+		"maps": [ "latvia2021Low", "latvia2021High", "latviaLow", "latviaHigh" ]
 	},
 	"LY": {
 		"country": "Libya",
@@ -1007,7 +1007,7 @@ const countries2: Countries2 = {
 		"country": "Norway",
 		"continent_code": "EU",
 		"continent": "Europe",
-		"maps": [ "norwayLow", "norwayHigh" ]
+		"maps": [ "norway2020Low", "norway2020High", "norwayLow", "norwayHigh" ]
 	},
 	"NP": {
 		"country": "Nepal",
@@ -1373,7 +1373,7 @@ const countries2: Countries2 = {
 		"country": "Taiwan",
 		"continent_code": "AS",
 		"continent": "Asia",
-		"maps": []
+		"maps": [ "taiwanLow", "taiwanHigh" ]
 	},
 	"TZ": {
 		"country": "Tanzania, United Republic of",
