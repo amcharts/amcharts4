@@ -15,6 +15,10 @@ import { IRectangle } from "../defs/IRectangle";
 import { AMElement } from "../rendering/AMElement";
 import { Group } from "../rendering/Group";
 import { MultiDisposer } from "../utils/Disposer";
+import { Color } from "../utils/Color";
+import { Pattern } from "../rendering/fills/Pattern";
+import { LinearGradient } from "../rendering/fills/LinearGradient";
+import { RadialGradient } from "../rendering/fills/RadialGradient";
 import * as $type from "../utils/Type";
 import { Paper } from "../rendering/Paper";
 /**
@@ -504,6 +508,7 @@ export declare class Label extends Container {
     * @return HTML content
     */
     html: string;
+    protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void;
     /**
      * Indicates whether the whole text should be hidden if it does not fit into
      * its allotted space.

@@ -927,7 +927,7 @@ var countries2 = {
         "country": "Mauritius",
         "continent_code": "AF",
         "continent": "Africa",
-        "maps": []
+        "maps": ["mauritiusLow", "mauritiusHigh"]
     },
     "MV": {
         "country": "Maldives",

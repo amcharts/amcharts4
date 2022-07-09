@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.26] - 2022-07-09
+
+### Fixed
+- Setting `html` on a `Label`, then resetting it, was leaving the old content.
+- Updating HTML label's `fill` was not updating the color of the actual label right away.
+- `SliceGroper` plugin will now handle negative values correctly.
+
+
 ## [4.10.25] - 2022-04-19
 
 ### Added

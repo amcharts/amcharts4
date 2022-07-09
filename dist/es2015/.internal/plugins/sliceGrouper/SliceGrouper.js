@@ -152,7 +152,7 @@ var SliceGrouper = /** @class */ (function (_super) {
                 if (item.dataContext.sliceGrouperOther) {
                     groupSliceItem = item.dataContext;
                 }
-                else if ((_this.limit && (index >= _this.limit)) || (!_this.limit && (value <= _this.threshold))) {
+                else if ((_this.limit && (index >= _this.limit)) || (!_this.limit && (Math.abs(value) <= Math.abs(_this.threshold)))) {
                     groupValue += item.value;
                     item.hiddenInLegend = true;
                     item.hide();
@@ -171,7 +171,7 @@ var SliceGrouper = /** @class */ (function (_super) {
                 }
             });
             // Create "Other" slice
-            if (groupValue > 0) {
+            if (groupValue != 0) {
                 if (groupSliceItem) {
                     groupSliceItem[series.dataFields.value] = groupValue;
                     _this._ignoreDataUpdate = true;

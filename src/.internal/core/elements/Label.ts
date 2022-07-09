@@ -19,6 +19,10 @@ import { registry } from "../Registry";
 import { ITextChunk, getTextFormatter } from "../formatters/TextFormatter";
 import { MultiDisposer } from "../utils/Disposer";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import { Color } from "../utils/Color";
+import { Pattern } from "../rendering/fills/Pattern";
+import { LinearGradient } from "../rendering/fills/LinearGradient";
+import { RadialGradient } from "../rendering/fills/RadialGradient";
 import * as $math from "../utils/Math";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
@@ -554,6 +558,7 @@ export class Label extends Container {
 
 			// Clear the element
 			let group: Group = <Group>this.element;
+			//group.removeChildren();
 
 			this.resetBBox();
 
@@ -1004,6 +1009,7 @@ export class Label extends Container {
 			// Clear the element
 			let group: Group = <Group>this.element;
 			group.removeChildren();
+			this.setCache("lineInfo", [], 0);
 
 			// Create a ForeignObject to use as HTML container
 			let fo = this.paper.foreignObject();
@@ -1622,6 +1628,10 @@ export class Label extends Container {
 	 */
 	public set html(value: string) {
 		this.setPropertyValue("html", value, true);
+		if (!$type.hasValue(value)) {
+			const group: Group = <Group>this.element;
+			group.removeChildrenByTag("foreignObject");
+		}
 	}
 
 	/**
@@ -1629,6 +1639,20 @@ export class Label extends Container {
 	 */
 	public get html(): string {
 		return this.getPropertyValue("html");
+	}
+
+	protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void {
+		super.setFill(value);
+		if (this.html) {
+			const group: Group = <Group>this.element;
+			const divs = group.node.getElementsByTagName("div");
+			for(let i = 0; i < divs.length; i++) {
+				const div = divs[i];
+				if ($type.hasValue(this.fill)) {
+					div.style.color = this.fill.toString();
+				}
+			}
+		}
 	}
 
 	/**

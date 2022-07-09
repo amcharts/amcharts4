@@ -72,4 +72,5 @@ export declare class Group extends AMElement {
      * Removes all children from the group.
      */
     removeChildren(): void;
+    removeChildrenByTag(tag: string): void;
 }

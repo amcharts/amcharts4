@@ -128,6 +128,14 @@ var Group = /** @class */ (function (_super) {
             }
         }
     };
+    Group.prototype.removeChildrenByTag = function (tag) {
+        if (this.node.childNodes) {
+            var remove = this.node.getElementsByTagName(tag);
+            for (var i = 0; i < remove.length; i++) {
+                this.node.removeChild(remove[i]);
+            }
+        }
+    };
     return Group;
 }(AMElement));
 export { Group };
