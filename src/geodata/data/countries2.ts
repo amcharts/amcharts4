@@ -1352,7 +1352,7 @@ const countries2: Countries2 = {
 		"maps": []
 	},
 	"TR": {
-		"country": "Turkey",
+		"country": "Türkiye",
 		"continent_code": "EU",
 		"continent": "Europe",
 		"maps": [ "turkeyLow", "turkeyHigh" ]

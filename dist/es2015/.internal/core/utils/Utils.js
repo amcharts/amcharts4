@@ -635,17 +635,13 @@ export function getYearDay(date, utc) {
  * @return Week number
  * @todo Account for UTC
  */
-export function getWeek(date, utc) {
-    if (utc === void 0) { utc = false; }
-    var day = getYearDay(date, utc) - 1;
-    var week = Math.floor((day - (date.getDay() || 7) + 10) / 7);
-    if (week === 0) {
-        week = 53;
-    }
-    else if (week === 53) {
-        week = 1;
-    }
-    return week;
+export function getWeek(date, _utc) {
+    if (_utc === void 0) { _utc = false; }
+    var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    var day = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - day);
+    var firstDay = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return Math.ceil((((d.getTime() - firstDay.getTime()) / 86400000) + 1) / 7);
 }
 /**
  * Returns a week number in the month.

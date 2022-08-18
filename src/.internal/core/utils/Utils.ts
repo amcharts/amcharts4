@@ -745,16 +745,12 @@ export function getYearDay(date: Date, utc: boolean = false): number {
  * @return Week number
  * @todo Account for UTC
  */
-export function getWeek(date: Date, utc: boolean = false): number {
-	const day = getYearDay(date, utc) - 1;
-	let week = Math.floor((day - (date.getDay() || 7) + 10) / 7);
-	if (week === 0) {
-		week = 53;
-	}
-	else if (week === 53) {
-		week = 1;
-	}
-	return week;
+export function getWeek(date: Date, _utc: boolean = false): number {
+	const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+	const day = d.getUTCDay() || 7;
+	d.setUTCDate(d.getUTCDate() + 4 - day);
+	const firstDay = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+	return Math.ceil((((d.getTime() - firstDay.getTime()) / 86400000) + 1) / 7);
 }
 
 /**

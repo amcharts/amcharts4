@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.27] - 2022-08-18
+
+### Added
+- Slovak locale/translation.
+
+### Changed
+- All D3 libraries are updated to the latest version.
+
+### Fixed
+- Fixed degrading performance with updating data on data-heavy charts with Responsive enabled.
+- "Week of year" was not being calculated properly for the tunr-of-the-year week in some cases.
+- Vertical `ValueAxis` was not respecting `maxZoomFactor`.
+- Changes to `strokeOpacity` on `PercentSeries` elements were not propagating to legend marker.
+
+
 ## [4.10.26] - 2022-07-09
 
 ### Fixed

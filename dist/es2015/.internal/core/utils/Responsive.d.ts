@@ -156,6 +156,7 @@ export declare class Responsive extends BaseObjectEvents {
      * Used to keep track of objects that have rules applied at the moment.
      */
     protected _appliedTargets: string[];
+    protected _timeout?: IDisposer;
     /**
      * Use default rules in addition to the user-defined ones?
      */
@@ -269,6 +270,7 @@ export declare class Responsive extends BaseObjectEvents {
      * @ignore Exclude from docs
      */
     checkRules(force?: boolean): void;
+    protected _applyRules(): void;
     /**
      * Applies current rules to the object.
      *
