@@ -129,7 +129,7 @@ var Responsive = /** @class */ (function (_super) {
             this._component = value;
             // Set up resize monitoring events
             this._responsiveDisposers.push($type.getValue(this.component).events.on("sizechanged", function () { _this.checkRules(); }, this));
-            this._responsiveDisposers.push($type.getValue(this.component).events.on("datavalidated", function () {
+            this._responsiveDisposers.push($type.getValue(this.component).events.once("datavalidated", function () {
                 if (_this._component.isReady()) {
                     _this.checkRules(true);
                 }
@@ -280,6 +280,10 @@ var Responsive = /** @class */ (function (_super) {
         // Init a list of rules to be applied
         var rulesChanged = false;
         var component = $type.getValue(this.component);
+        // Do not perform rule application of target has no size
+        if (component.pixelWidth == 0 || component.pixelHeight == 0) {
+            return;
+        }
         // Check which rules match
         $iter.each(rules.iterator(), function (rule) {
             // Check if rule has an id
@@ -307,13 +311,22 @@ var Responsive = /** @class */ (function (_super) {
                 component.hidden = true;
                 component.events.once("ready", function (ev) {
                     ev.target.show(0);
-                    _this.applyRules();
+                    _this._applyRules();
                 });
                 return;
             }
             this.dispatchImmediately("ruleschanged");
-            this.applyRules();
+            this._applyRules();
         }
+    };
+    Responsive.prototype._applyRules = function () {
+        var _this = this;
+        if (this._timeout) {
+            this._timeout.dispose();
+        }
+        this._timeout = this.setTimeout(function () {
+            _this.applyRules();
+        }, 10);
     };
     /**
      * Applies current rules to the object.

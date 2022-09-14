@@ -135,4 +135,13 @@ export class Group extends AMElement {
 			}
 		}
 	}
+
+	public removeChildrenByTag(tag: string): void {
+		if (this.node.childNodes) {
+			const remove = this.node.getElementsByTagName(tag);
+			for(let i = 0; i < remove.length; i++) {
+				this.node.removeChild(remove[i]);
+			}
+		}
+	}
 }

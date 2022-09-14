@@ -1619,7 +1619,13 @@ export class Component extends Container {
 
 				// remove from start
 				if (1 / (end - start) > maxZoomFactor) {
-					start = end - 1 / maxZoomFactor;
+					if(start <= 0){
+						end = start + 1 / maxZoomFactor;
+					}
+					else{
+						start = end - 1 / maxZoomFactor;	
+					}
+					
 				}
 				if (start < 0 && end - start < 1 / maxZoomFactor) {
 					//start = 0;
@@ -1631,8 +1637,8 @@ export class Component extends Container {
 				start = - declination;
 			}
 
-			if (1 / (end - start) > maxZoomFactor) {
-				end = start + 1 / maxZoomFactor;
+			if (1 / (end - start) > maxZoomFactor) {				
+				end = start + 1 / maxZoomFactor;				
 			}
 
 			if (end > 1 + declination) {

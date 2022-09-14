@@ -288,7 +288,7 @@ export declare function getYearDay(date: Date, utc?: boolean): number;
  * @return Week number
  * @todo Account for UTC
  */
-export declare function getWeek(date: Date, utc?: boolean): number;
+export declare function getWeek(date: Date, _utc?: boolean): number;
 /**
  * Returns a week number in the month.
  *

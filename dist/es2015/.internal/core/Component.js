@@ -1141,7 +1141,12 @@ var Component = /** @class */ (function (_super) {
                 }
                 // remove from start
                 if (1 / (end - start) > maxZoomFactor) {
-                    start = end - 1 / maxZoomFactor;
+                    if (start <= 0) {
+                        end = start + 1 / maxZoomFactor;
+                    }
+                    else {
+                        start = end - 1 / maxZoomFactor;
+                    }
                 }
                 if (start < 0 && end - start < 1 / maxZoomFactor) {
                     //start = 0;

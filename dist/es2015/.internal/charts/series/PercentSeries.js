@@ -743,6 +743,12 @@ var PercentSeries = /** @class */ (function (_super) {
                     }
                     child.defaultState.properties.stroke = slice.stroke;
                 }
+                if (ev.property == "strokeOpacity") {
+                    if (!child.isActive) {
+                        child.strokeOpacity = slice.strokeOpacity;
+                    }
+                    child.defaultState.properties.strokeOpacity = slice.strokeOpacity;
+                }
             }, undefined, false));
         });
     };

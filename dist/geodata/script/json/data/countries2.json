@@ -927,7 +927,7 @@
 		"country": "Mauritius",
 		"continent_code": "AF",
 		"continent": "Africa",
-		"maps": []
+		"maps": [ "mauritiusLow", "mauritiusHigh" ]
 	},
 	"MV": {
 		"country": "Maldives",
@@ -1350,7 +1350,7 @@
 		"maps": []
 	},
 	"TR": {
-		"country": "Turkey",
+		"country": "Türkiye",
 		"continent_code": "EU",
 		"continent": "Europe",
 		"maps": [ "turkeyLow", "turkeyHigh" ]

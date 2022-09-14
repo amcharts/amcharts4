@@ -3062,6 +3062,22 @@ define('@amcharts/amcharts4-geodata/mauritaniaLow', [], function () {
   }
   throw new Error("You must add 'geodata/mauritaniaLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/mauritiusHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_mauritiusHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/mauritiusHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/mauritiusLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_mauritiusLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/mauritiusLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/mexicoHigh', [], function () {
   'use strict';
   var output = self.am4geodata_mexicoHigh;
@@ -7953,6 +7969,14 @@ define('@amcharts/amcharts4/lang/ru_RU', [], function () {
     return output;
   }
   throw new Error("You must add 'lang/ru_RU' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/lang/sk_SK', [], function () {
+  'use strict';
+  var output = self.am4lang_sk_SK;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'lang/sk_SK' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4/lang/sl_SL', [], function () {
   'use strict';

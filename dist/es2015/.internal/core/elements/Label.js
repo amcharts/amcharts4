@@ -288,6 +288,7 @@ var Label = /** @class */ (function (_super) {
             this.element.removeAttr("display");
             // Clear the element
             var group = this.element;
+            //group.removeChildren();
             this.resetBBox();
             // Init state variables
             var currentHeight = 0;
@@ -633,6 +634,7 @@ var Label = /** @class */ (function (_super) {
             // Clear the element
             var group = this.element;
             group.removeChildren();
+            this.setCache("lineInfo", [], 0);
             // Create a ForeignObject to use as HTML container
             var fo = this.paper.foreignObject();
             group.add(fo);
@@ -1231,10 +1233,27 @@ var Label = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("html", value, true);
+            if (!$type.hasValue(value)) {
+                var group = this.element;
+                group.removeChildrenByTag("foreignObject");
+            }
         },
         enumerable: true,
         configurable: true
     });
+    Label.prototype.setFill = function (value) {
+        _super.prototype.setFill.call(this, value);
+        if (this.html) {
+            var group = this.element;
+            var divs = group.node.getElementsByTagName("div");
+            for (var i = 0; i < divs.length; i++) {
+                var div = divs[i];
+                if ($type.hasValue(this.fill)) {
+                    div.style.color = this.fill.toString();
+                }
+            }
+        }
+    };
     Object.defineProperty(Label.prototype, "hideOversized", {
         /**
          * @return Hide if text does not fit?

@@ -188,6 +188,8 @@ export class Responsive extends BaseObjectEvents {
 	 */
 	protected _appliedTargets: string[] = [];
 
+	protected _timeout?: IDisposer;
+
 	/**
 	 * Use default rules in addition to the user-defined ones?
 	 */
@@ -267,7 +269,7 @@ export class Responsive extends BaseObjectEvents {
 
 		// Set up resize monitoring events
 		this._responsiveDisposers.push($type.getValue(this.component).events.on("sizechanged", () => { this.checkRules(); }, this));
-		this._responsiveDisposers.push($type.getValue(this.component).events.on("datavalidated", () => {
+		this._responsiveDisposers.push($type.getValue(this.component).events.once("datavalidated", () => {
 			if (this._component.isReady()) {
 				this.checkRules(true);
 			}
@@ -422,6 +424,11 @@ export class Responsive extends BaseObjectEvents {
 
 		const component = $type.getValue(this.component);
 
+		// Do not perform rule application of target has no size
+		if (component.pixelWidth == 0 || component.pixelHeight == 0) {
+			return;
+		}
+
 		// Check which rules match
 		$iter.each(rules.iterator(), (rule) => {
 
@@ -455,14 +462,23 @@ export class Responsive extends BaseObjectEvents {
 				component.hidden = true;
 				component.events.once("ready", (ev) => {
 					ev.target.show(0);
-					this.applyRules();
+					this._applyRules();
 				});
 				return;
 			}
 			this.dispatchImmediately("ruleschanged");
-			this.applyRules();
+			this._applyRules();
 		}
 
+	}
+
+	protected _applyRules(): void {
+		if (this._timeout) {
+			this._timeout.dispose();
+		}
+		this._timeout = this.setTimeout(() => {
+			this.applyRules();
+		}, 10);
 	}
 
 	/**
@@ -473,6 +489,7 @@ export class Responsive extends BaseObjectEvents {
 	 * @todo Better type check
 	 */
 	public applyRules(target?: Container): void {
+
 		// If no target supplied, we assume the top-level element
 		const newTarget = ($type.hasValue(target)
 			? target

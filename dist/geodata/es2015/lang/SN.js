@@ -224,7 +224,7 @@ var lang = {
     "TM": "Turkmenistan",
     "TN": "Tunisia",
     "TO": "Tonga",
-    "TR": "Turkey",
+    "TR": "Türkiye",
     "TT": "Trinidad and Tobago",
     "TV": "Tuvalu",
     "TW": "Taiwan",

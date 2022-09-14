@@ -994,6 +994,13 @@ export class PercentSeries extends Series {
 					}
 					child.defaultState.properties.stroke = slice.stroke;
 				}
+
+				if (ev.property == "strokeOpacity") {
+					if (!child.isActive) {
+						child.strokeOpacity = slice.strokeOpacity;
+					}
+					child.defaultState.properties.strokeOpacity = slice.strokeOpacity;					
+				}
 			}, undefined, false));
 		});
 	}

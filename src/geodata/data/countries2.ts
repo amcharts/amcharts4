@@ -929,7 +929,7 @@ const countries2: Countries2 = {
 		"country": "Mauritius",
 		"continent_code": "AF",
 		"continent": "Africa",
-		"maps": []
+		"maps": [ "mauritiusLow", "mauritiusHigh" ]
 	},
 	"MV": {
 		"country": "Maldives",
@@ -1352,7 +1352,7 @@ const countries2: Countries2 = {
 		"maps": []
 	},
 	"TR": {
-		"country": "Turkey",
+		"country": "Türkiye",
 		"continent_code": "EU",
 		"continent": "Europe",
 		"maps": [ "turkeyLow", "turkeyHigh" ]

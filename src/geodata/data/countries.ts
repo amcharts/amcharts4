@@ -125,6 +125,7 @@ const countries: Countries = {
 	"MW": [ "malawiLow", "malawiHigh" ],
 	"ML": [ "maliLow", "maliHigh" ],
 	"MT": [ "maltaLow", "maltaHigh" ],
+	"MU": [ "mauritiusLow", "mauritiusHigh" ],
 	"MX": [ "mexicoLow", "mexicoHigh" ],
 	"MD": [ "moldovaLow", "moldovaHigh" ],
 	"MN": [ "mongoliaLow", "mongoliaHigh" ],

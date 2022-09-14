@@ -184,7 +184,6 @@ export class SliceGrouper extends Plugin {
 		const event = (options.queue || options.onlyShowOnViewport) && !chart.inited ? "inited" : "datavalidated";
 		this._disposers.push(dataProvider.events.on(event, (ev) => {
 
-
 			if (this._ignoreDataUpdate) {
 				this._ignoreDataUpdate = false;
 				return;
@@ -202,7 +201,7 @@ export class SliceGrouper extends Plugin {
 				if ((<any>item.dataContext).sliceGrouperOther) {
 					groupSliceItem = item.dataContext;
 				}
-				else if ((this.limit && (index >= this.limit)) || (!this.limit && (value <= this.threshold))) {
+				else if ((this.limit && (index >= this.limit)) || (!this.limit && (Math.abs(value) <= Math.abs(this.threshold)))) {
 					groupValue += item.value;
 					item.hiddenInLegend = true;
 					item.hide();
@@ -224,7 +223,7 @@ export class SliceGrouper extends Plugin {
 			});
 
 			// Create "Other" slice
-			if (groupValue > 0) {
+			if (groupValue != 0) {
 				if (groupSliceItem) {
 					(<any>groupSliceItem)[series.dataFields.value] = groupValue;
 					this._ignoreDataUpdate = true;
@@ -241,6 +240,7 @@ export class SliceGrouper extends Plugin {
 				}
 			}
 		}));
+
 
 		this._disposers.push(series.events.on("validated", (ev) => {
 			series.slices.each((slice) => {
