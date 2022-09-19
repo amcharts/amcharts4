@@ -62,6 +62,10 @@ export default {
 	"_decimalSeparator": ",",
 	"_thousandSeparator": " ",
 
+	// Position of the percent sign in numbers
+	"_percentPrefix": null,
+	"_percentSuffix": "%",
+
 	// Suffixes for numbers
 	// When formatting numbers, big or small numers might be reformatted to
 	// shorter version, by applying a suffix.
@@ -265,7 +269,7 @@ export default {
 	// The function accepts day number, and returns a string to be added to the
 	// day, like in default English translation, if we pass in 2, we will receive
 	// "nd" back.
-	"_dateOrd": function (day: number): string {
+	"_dateOrd": function(day: number): string {
 		let res = "e";
 		if ((day < 11) || (day > 13)) {
 			switch (day % 10) {

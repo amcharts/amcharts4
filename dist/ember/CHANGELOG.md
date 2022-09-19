@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.28] - 2022-09-19
+
+### Added
+- `"p"` number formatting modifier added. Works the same way as `"%"` except it treats numbers as absolute values and does not multiply them by 100.
+
+### Changed
+- `"%"` number formatting modifier will now consider locale when choosing whether percent sign goes before or after the number. At this moment only `tr_TR` (Turkish) locale is placing percent sign before number.
+
+### Fixed
+- Pressing ENTER while `PieSeries` was focused would not toggle it.
+- `SankeyLink` middle line was not drawn in it was a straight line.
+- Legend's scrollbar was not adjusting thumb size if the div of a chart changed its height.
+
+
 ## [4.10.27] - 2022-08-18
 
 ### Added

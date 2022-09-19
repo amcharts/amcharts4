@@ -1,6 +1,8 @@
 declare const _default: {
     "_decimalSeparator": string;
     "_thousandSeparator": string;
+    "_percentPrefix": any;
+    "_percentSuffix": string;
     "_date_millisecond": string;
     "_date_second": string;
     "_date_minute": string;

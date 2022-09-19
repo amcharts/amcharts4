@@ -161,7 +161,7 @@ var PieSeries = /** @class */ (function (_super) {
         slice.defaultState.properties.scale = 1;
         slice.observe("scale", this.handleSliceScale, this);
         slice.observe(["dx", "dy", "x", "y", "shiftRadius"], this.handleSliceMove, this);
-        slice.tooltipText = "{category}: {value.percent.formatNumber('#.#')}% ({value.value})";
+        slice.tooltipText = "{category}: {value.percent.formatNumber('#.#p')} ({value.value})";
         var hoverState = slice.states.create("hover");
         hoverState.properties.scale = 1.05;
         var defaultState = slice.defaultState;

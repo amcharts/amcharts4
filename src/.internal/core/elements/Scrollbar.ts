@@ -1114,12 +1114,19 @@ export class Scrollbar extends Container {
 			this.updateThumb();
 		}
 		else {
-			let innerHeight = this.innerHeight;
+			let innerHeight = this.innerHeight;			
 			let h = thumb.innerHeight;
 			let y = thumb.pixelY;
+			
+			if(y + h > innerHeight){
+				y = innerHeight - h;
+				thumb.y = y;
+			}
 
 			this._start = 1 - (y + h) / innerHeight;
 			this._end = 1 - y / innerHeight;
+
+
 			this.updateThumb();
 		}
 	}

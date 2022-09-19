@@ -156,6 +156,9 @@ var SankeyLink = /** @class */ (function (_super) {
                 var kyb0 = -dy / 2 + yb0 + (yb1 - yb0) * cpd * $math.sin(startAngle);
                 var kxb1 = -dx / 2 + xb1 - (xb1 - xb0) * cpd * $math.cos(endAngle);
                 var kyb1 = -dy / 2 + yb1 - (yb1 - yb0) * cpd * $math.sin(endAngle);
+                if (ym1 == ym0) {
+                    ym1 += 0.01;
+                }
                 this.middleLine.segments = [[{ x: xm0, y: ym0 }, { x: kxm0, y: kym0 }, { x: kxm1, y: kym1 }, { x: xm1, y: ym1 }]];
                 kxt0 += dx / 2;
                 kyt0 += dy / 2;

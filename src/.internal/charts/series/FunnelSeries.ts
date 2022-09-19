@@ -323,7 +323,7 @@ export class FunnelSeries extends PercentSeries {
 		slice.defaultState.properties.scale = 1;
 		slice.observe("scale", this.handleSliceScale, this);
 		slice.observe(["dx", "dy", "x", "y"], this.handleSliceMove, this);
-		slice.tooltipText = "{category}: {value.percent.formatNumber('#.#')}% ({value.value})";
+		slice.tooltipText = "{category}: {value.percent.formatNumber('#.#p')} ({value.value})";
 
 		let hoverState = slice.states.create("hover");
 		hoverState.properties.expandDistance = 0.2;

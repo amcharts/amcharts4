@@ -26,6 +26,10 @@ export default {
 	"_decimalSeparator": ",",
 	"_thousandSeparator": " ",
 
+	// Position of the percent sign in numbers
+	"_percentPrefix": null,
+	"_percentSuffix": "%",
+
 	// Default date formats for various periods.
 	// 
 	// This should reflect official or de facto formatting universally accepted

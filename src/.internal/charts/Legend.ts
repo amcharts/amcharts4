@@ -845,6 +845,8 @@ export class Legend extends Component {
 				scrollbar.visible = false;
 			}
 
+			scrollbar.handleThumbPosition();
+
 			this.updateMasks();
 		}
 	}

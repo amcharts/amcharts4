@@ -118,7 +118,7 @@ var PercentChart = /** @class */ (function (_super) {
         _super.prototype.setLegend.call(this, legend);
         if (legend) {
             legend.labels.template.text = "{category}";
-            legend.valueLabels.template.text = "{value.percent.formatNumber('#.0')}%";
+            legend.valueLabels.template.text = "{value.percent.formatNumber('#.0p')}";
             legend.itemContainers.template.events.on("over", function (event) {
                 var percentSeriesDataItem = event.target.dataItem.dataContext;
                 if (percentSeriesDataItem.visible && !percentSeriesDataItem.isHiding) {

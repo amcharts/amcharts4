@@ -257,7 +257,7 @@ var NumberFormatter = /** @class */ (function (_super) {
                 if (chunk.type === "value") {
                     // Parse format
                     // Look for codes
-                    var matches = chunk.text.match(/[#0.,]+[ ]?[abesABES%!]?[abesABES‰!]?/);
+                    var matches = chunk.text.match(/[#0.,]+[ ]?[abespABESP%!]?[abespABESP‰!]?/);
                     if (matches) {
                         if (matches === null || matches[0] === "") {
                             // no codes here - assume string
@@ -266,10 +266,10 @@ var NumberFormatter = /** @class */ (function (_super) {
                         }
                         else {
                             // look for the format modifiers at the end
-                            var mods = matches[0].match(/[abesABES%‰!]{2}|[abesABES%‰]{1}$/);
+                            var mods = matches[0].match(/[abespABESP%‰!]{2}|[abespABESP%‰]{1}$/);
                             if (mods) {
                                 item.mod = mods[0].toLowerCase();
-                                item.modSpacing = matches[0].match(/[ ]{1}[abesABES%‰!]{1}$/) ? true : false;
+                                item.modSpacing = matches[0].match(/[ ]{1}[abespABESP%‰!]{1}$/) ? true : false;
                             }
                             // break the format up
                             var a = matches[0].split(".");
@@ -357,6 +357,16 @@ var NumberFormatter = /** @class */ (function (_super) {
             suffix = a_2[2];
             if (details.modSpacing) {
                 suffix = " " + suffix;
+            }
+        }
+        else if (mods.indexOf("p") !== -1) {
+            var ol = Math.min(value.toString().length + 2, 21);
+            //value *= 100;
+            value = parseFloat(value.toPrecision(ol));
+            prefix = this.language.translate("_percentPrefix") || "";
+            suffix = this.language.translate("_percentSuffix") || "";
+            if (prefix == "" && suffix == "") {
+                suffix = "%";
             }
         }
         else if (mods.indexOf("%") !== -1) {

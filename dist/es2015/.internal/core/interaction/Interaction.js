@@ -686,13 +686,12 @@ var Interaction = /** @class */ (function (_super) {
                 this.focusedObject.eventDisposers.removeKey(disposerKey);
             }
             // Does focused object have "hit" event?
-            if (keyboard.isKey(ev, "enter")
-                && this.focusedObject.sprite
-                && !this.focusedObject.sprite.events.isEnabled("toggled")) {
-                if (this.focusedObject.sprite.events.isEnabled("hit")) {
+            var sprite = this.focusedObject.sprite;
+            if (keyboard.isKey(ev, "enter") && sprite) {
+                if (sprite.events.isEnabled("hit") || sprite.events.isEnabled("toggled")) {
                     this.focusedObject.dispatchImmediately("hit");
                 }
-                else if (this.focusedObject.sprite.showTooltipOn == "hit") {
+                else if (sprite.showTooltipOn == "hit") {
                     this.focusedObject.dispatchImmediately("up");
                 }
             }

@@ -331,7 +331,7 @@ var PercentSeries = /** @class */ (function (_super) {
         var defaultState = _this.defaultState;
         defaultState.transitionEasing = $ease.sinOut;
         // Accessibility
-        _this.itemReaderText = "{category}: {value.percent.formatNumber('#.#')}%";
+        _this.itemReaderText = "{category}: {value.percent.formatNumber('#.#p')}";
         _this.applyTheme();
         return _this;
     }
@@ -506,7 +506,7 @@ var PercentSeries = /** @class */ (function (_super) {
     PercentSeries.prototype.initSlice = function (slice) {
     };
     PercentSeries.prototype.initLabel = function (label) {
-        label.text = "{category}: {value.percent.formatNumber('#.0')}%";
+        label.text = "{category}: {value.percent.formatNumber('#.0p')}";
         label.isMeasured = false;
         label.padding(5, 5, 5, 5);
     };

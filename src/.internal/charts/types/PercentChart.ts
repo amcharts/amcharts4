@@ -161,7 +161,7 @@ export class PercentChart extends SerialChart {
 					$iter.each(series.dataItems.iterator(), (dataItem) => {
 						if (!dataItem.hiddenInLegend) {
 							legendData.push(<PercentSeriesDataItem>dataItem);
-							if(!dataItem.legendSettings){
+							if (!dataItem.legendSettings) {
 								dataItem.legendSettings = series.legendSettings;
 							}
 						}
@@ -191,15 +191,15 @@ export class PercentChart extends SerialChart {
 		super.setLegend(legend);
 		if (legend) {
 			legend.labels.template.text = "{category}";
-			legend.valueLabels.template.text = "{value.percent.formatNumber('#.0')}%";
+			legend.valueLabels.template.text = "{value.percent.formatNumber('#.0p')}";
 
 			legend.itemContainers.template.events.on("over", (event) => {
 				let percentSeriesDataItem: PercentSeriesDataItem = <PercentSeriesDataItem>event.target.dataItem.dataContext;
 				if (percentSeriesDataItem.visible && !percentSeriesDataItem.isHiding) {
-					let slice = percentSeriesDataItem.slice;				
-					
-					slice.dispatchImmediately("over");					
-					slice.isHover = true;				
+					let slice = percentSeriesDataItem.slice;
+
+					slice.dispatchImmediately("over");
+					slice.isHover = true;
 					slice.interactions.isRealHover = true;
 				}
 			})
@@ -208,7 +208,7 @@ export class PercentChart extends SerialChart {
 				let percentSeriesDataItem: PercentSeriesDataItem = <PercentSeriesDataItem>event.target.dataItem.dataContext;
 				let slice = percentSeriesDataItem.slice;
 				slice.dispatchImmediately("out");
-				slice.isHover = false;				
+				slice.isHover = false;
 			})
 		}
 	}

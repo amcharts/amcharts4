@@ -110,7 +110,7 @@ var Language = /** @class */ (function (_super) {
         var value = translations[prompt];
         // Try to look for the translation
         if (value === null) {
-            value = "";
+            translation = "";
         }
         else if ($type.hasValue(value)) {
             // It might be an empty string

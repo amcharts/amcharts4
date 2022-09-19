@@ -1,6 +1,8 @@
 declare const _default: {
     "_decimalSeparator": string;
     "_thousandSeparator": string;
+    "_percentPrefix": string;
+    "_percentSuffix": any;
     "_big_number_suffix_3": string;
     "_big_number_suffix_6": string;
     "_big_number_suffix_9": string;
