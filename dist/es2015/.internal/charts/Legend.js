@@ -587,6 +587,7 @@ var Legend = /** @class */ (function (_super) {
             else {
                 scrollbar.visible = false;
             }
+            scrollbar.handleThumbPosition();
             this.updateMasks();
         }
     };

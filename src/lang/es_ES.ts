@@ -11,6 +11,10 @@ export default {
 	"_decimalSeparator": ",",
 	"_thousandSeparator": ".",
 
+	// Position of the percent sign in numbers
+	"_percentPrefix": null,
+	"_percentSuffix": "%",
+
 	// Default date formats for various periods
 	"_date_millisecond": "mm:ss SSS",
 	"_date_second": "HH:mm:ss",

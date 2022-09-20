@@ -545,7 +545,7 @@ export class PercentSeries extends Series {
 		defaultState.transitionEasing = $ease.sinOut;
 
 		// Accessibility
-		this.itemReaderText = "{category}: {value.percent.formatNumber('#.#')}%";
+		this.itemReaderText = "{category}: {value.percent.formatNumber('#.#p')}";
 
 		this.applyTheme();
 	}
@@ -722,7 +722,7 @@ export class PercentSeries extends Series {
 	}
 
 	protected initLabel(label: this["_label"]) {
-		label.text = "{category}: {value.percent.formatNumber('#.0')}%";
+		label.text = "{category}: {value.percent.formatNumber('#.0p')}";
 		label.isMeasured = false;
 		label.padding(5, 5, 5, 5);
 	}

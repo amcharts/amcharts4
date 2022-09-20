@@ -735,8 +735,8 @@ const countries2: Countries2 = {
 	},
 	"KN": {
 		"country": "Saint Kitts and Nevis",
-		"continent_code": "AS",
-		"continent": "Asia",
+		"continent_code": "NA",
+		"continent": "North America",
 		"maps": [ "stKittsNevisLow", "stKittsNevisHigh" ]
 	},
 	"KW": {

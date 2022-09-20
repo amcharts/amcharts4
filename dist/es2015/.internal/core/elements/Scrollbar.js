@@ -839,6 +839,10 @@ var Scrollbar = /** @class */ (function (_super) {
             var innerHeight_2 = this.innerHeight;
             var h = thumb.innerHeight;
             var y = thumb.pixelY;
+            if (y + h > innerHeight_2) {
+                y = innerHeight_2 - h;
+                thumb.y = y;
+            }
             this._start = 1 - (y + h) / innerHeight_2;
             this._end = 1 - y / innerHeight_2;
             this.updateThumb();

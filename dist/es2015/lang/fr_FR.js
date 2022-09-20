@@ -61,6 +61,9 @@ export default {
     // used for separating decimals, and which for thousands.
     "_decimalSeparator": ",",
     "_thousandSeparator": " ",
+    // Position of the percent sign in numbers
+    "_percentPrefix": null,
+    "_percentSuffix": "%",
     // Suffixes for numbers
     // When formatting numbers, big or small numers might be reformatted to
     // shorter version, by applying a suffix.

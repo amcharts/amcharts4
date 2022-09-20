@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Renamed "Turkey" to "Türkiye" in all maps.
+- Saint Kitts and Nevis is now specified as belonging North America in `countries2` data file.
 
 
 ## [4.1.23] - 2022-03-31
