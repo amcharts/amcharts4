@@ -1522,8 +1522,9 @@ var XYChart = /** @class */ (function (_super) {
                                 range.end = axis.roundPosition(range.end - cellWidth / 2 + (1 - axis.endLocation) * cellWidth, axis.endLocation);
                             }
                             else {
-                                range.start = axis.roundPosition(range.start + 0.0001, 0, axis.startLocation);
-                                range.end = axis.roundPosition(range.end + 0.0001, 0, axis.endLocation);
+                                var d = 0.0001;
+                                range.start = axis.roundPosition(range.start + d, 0, axis.startLocation);
+                                range.end = axis.roundPosition(range.end + d, 0, axis.endLocation);
                             }
                         }
                         var axisRange = axis.zoom(range, instantly, instantly, declination);
@@ -1624,9 +1625,17 @@ var XYChart = /** @class */ (function (_super) {
             var plotContainer = this.plotContainer;
             var rangeX = this.getCommonAxisRange(this.xAxes);
             var rangeY = this.getCommonAxisRange(this.yAxes);
-            var shiftStep = 0.1;
+            var shiftStep = .1;
             var maxPanOut = 0;
             if (mouseWheelBehavior == "panX" || mouseWheelBehavior == "panXY") {
+                var xAxis = this.xAxes.getIndex(0);
+                var round = false;
+                var singleItemStep = shiftStep;
+                if (xAxis instanceof CategoryAxis) {
+                    singleItemStep = .5 / ((rangeX.end - rangeX.start) * xAxis.dataItems.length);
+                    round = true;
+                }
+                shiftStep = Math.max(0.2, singleItemStep);
                 var differenceX = rangeX.end - rangeX.start;
                 var newStartX = Math.max(-maxPanOut, rangeX.start + shiftStep * shift / 100 * (rangeX.end - rangeX.start));
                 var newEndX = Math.min(rangeX.end + shiftStep * shift / 100 * (rangeX.end - rangeX.start), 1 + maxPanOut);
@@ -1636,9 +1645,17 @@ var XYChart = /** @class */ (function (_super) {
                 if (newEndX >= 1) {
                     newStartX = newEndX - differenceX;
                 }
-                this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
+                this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX }, undefined, round);
             }
             if (mouseWheelBehavior == "panY" || mouseWheelBehavior == "panXY") {
+                var yAxis = this.yAxes.getIndex(0);
+                var singleItemStep = shiftStep;
+                var round = false;
+                if (yAxis instanceof CategoryAxis) {
+                    singleItemStep = .5 / ((rangeX.end - rangeX.start) * yAxis.dataItems.length);
+                    round = true;
+                }
+                shiftStep = Math.max(0.2, singleItemStep);
                 shift *= -1;
                 var differenceY = rangeY.end - rangeY.start;
                 var newStartY = Math.max(-maxPanOut, rangeY.start + shiftStep * shift / 100 * (rangeY.end - rangeY.start));
@@ -1649,7 +1666,7 @@ var XYChart = /** @class */ (function (_super) {
                 if (newEndY >= 1) {
                     newStartY = newEndY - differenceY;
                 }
-                this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
+                this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY }, undefined, round);
             }
             if (mouseWheelBehavior == "zoomX" || mouseWheelBehavior == "zoomXY") {
                 var locationX = plotPoint.x / plotContainer.maxWidth;
@@ -1658,7 +1675,7 @@ var XYChart = /** @class */ (function (_super) {
                 newStartX = Math.min(newStartX, location2X);
                 var newEndX = Math.min(rangeX.end + shiftStep * (rangeX.end - rangeX.start) * shift / 100 * (1 - locationX), 1 + maxPanOut);
                 newEndX = Math.max(newEndX, location2X);
-                this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX }, undefined, undefined, undefined, true);
+                this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX }, undefined);
             }
             if (mouseWheelBehavior == "zoomY" || mouseWheelBehavior == "zoomXY") {
                 var locationY = plotPoint.y / plotContainer.maxHeight;
@@ -1667,7 +1684,7 @@ var XYChart = /** @class */ (function (_super) {
                 newStartY = Math.min(newStartY, location2Y);
                 var newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY * (rangeY.end - rangeY.start), 1 + maxPanOut);
                 newEndY = Math.max(newEndY, location2Y);
-                this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY }, undefined, undefined, undefined, true);
+                this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY }, undefined);
             }
         }
     };

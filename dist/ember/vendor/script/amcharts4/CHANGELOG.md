@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.29] - 2022-10-11
+
+### Changed
+- Panning an `XYChart` with a `CategoryAxis` using mouse wheel will snap to categories so that after the pan full axis cell at the beginning and end of the axis will be visible.
+
+
 ## [4.10.28] - 2022-09-19
 
 ### Added

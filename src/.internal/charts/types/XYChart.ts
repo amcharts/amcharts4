@@ -1952,8 +1952,9 @@ export class XYChart extends SerialChart {
 								range.end = axis.roundPosition(range.end - cellWidth / 2 + (1 - axis.endLocation) * cellWidth, axis.endLocation);
 							}
 							else {
-								range.start = axis.roundPosition(range.start + 0.0001, 0, axis.startLocation);
-								range.end = axis.roundPosition(range.end + 0.0001, 0, axis.endLocation);
+								let d = 0.0001;
+								range.start = axis.roundPosition(range.start + d, 0, axis.startLocation);
+								range.end = axis.roundPosition(range.end + d, 0, axis.endLocation);
 							}
 						}
 
@@ -2023,7 +2024,6 @@ export class XYChart extends SerialChart {
 		return this.getPropertyValue("arrangeTooltips");
 	}
 
-
 	/**
 	 * Handles mouse wheel event.
 	 *
@@ -2063,11 +2063,20 @@ export class XYChart extends SerialChart {
 			let rangeX: IRange = this.getCommonAxisRange(this.xAxes);
 			let rangeY: IRange = this.getCommonAxisRange(this.yAxes);
 
-			let shiftStep = 0.1;
+			let shiftStep = .1;
 
 			let maxPanOut = 0;
 
 			if (mouseWheelBehavior == "panX" || mouseWheelBehavior == "panXY") {
+				let xAxis = this.xAxes.getIndex(0);
+				let round = false;
+				let singleItemStep = shiftStep;
+				if (xAxis instanceof CategoryAxis) {
+					singleItemStep = .5 / ((rangeX.end - rangeX.start) * xAxis.dataItems.length);
+					round = true;
+				}
+
+				shiftStep = Math.max(0.2, singleItemStep);
 
 				let differenceX = rangeX.end - rangeX.start;
 
@@ -2082,10 +2091,21 @@ export class XYChart extends SerialChart {
 					newStartX = newEndX - differenceX;
 				}
 
-				this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
+				this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX }, undefined, round);
 			}
 
 			if (mouseWheelBehavior == "panY" || mouseWheelBehavior == "panXY") {
+
+				let yAxis = this.yAxes.getIndex(0);
+				let singleItemStep = shiftStep;
+				let round = false;
+				if (yAxis instanceof CategoryAxis) {
+					singleItemStep = .5 / ((rangeX.end - rangeX.start) * yAxis.dataItems.length);
+					round = true;
+				}
+
+				shiftStep = Math.max(0.2, singleItemStep);
+
 				shift *= -1;
 				let differenceY = rangeY.end - rangeY.start;
 
@@ -2100,7 +2120,7 @@ export class XYChart extends SerialChart {
 					newStartY = newEndY - differenceY;
 				}
 
-				this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
+				this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY }, undefined, round);
 			}
 
 			if (mouseWheelBehavior == "zoomX" || mouseWheelBehavior == "zoomXY") {
@@ -2114,7 +2134,7 @@ export class XYChart extends SerialChart {
 				let newEndX = Math.min(rangeX.end + shiftStep * (rangeX.end - rangeX.start) * shift / 100 * (1 - locationX), 1 + maxPanOut);
 				newEndX = Math.max(newEndX, location2X);
 
-				this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX }, undefined, undefined, undefined, true);
+				this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX }, undefined);
 			}
 
 			if (mouseWheelBehavior == "zoomY" || mouseWheelBehavior == "zoomXY") {
@@ -2128,7 +2148,7 @@ export class XYChart extends SerialChart {
 				let newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY * (rangeY.end - rangeY.start), 1 + maxPanOut);
 				newEndY = Math.max(newEndY, location2Y);
 
-				this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY }, undefined, undefined, undefined, true);
+				this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY }, undefined);
 			}
 		}
 	}
