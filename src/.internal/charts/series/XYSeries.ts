@@ -1753,11 +1753,17 @@ export class XYSeries extends Series {
 			let stackX = dataItem.getValue("valueX", "stack");
 			let stackY = dataItem.getValue("valueY", "stack");
 
+			if (!working) {
+				stackX = dataItem.getValue("valueX", "stackTrue");
+				stackY = dataItem.getValue("valueY", "stackTrue");
+			}
+
 			minX = $math.min(dataItem.getMin(this._xValueFields, working, stackX), minX);
 			minY = $math.min(dataItem.getMin(this._yValueFields, working, stackY), minY);
 
 			maxX = $math.max(dataItem.getMax(this._xValueFields, working, stackX), maxX);
 			maxY = $math.max(dataItem.getMax(this._yValueFields, working, stackY), maxY);
+
 
 			// if it's stacked, pay attention to stack value
 			if (this.stacked) {
@@ -1779,7 +1785,6 @@ export class XYSeries extends Series {
 				}
 			}
 		}
-
 
 		// this is mainly for value axis to calculate total and perecent.total of each series category
 		xAxis.processSeriesDataItems();
@@ -1818,6 +1823,7 @@ export class XYSeries extends Series {
 						stackedSeries.processValues(false);
 					}
 				}
+
 				this.dispatchImmediately("extremeschanged");
 			}
 		}
@@ -1836,6 +1842,11 @@ export class XYSeries extends Series {
 
 				let stackX = dataItem.getValue("valueX", "stack");
 				let stackY = dataItem.getValue("valueY", "stack");
+
+				if (!working) {
+					stackX = dataItem.getValue("valueX", "stackTrue");
+					stackY = dataItem.getValue("valueY", "stackTrue");
+				}
 
 				minX = $math.min(dataItem.getMin(this._xValueFields, working, stackX), minX);
 
@@ -1893,12 +1904,12 @@ export class XYSeries extends Series {
 				if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
 					let tmin = this._tmin.getKey(yAxisId);
 
-					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged || (xAxis instanceof DateAxis && xAxis.groupData && this.isShowing)) && minY < tmin) || (this.stackedSeries && !this.isHidden)) {
+					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged || (xAxis instanceof DateAxis && xAxis.groupData && this.isShowing)) && minY < tmin) || (this.stackedSeries && !this.isHidden && !working)) {
 						this._tmin.setKey(yAxisId, minY);
 						changed = true;
 					}
 					let tmax = this._tmax.getKey(yAxisId);
-					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged || (xAxis instanceof DateAxis && xAxis.groupData && this.isShowing)) && maxY > tmax) || (this.stackedSeries && !this.isHidden)) {
+					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged || (xAxis instanceof DateAxis && xAxis.groupData && this.isShowing)) && maxY > tmax) || (this.stackedSeries && !this.isHidden && !working)) {
 						this._tmax.setKey(yAxisId, maxY);
 						changed = true;
 					}
@@ -1906,12 +1917,12 @@ export class XYSeries extends Series {
 
 				if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
 					let tmin = this._tmin.getKey(xAxisId);
-					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged || (yAxis instanceof DateAxis && yAxis.groupData && this.isShowing)) && minX < tmin) || (this.stackedSeries && !this.isHidden)) {
+					if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged || (yAxis instanceof DateAxis && yAxis.groupData && this.isShowing)) && minX < tmin) || (this.stackedSeries && !this.isHidden && !working)) {
 						this._tmin.setKey(xAxisId, minX);
 						changed = true;
 					}
 					let tmax = this._tmax.getKey(xAxisId);
-					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged || (yAxis instanceof DateAxis && yAxis.groupData && this.isShowing)) && maxX > tmax) || (this.stackedSeries && !this.isHidden)) {
+					if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged || (yAxis instanceof DateAxis && yAxis.groupData && this.isShowing)) && maxX > tmax) || (this.stackedSeries && !this.isHidden && !working)) {
 						this._tmax.setKey(xAxisId, maxX);
 						changed = true;
 					}
@@ -2434,6 +2445,7 @@ export class XYSeries extends Series {
 				if (field) {
 					this.dataItems.each((dataItem) => {
 						dataItem.setCalculatedValue(field, 0, "stack");
+						dataItem.setCalculatedValue(field, 0, "stackTrue");
 					})
 				}
 			}
@@ -2474,7 +2486,7 @@ export class XYSeries extends Series {
 	 */
 	public show(duration?: number): Animation {
 
-		if(this.isHidden){
+		if (this.isHidden) {
 			if (this.appeared && this.xAxis instanceof DateAxis && this.xAxis.groupData) {
 				this._tmin.setKey(this.yAxis.uid, undefined);
 				this._tmax.setKey(this.yAxis.uid, undefined);
@@ -2654,10 +2666,13 @@ export class XYSeries extends Series {
 		if (anim && !anim.isFinished()) {
 			animation = anim;
 		}
-
+		if (this.appeared) {
+			this.dispatch("selectionextremeschanged");
+		}
 		// helps to avoid flicker. otherwise columns will show up at full size and only on next frame will animate from 0
 		this.validateDataElements();
 		//}
+
 		return animation;
 	}
 
@@ -2716,6 +2731,7 @@ export class XYSeries extends Series {
 
 			//this is good for removing series, otherwise stack values will remain the same and chart won't pay atention when adding/removing series			
 			dataItem.setCalculatedValue(field, 0, "stack");
+			dataItem.setCalculatedValue(field, 0, "stackTrue");
 
 			$iter.eachContinue(chart.series.range(0, index).backwards().iterator(), (prevSeries) => {
 				// stacking is only possible if both axes are the same
@@ -2728,27 +2744,28 @@ export class XYSeries extends Series {
 					if (prevDataItem && prevDataItem.hasValue(this._xValueFields) && prevDataItem.hasValue(this._yValueFields)) {
 
 						let value = dataItem.getValue(field);
-						let prevValue: number;
-						let prevRealValue = prevDataItem.getValue(field) + prevDataItem.getValue(field, "stack");
 
-						if (working) {
-							prevValue = prevDataItem.getWorkingValue(field) + prevDataItem.getValue(field, "stack");
+						let prevValue: number;
+						let prevStack = prevDataItem.getValue(field, "stackTrue");
+						if (prevStack == null) {
+							prevStack = 0;
 						}
-						else {
-							prevValue = prevDataItem.getValue(field) + prevDataItem.getValue(field, "stack");
-						}
+						let prevRealValue = prevDataItem.getValue(field) + prevStack;
+						prevValue = prevDataItem.getWorkingValue(field) + prevDataItem.getValue(field, "stack");
 
 						if (this.stackToNegative) {
 							if ((value >= 0 && prevRealValue >= 0) || (value < 0 && prevRealValue < 0)) {
 								dataItem.setCalculatedValue(field, prevValue, "stack");
+								dataItem.setCalculatedValue(field, prevRealValue, "stackTrue");
 								return false;
 							}
-							else if(!prevSeries.stacked){
+							else if (!prevSeries.stacked) {
 								return false;
 							}
 						}
 						else {
 							dataItem.setCalculatedValue(field, prevValue, "stack");
+							dataItem.setCalculatedValue(field, prevRealValue, "stackTrue");
 							return false;
 						}
 					}

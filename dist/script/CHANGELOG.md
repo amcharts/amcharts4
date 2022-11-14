@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.30] - 2022-11-14
+
+### Changed
+- Upgraded `xlsx` package to version 0.18.5.
+
+### Fixed
+- Stacked series were not being displayed correctly if it was hidden during data update.
+
+
 ## [4.10.29] - 2022-10-11
 
 ### Changed

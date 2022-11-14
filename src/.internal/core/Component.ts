@@ -58,7 +58,8 @@ export type CalculatedValue =
 	"count" |
 	"total" |
 	"totalPercent" |
-	"stack";
+	"stack" |
+	"stackTrue"
 
 /**
  * Defines properties for [[Component]].
@@ -1241,8 +1242,8 @@ export class Component extends Container {
 				preloader.progress = 1;
 			}
 
-			this.dataUsers.each((dataUser) => {
-				if (dataUser.hidden) {
+			this.dataUsers.each((dataUser:any) => {
+				if (dataUser.hidden || (dataUser.appeared && !dataUser.visible && dataUser.stacked)) {
 					dataUser.hide(0);
 				}
 			});

@@ -25,7 +25,7 @@ import * as $type from "./utils/Type";
 /**
  * A list of available types for calculated values.
  */
-export declare type CalculatedValue = "value" | "percent" | "change" | "changePercent" | "startChangePercent" | "startChange" | "previousChangePercent" | "previousChange" | "sum" | "absoluteSum" | "average" | "open" | "close" | "low" | "high" | "count" | "total" | "totalPercent" | "stack";
+export declare type CalculatedValue = "value" | "percent" | "change" | "changePercent" | "startChangePercent" | "startChange" | "previousChangePercent" | "previousChange" | "sum" | "absoluteSum" | "average" | "open" | "close" | "low" | "high" | "count" | "total" | "totalPercent" | "stack" | "stackTrue";
 /**
  * Defines properties for [[Component]].
  */

@@ -1,6 +1,6 @@
 {
   "name": "@amcharts/amcharts4",
-  "version": "4.10.29",
+  "version": "4.10.30",
   "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
   "description": "amCharts 4",
   "homepage": "https://www.amcharts.com/",
@@ -45,6 +45,6 @@
     "rgbcolor": "^1.0.1",
     "stackblur-canvas": "^2.0.0",
     "tslib": "^2.0.1",
-    "xlsx": "^0.17.0"
+    "xlsx": "^0.18.5"
   }
 }

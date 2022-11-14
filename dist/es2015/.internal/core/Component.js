@@ -782,7 +782,7 @@ var Component = /** @class */ (function (_super) {
                 preloader.progress = 1;
             }
             this.dataUsers.each(function (dataUser) {
-                if (dataUser.hidden) {
+                if (dataUser.hidden || (dataUser.appeared && !dataUser.visible && dataUser.stacked)) {
                     dataUser.hide(0);
                 }
             });

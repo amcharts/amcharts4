@@ -1163,6 +1163,10 @@ var XYSeries = /** @class */ (function (_super) {
             this.getStackValue(dataItem, working);
             var stackX = dataItem.getValue("valueX", "stack");
             var stackY = dataItem.getValue("valueY", "stack");
+            if (!working) {
+                stackX = dataItem.getValue("valueX", "stackTrue");
+                stackY = dataItem.getValue("valueY", "stackTrue");
+            }
             minX = $math.min(dataItem.getMin(this._xValueFields, working, stackX), minX);
             minY = $math.min(dataItem.getMin(this._yValueFields, working, stackY), minY);
             maxX = $math.max(dataItem.getMax(this._xValueFields, working, stackX), maxX);
@@ -1232,6 +1236,10 @@ var XYSeries = /** @class */ (function (_super) {
                 this.getStackValue(dataItem, working);
                 var stackX = dataItem.getValue("valueX", "stack");
                 var stackY = dataItem.getValue("valueY", "stack");
+                if (!working) {
+                    stackX = dataItem.getValue("valueX", "stackTrue");
+                    stackY = dataItem.getValue("valueY", "stackTrue");
+                }
                 minX = $math.min(dataItem.getMin(this._xValueFields, working, stackX), minX);
                 minY = $math.min(dataItem.getMin(this._yValueFields, working, stackY), minY);
                 maxX = $math.max(dataItem.getMax(this._xValueFields, working, stackX), maxX);
@@ -1279,24 +1287,24 @@ var XYSeries = /** @class */ (function (_super) {
                 var changed = false;
                 if (yAxis instanceof ValueAxis && !(yAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(yAxisId);
-                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged || (xAxis instanceof DateAxis && xAxis.groupData && this.isShowing)) && minY < tmin) || (this.stackedSeries && !this.isHidden)) {
+                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged || (xAxis instanceof DateAxis && xAxis.groupData && this.isShowing)) && minY < tmin) || (this.stackedSeries && !this.isHidden && !working)) {
                         this._tmin.setKey(yAxisId, minY);
                         changed = true;
                     }
                     var tmax = this._tmax.getKey(yAxisId);
-                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged || (xAxis instanceof DateAxis && xAxis.groupData && this.isShowing)) && maxY > tmax) || (this.stackedSeries && !this.isHidden)) {
+                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged || (xAxis instanceof DateAxis && xAxis.groupData && this.isShowing)) && maxY > tmax) || (this.stackedSeries && !this.isHidden && !working)) {
                         this._tmax.setKey(yAxisId, maxY);
                         changed = true;
                     }
                 }
                 if (xAxis instanceof ValueAxis && !(xAxis instanceof DateAxis)) {
                     var tmin = this._tmin.getKey(xAxisId);
-                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged || (yAxis instanceof DateAxis && yAxis.groupData && this.isShowing)) && minX < tmin) || (this.stackedSeries && !this.isHidden)) {
+                    if (!$type.isNumber(tmin) || ((this.usesShowFields || this._dataSetChanged || (yAxis instanceof DateAxis && yAxis.groupData && this.isShowing)) && minX < tmin) || (this.stackedSeries && !this.isHidden && !working)) {
                         this._tmin.setKey(xAxisId, minX);
                         changed = true;
                     }
                     var tmax = this._tmax.getKey(xAxisId);
-                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged || (yAxis instanceof DateAxis && yAxis.groupData && this.isShowing)) && maxX > tmax) || (this.stackedSeries && !this.isHidden)) {
+                    if (!$type.isNumber(tmax) || ((this.usesShowFields || this._dataSetChanged || (yAxis instanceof DateAxis && yAxis.groupData && this.isShowing)) && maxX > tmax) || (this.stackedSeries && !this.isHidden && !working)) {
                         this._tmax.setKey(xAxisId, maxX);
                         changed = true;
                     }
@@ -1749,6 +1757,7 @@ var XYSeries = /** @class */ (function (_super) {
                     if (field_1) {
                         this.dataItems.each(function (dataItem) {
                             dataItem.setCalculatedValue(field_1, 0, "stack");
+                            dataItem.setCalculatedValue(field_1, 0, "stackTrue");
                         });
                     }
                 }
@@ -1938,6 +1947,9 @@ var XYSeries = /** @class */ (function (_super) {
         if (anim && !anim.isFinished()) {
             animation = anim;
         }
+        if (this.appeared) {
+            this.dispatch("selectionextremeschanged");
+        }
         // helps to avoid flicker. otherwise columns will show up at full size and only on next frame will animate from 0
         this.validateDataElements();
         //}
@@ -1990,6 +2002,7 @@ var XYSeries = /** @class */ (function (_super) {
             }
             //this is good for removing series, otherwise stack values will remain the same and chart won't pay atention when adding/removing series			
             dataItem.setCalculatedValue(field_2, 0, "stack");
+            dataItem.setCalculatedValue(field_2, 0, "stackTrue");
             $iter.eachContinue(chart.series.range(0, index).backwards().iterator(), function (prevSeries) {
                 // stacking is only possible if both axes are the same
                 if (prevSeries.xAxis == xAxis && prevSeries.yAxis == yAxis && prevSeries.className == _this.className) {
@@ -1999,16 +2012,16 @@ var XYSeries = /** @class */ (function (_super) {
                     if (prevDataItem && prevDataItem.hasValue(_this._xValueFields) && prevDataItem.hasValue(_this._yValueFields)) {
                         var value = dataItem.getValue(field_2);
                         var prevValue = void 0;
-                        var prevRealValue = prevDataItem.getValue(field_2) + prevDataItem.getValue(field_2, "stack");
-                        if (working) {
-                            prevValue = prevDataItem.getWorkingValue(field_2) + prevDataItem.getValue(field_2, "stack");
+                        var prevStack = prevDataItem.getValue(field_2, "stackTrue");
+                        if (prevStack == null) {
+                            prevStack = 0;
                         }
-                        else {
-                            prevValue = prevDataItem.getValue(field_2) + prevDataItem.getValue(field_2, "stack");
-                        }
+                        var prevRealValue = prevDataItem.getValue(field_2) + prevStack;
+                        prevValue = prevDataItem.getWorkingValue(field_2) + prevDataItem.getValue(field_2, "stack");
                         if (_this.stackToNegative) {
                             if ((value >= 0 && prevRealValue >= 0) || (value < 0 && prevRealValue < 0)) {
                                 dataItem.setCalculatedValue(field_2, prevValue, "stack");
+                                dataItem.setCalculatedValue(field_2, prevRealValue, "stackTrue");
                                 return false;
                             }
                             else if (!prevSeries.stacked) {
@@ -2017,6 +2030,7 @@ var XYSeries = /** @class */ (function (_super) {
                         }
                         else {
                             dataItem.setCalculatedValue(field_2, prevValue, "stack");
+                            dataItem.setCalculatedValue(field_2, prevRealValue, "stackTrue");
                             return false;
                         }
                     }
