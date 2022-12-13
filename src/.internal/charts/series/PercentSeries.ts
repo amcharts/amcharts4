@@ -828,7 +828,7 @@ export class PercentSeries extends Series {
 				if (label.invalid) {
 					label.validate();
 				}
-				
+
 				let lh = label.measuredHeight;
 				if (!label.visible) {
 					lh = 0;
@@ -840,11 +840,25 @@ export class PercentSeries extends Series {
 
 				let nextLabel = this.getNextLabel(i + 1, dataItems);
 
-				let bottom: number = label.pixelY + lh;
+				let bottom: number = label.pixelY + lh / 2;
 
 				if (nextLabel) {
-					if (nextLabel.y < bottom) {
-						nextLabel.y = bottom;
+					if (nextLabel.invalid) {
+						nextLabel.validate();
+					}
+
+					let nextLabelHeight = nextLabel.measuredHeight;
+					if (!nextLabel.visible) {
+						nextLabelHeight = 0;
+					}
+
+					let nextLabelY = nextLabel.pixelY;
+					if (nextLabelY == null) {
+						nextLabelY = 0;
+					}
+
+					if (nextLabelY - nextLabelHeight / 2 < bottom) {
+						nextLabel.y = bottom + nextLabelHeight / 2;
 					}
 				}
 			}
@@ -871,13 +885,13 @@ export class PercentSeries extends Series {
 					lh = 0;
 				}
 
-				if (i == dataItems.length - 1) {
-					previousTop += lh / 2;
-				}
+				//if (i == dataItems.length - 1) {
+				//previousTop += lh / 2;
+				//}
 
-				if (label.pixelY + lh > previousTop) {
-					label.y = previousTop - lh;
-					previousTop = label.y;
+				if (label.pixelY + lh / 2 > previousTop) {
+					label.y = previousTop - lh / 2;
+					previousTop = label.y - lh / 2;
 				}
 			}
 		}
@@ -999,7 +1013,7 @@ export class PercentSeries extends Series {
 					if (!child.isActive) {
 						child.strokeOpacity = slice.strokeOpacity;
 					}
-					child.defaultState.properties.strokeOpacity = slice.strokeOpacity;					
+					child.defaultState.properties.strokeOpacity = slice.strokeOpacity;
 				}
 			}, undefined, false));
 		});
@@ -1014,7 +1028,7 @@ export class PercentSeries extends Series {
 	protected handleSliceScale(event: AMEvent<this["_slice"], ISpriteEvents>["propertychanged"]): void {
 		let slice: this["_slice"] = event.target;
 		let dataItem: this["_dataItem"] = <this["_dataItem"]>slice.dataItem;
-		if(dataItem && dataItem.bullets){
+		if (dataItem && dataItem.bullets) {
 			$iter.each(dataItem.bullets.iterator(), (a) => {
 				let value = a[1];
 				this.positionBullet(value);

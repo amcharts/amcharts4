@@ -914,7 +914,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getImage = function (type, options, includeExtras) {
         return __awaiter(this, void 0, void 0, function () {
-            var prehidden, canvas, uri, e_4, data, data;
+            var prehidden, canvas, newCanvas, uri, e_4, data, data;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -943,7 +943,9 @@ var Export = /** @class */ (function (_super) {
                         if (!(includeExtras !== false)) return [3 /*break*/, 6];
                         return [4 /*yield*/, this.addExtras(canvas, options)];
                     case 5:
-                        canvas = _a.sent();
+                        newCanvas = _a.sent();
+                        this.disposeCanvas(canvas);
+                        canvas = newCanvas;
                         _a.label = 6;
                     case 6:
                         uri = canvas.toDataURL(this.getContentType(type), options.quality);

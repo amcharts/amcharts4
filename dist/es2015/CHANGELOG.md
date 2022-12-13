@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.31] - 2022-12-13
+
+### Fixed
+- When exporting chart with external elements (e.g. external legend), export would leave some stray canvas elements in the DOM.
+- `PieSeries`'s labels were arranged incorrectly in some cases, if `maxWidth` and `wrap` was set on the label template.
+
+
 ## [4.10.30] - 2022-11-14
 
 ### Changed

@@ -2177,7 +2177,9 @@ export class Export extends Validatable {
 
 				// Add extra sprites
 				if (includeExtras !== false) {
-					canvas = await this.addExtras(canvas, options);
+					const newCanvas = await this.addExtras(canvas, options);
+					this.disposeCanvas(canvas);
+					canvas = newCanvas;
 				}
 
 				// Convert to data uri
