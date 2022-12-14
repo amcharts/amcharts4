@@ -2601,7 +2601,9 @@ export class Export extends Validatable {
 	 * @param canvas  Canvas element
 	 */
 	protected disposeCanvas(canvas: HTMLCanvasElement): void {
-		document.body.removeChild(canvas);
+		if (document.body.contains(canvas)) {
+			document.body.removeChild(canvas);
+		}
 	}
 
 	/**

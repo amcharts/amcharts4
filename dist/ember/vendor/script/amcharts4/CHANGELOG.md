@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.32] - 2022-12-14
+
+### Fixed
+- Image export was broken in some cases since 4.10.31.
+
+
 ## [4.10.31] - 2022-12-13
 
 ### Fixed

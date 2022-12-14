@@ -1308,7 +1308,9 @@ var Export = /** @class */ (function (_super) {
      * @param canvas  Canvas element
      */
     Export.prototype.disposeCanvas = function (canvas) {
-        document.body.removeChild(canvas);
+        if (document.body.contains(canvas)) {
+            document.body.removeChild(canvas);
+        }
     };
     /**
      * Returns pixel ratio for retina displays.
