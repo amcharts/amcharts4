@@ -957,4 +957,5 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    protected _saveMinMax(_min: number, _max: number): void;
 }

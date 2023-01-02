@@ -298,6 +298,8 @@ var DateAxis = /** @class */ (function (_super) {
          * @readonly
          */
         _this.groupMax = {};
+        _this._intervalMax = {};
+        _this._intervalMin = {};
         _this.className = "DateAxis";
         _this.setPropertyValue("markUnitChange", true);
         _this.snapTooltip = true;
@@ -494,6 +496,18 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.handleSelectionExtremesChange = function () {
     };
     /**
+     * @ignore
+     */
+    DateAxis.prototype.getIntervalMax = function (interval) {
+        return this._intervalMax[interval.timeUnit + interval.count];
+    };
+    /**
+     * @ignore
+     */
+    DateAxis.prototype.getIntervalMin = function (interval) {
+        return this._intervalMin[interval.timeUnit + interval.count];
+    };
+    /**
      * Calculates all positions, related to axis as per current zoom.
      *
      * @ignore Exclude from docs
@@ -506,7 +520,12 @@ var DateAxis = /** @class */ (function (_super) {
         // if data has to be grouped, choose interval and set dataset
         if (this.groupData && $type.hasValue(difference)) {
             var mainBaseInterval = this.mainBaseInterval;
-            var modifiedDifference = difference + (this.startLocation + (1 - this.endLocation)) * this.baseDuration;
+            var min = this.getIntervalMin(mainBaseInterval);
+            var max = this.getIntervalMax(mainBaseInterval);
+            var selectionMin = min + (max - min) * this.start;
+            var selectionMax = min + (max - min) * this.end;
+            var diff = this.adjustDifference(selectionMin, selectionMax);
+            var modifiedDifference = diff + (this.startLocation + (1 - this.endLocation)) * this.baseDuration;
             var groupInterval = void 0;
             if (this.groupInterval) {
                 groupInterval = __assign({}, this.groupInterval);
@@ -2401,6 +2420,15 @@ var DateAxis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    DateAxis.prototype._saveMinMax = function (min, max) {
+        var groupInterval = this.groupInterval;
+        if (!groupInterval) {
+            groupInterval = this._mainBaseInterval;
+        }
+        var id = groupInterval.timeUnit + groupInterval.count;
+        this._intervalMin[id] = min;
+        this._intervalMax[id] = max;
+    };
     return DateAxis;
 }(ValueAxis));
 export { DateAxis };

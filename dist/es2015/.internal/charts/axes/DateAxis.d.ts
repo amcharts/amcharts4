@@ -459,6 +459,12 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @readonly
      */
     tooltipDate: Date;
+    protected _intervalMax: {
+        [index: string]: number;
+    };
+    protected _intervalMin: {
+        [index: string]: number;
+    };
     /**
      * Constructor
      */
@@ -494,6 +500,14 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @todo Does nothing?
      */
     handleSelectionExtremesChange(): void;
+    /**
+     * @ignore
+     */
+    getIntervalMax(interval: ITimeInterval): number;
+    /**
+     * @ignore
+     */
+    getIntervalMin(interval: ITimeInterval): number;
     /**
      * Calculates all positions, related to axis as per current zoom.
      *
@@ -1101,4 +1115,5 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @return base value
      */
     readonly baseValue: number;
+    protected _saveMinMax(min: number, max: number): void;
 }

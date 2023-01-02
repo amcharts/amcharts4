@@ -554,6 +554,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public tooltipDate: Date;
 
+
+	protected _intervalMax: { [index: string]: number } = {};
+	protected _intervalMin: { [index: string]: number } = {};
+
 	/**
 	 * Constructor
 	 */
@@ -758,6 +762,21 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 	}
 
+
+	/**
+	 * @ignore
+	 */
+	public getIntervalMax(interval: ITimeInterval): number {
+		return this._intervalMax[interval.timeUnit + interval.count];
+	}
+
+	/**
+	 * @ignore
+	 */
+	public getIntervalMin(interval: ITimeInterval): number {
+		return this._intervalMin[interval.timeUnit + interval.count];
+	}
+
 	/**
 	 * Calculates all positions, related to axis as per current zoom.
 	 *
@@ -773,7 +792,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		if (this.groupData && $type.hasValue(difference)) {
 			let mainBaseInterval = this.mainBaseInterval;
 
-			let modifiedDifference = difference + (this.startLocation + (1 - this.endLocation)) * this.baseDuration;
+			const min = this.getIntervalMin(mainBaseInterval);
+			const max = this.getIntervalMax(mainBaseInterval);
+
+			let selectionMin = min + (max - min) * this.start;
+			let selectionMax = min + (max - min) * this.end;
+			let diff = this.adjustDifference(selectionMin, selectionMax);
+
+			let modifiedDifference = diff + (this.startLocation + (1 - this.endLocation)) * this.baseDuration;
 			let groupInterval: ITimeInterval;
 			if (this.groupInterval) {
 				groupInterval = { ...this.groupInterval }
@@ -784,7 +810,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					groupInterval = { ...mainBaseInterval };
 				}
 			}
-
 
 			this._groupInterval = groupInterval;
 			let newId = groupInterval.timeUnit + groupInterval.count;
@@ -3051,6 +3076,18 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public get baseValue(): number {
 		return this.min;
+	}
+
+	protected _saveMinMax(min: number, max: number) {
+		let groupInterval = this.groupInterval;
+
+		if (!groupInterval) {
+			groupInterval = this._mainBaseInterval;
+		}
+
+		let id = groupInterval.timeUnit + groupInterval.count;
+		this._intervalMin[id] = min;
+		this._intervalMax[id] = max;
 	}
 }
 

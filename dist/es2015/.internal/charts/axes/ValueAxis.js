@@ -1032,6 +1032,7 @@ var ValueAxis = /** @class */ (function (_super) {
                     this._finalMax = max;
                     this.invalidateDataItems();
                     this.dispatchImmediately("extremeschanged");
+                    this._saveMinMax(min, max);
                 }
             }
         }
@@ -2177,6 +2178,8 @@ var ValueAxis = /** @class */ (function (_super) {
             }
         }
         _super.prototype.processConfig.call(this, config);
+    };
+    ValueAxis.prototype._saveMinMax = function (_min, _max) {
     };
     return ValueAxis;
 }(Axis));

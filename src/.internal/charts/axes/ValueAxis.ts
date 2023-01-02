@@ -1431,6 +1431,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 					this.invalidateDataItems();
 					this.dispatchImmediately("extremeschanged");
+
+					this._saveMinMax(min, max);
 				}
 			}
 		}
@@ -2650,6 +2652,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		super.processConfig(config);
 
 	}
+
+	protected _saveMinMax(_min: number, _max: number) {
+
+	}	
 }
 
 /**
