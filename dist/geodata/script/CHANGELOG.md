@@ -5,6 +5,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED] - ????-??-??
 
+### Added
+- `spain2*` maps added. Same as `spain*`, except with off-shore islands misplaced so they show up close to the mainland.
+
 ### Changed
 - Map of the Pakistan was updated to adhere to local requirements.
 

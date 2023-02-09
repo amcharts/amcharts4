@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.34] - 2023-01-02
+
+### Fixed
+- Fixed an accessibility warning `MapChart`.
+- Bullet positions on a `PieSeries` was sometimes off.
+- Legend with `scrollable = true` was scrolling even if scrollbar was not visible at that moment.
+
+
 ## [4.10.33] - 2023-01-02
 
 ### Fixed

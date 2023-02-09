@@ -159,6 +159,10 @@ var PieChart = /** @class */ (function (_super) {
         _this.chartContainer.minHeight = 50;
         _this.chartContainer.minWidth = 50;
         _this.chartContainer.events.on("maxsizechanged", _this.updateRadius, _this, false); // need this for the chart to change radius if legend is removed/disabled
+        _this._disposers.push(_this.seriesContainer.events.on("positionchanged", function () {
+            _this.bulletsContainer.x = _this.seriesContainer.x;
+            _this.bulletsContainer.y = _this.seriesContainer.y;
+        }));
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -247,8 +251,6 @@ var PieChart = /** @class */ (function (_super) {
             });
             this.seriesContainer.definedBBox = { x: chartRadius * rect.x, y: chartRadius * rect.y, width: chartRadius * rect.width, height: chartRadius * rect.height };
             this.seriesContainer.invalidateLayout();
-            this.bulletsContainer.x = this.seriesContainer.x;
-            this.bulletsContainer.y = this.seriesContainer.y;
         }
     };
     Object.defineProperty(PieChart.prototype, "radius", {

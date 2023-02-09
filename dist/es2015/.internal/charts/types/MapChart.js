@@ -435,6 +435,7 @@ var MapChart = /** @class */ (function (_super) {
             this.readerTitle = this.language.translate("Map");
         }
         if (!$type.hasValue(this.background.readerTitle)) {
+            this.background.role = "application";
             this.background.readerTitle = this.language.translate("Use plus and minus keys on your keyboard to zoom in and out");
         }
     };

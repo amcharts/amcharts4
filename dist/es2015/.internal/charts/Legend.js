@@ -402,6 +402,20 @@ var Legend = /** @class */ (function (_super) {
         // Apply accessibility settings
         _this.role = "group";
         _this.events.on("layoutvalidated", _this.handleScrollbar, _this, false);
+        _this.events.on("parentset", function () {
+            var parent = _this.parent;
+            if (parent) {
+                _this._disposers.push(parent.events.on("maxsizechanged", function () {
+                    if (_this.scrollable) {
+                        _this.setTimeout(function () {
+                            _this.updateMasks();
+                            _this.handleScrollbar();
+                            _this._handleWheelReal(1);
+                        }, 100);
+                    }
+                }));
+            }
+        });
         _this.applyTheme();
         return _this;
     }
@@ -577,15 +591,20 @@ var Legend = /** @class */ (function (_super) {
     Legend.prototype.handleScrollbar = function () {
         var scrollbar = this.scrollbar;
         if (this.scrollable && scrollbar) {
-            scrollbar.height = this.measuredHeight;
+            var measuredHeight = this.maxHeight;
+            scrollbar.height = measuredHeight;
             scrollbar.x = this.measuredWidth - scrollbar.pixelWidth - scrollbar.pixelMarginLeft;
-            if (this.contentHeight > this.measuredHeight) {
+            if (this.contentHeight > measuredHeight) {
                 scrollbar.visible = true;
-                scrollbar.thumb.height = scrollbar.height * this.measuredHeight / this.contentHeight;
-                this.paddingRight = scrollbar.pixelWidth + scrollbar.pixelMarginLeft + +scrollbar.pixelMarginRight;
+                scrollbar.thumb.height = scrollbar.height * measuredHeight / this.contentHeight;
+                this.paddingRight = scrollbar.pixelWidth + scrollbar.pixelMarginLeft + scrollbar.pixelMarginRight;
             }
             else {
+                scrollbar.thumb.height = scrollbar.height * measuredHeight / this.contentHeight;
+                this.paddingRight = scrollbar.pixelWidth + scrollbar.pixelMarginLeft + scrollbar.pixelMarginRight;
                 scrollbar.visible = false;
+                scrollbar.start = 0;
+                scrollbar.end = 1;
             }
             scrollbar.handleThumbPosition();
             this.updateMasks();
@@ -718,7 +737,9 @@ var Legend = /** @class */ (function (_super) {
      * @param  event  Event
      */
     Legend.prototype.handleWheel = function (event) {
-        var shift = event.shift.y;
+        this._handleWheelReal(event.shift.y);
+    };
+    Legend.prototype._handleWheelReal = function (shift) {
         var scrollbar = this.scrollbar;
         if (scrollbar) {
             var ds = (shift / 1000 * this.measuredHeight / this.contentHeight);
@@ -740,10 +761,11 @@ var Legend = /** @class */ (function (_super) {
         var _this = this;
         if (this.scrollbar) {
             this.itemContainers.each(function (itemContainer) {
-                itemContainer.dy = -_this.scrollbar.thumb.pixelY * _this.contentHeight / _this.measuredHeight;
-                itemContainer.maskRectangle = { x: 0, y: -itemContainer.dy, width: _this.measuredWidth, height: _this.measuredHeight };
+                itemContainer.dy = -_this.scrollbar.thumb.pixelY * _this.contentHeight / _this.maxHeight;
+                itemContainer.maskRectangle = { x: 0, y: -itemContainer.dy, width: _this.measuredWidth, height: _this.maxHeight };
             });
         }
+        this.invalidatePosition();
     };
     /**
      * Toggles a legend item.

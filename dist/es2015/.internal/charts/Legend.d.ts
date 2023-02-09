@@ -388,6 +388,7 @@ export declare class Legend extends Component {
      * @param  event  Event
      */
     protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void;
+    protected _handleWheelReal(shift: number): void;
     /**
      * @ignore
      */

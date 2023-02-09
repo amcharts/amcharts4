@@ -107,7 +107,7 @@ export interface ITooltipProperties extends IContainerProperties {
 
 	/**
 	 * Normally, a tooltip's position will be adjusted so it always fits into
-	 * chart's coundaries.
+	 * chart's boundaries.
 	 *
 	 * Setting this to `false` will disable such checks and will allow tooltip
 	 * to "bleed over" the edge of the chart.

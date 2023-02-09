@@ -198,7 +198,7 @@ export class LegendDataItem extends DataItem {
 
 			let itemContainer = component.itemContainers.create();
 			itemContainer.parent = component;
-			
+
 			this._itemContainer = itemContainer;
 			this.addSprite(itemContainer);
 			this._disposers.push(itemContainer);
@@ -628,6 +628,20 @@ export class Legend extends Component {
 		this.role = "group";
 
 		this.events.on("layoutvalidated", this.handleScrollbar, this, false);
+		this.events.on("parentset", () => {
+			const parent = this.parent;
+			if (parent) {
+				this._disposers.push(parent.events.on("maxsizechanged", () => {
+					if (this.scrollable) {
+						this.setTimeout(() => {
+							this.updateMasks();
+							this.handleScrollbar();
+							this._handleWheelReal(1);
+						}, 100)
+					}
+				}))
+			}
+		});
 
 		this.applyTheme();
 	}
@@ -693,10 +707,10 @@ export class Legend extends Component {
 		dataItem.dataContext.legendDataItem = dataItem;
 
 		let tempMaxWidth = dataItem.label.maxWidth;
-		if(!(dataItem.label.width instanceof Percent)){
-			dataItem.label.width = undefined;	
+		if (!(dataItem.label.width instanceof Percent)) {
+			dataItem.label.width = undefined;
 		}
-		
+
 		if (tempMaxWidth > 0) {
 			dataItem.label.maxWidth = tempMaxWidth;
 		}
@@ -780,7 +794,7 @@ export class Legend extends Component {
 
 		let maxValueLabelWidth = 0;
 		this.valueLabels.each((label) => {
-			if (label.invalid) {				
+			if (label.invalid) {
 				label.validate();
 			}
 			if (label.measuredWidth + label.pixelMarginLeft + label.pixelMarginRight > maxValueLabelWidth) {
@@ -814,7 +828,7 @@ export class Legend extends Component {
 
 		this.labels.each((label) => {
 			if (this.valueLabels.template.align == "right" || label.measuredWidth > maxAdjustedLabelWidth) {
-				if(!(label.width instanceof Percent)){
+				if (!(label.width instanceof Percent)) {
 					label.width = Math.min(label.maxWidth, maxAdjustedLabelWidth - label.pixelMarginLeft - label.pixelMarginRight);
 					label.maxWidth = label.width;
 				}
@@ -833,16 +847,21 @@ export class Legend extends Component {
 	protected handleScrollbar() {
 		let scrollbar = this.scrollbar;
 		if (this.scrollable && scrollbar) {
-			scrollbar.height = this.measuredHeight;
+			const measuredHeight = this.maxHeight;
+			scrollbar.height = measuredHeight;
 			scrollbar.x = this.measuredWidth - scrollbar.pixelWidth - scrollbar.pixelMarginLeft;
 
-			if (this.contentHeight > this.measuredHeight) {
+			if (this.contentHeight > measuredHeight) {
 				scrollbar.visible = true;
-				scrollbar.thumb.height = scrollbar.height * this.measuredHeight / this.contentHeight;
-				this.paddingRight = scrollbar.pixelWidth + scrollbar.pixelMarginLeft + + scrollbar.pixelMarginRight;
+				scrollbar.thumb.height = scrollbar.height * measuredHeight / this.contentHeight;
+				this.paddingRight = scrollbar.pixelWidth + scrollbar.pixelMarginLeft + scrollbar.pixelMarginRight;
 			}
 			else {
+				scrollbar.thumb.height = scrollbar.height * measuredHeight / this.contentHeight;
+				this.paddingRight = scrollbar.pixelWidth + scrollbar.pixelMarginLeft + scrollbar.pixelMarginRight;
 				scrollbar.visible = false;
+				scrollbar.start = 0;
+				scrollbar.end = 1;
 			}
 
 			scrollbar.handleThumbPosition();
@@ -969,7 +988,10 @@ export class Legend extends Component {
 	 * @param  event  Event
 	 */
 	protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void {
-		let shift = event.shift.y;
+		this._handleWheelReal(event.shift.y)
+	}
+
+	protected _handleWheelReal(shift: number) {
 		let scrollbar = this.scrollbar
 		if (scrollbar) {
 			let ds = (shift / 1000 * this.measuredHeight / this.contentHeight);
@@ -991,10 +1013,11 @@ export class Legend extends Component {
 	protected updateMasks(): void {
 		if (this.scrollbar) {
 			this.itemContainers.each((itemContainer) => {
-				itemContainer.dy = -this.scrollbar.thumb.pixelY * this.contentHeight / this.measuredHeight;
-				itemContainer.maskRectangle = { x: 0, y: -itemContainer.dy, width: this.measuredWidth, height: this.measuredHeight }
+				itemContainer.dy = -this.scrollbar.thumb.pixelY * this.contentHeight / this.maxHeight;
+				itemContainer.maskRectangle = { x: 0, y: -itemContainer.dy, width: this.measuredWidth, height: this.maxHeight }
 			})
 		}
+		this.invalidatePosition();
 	}
 
 	/**

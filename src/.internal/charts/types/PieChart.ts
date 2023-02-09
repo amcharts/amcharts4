@@ -260,6 +260,11 @@ export class PieChart extends PercentChart {
 
 		this.chartContainer.events.on("maxsizechanged", this.updateRadius, this, false); // need this for the chart to change radius if legend is removed/disabled
 
+		this._disposers.push(this.seriesContainer.events.on("positionchanged", ()=>{
+			this.bulletsContainer.x = this.seriesContainer.x;
+			this.bulletsContainer.y = this.seriesContainer.y;
+		}))
+
 		// Apply theme
 		this.applyTheme();
 	}
@@ -370,9 +375,6 @@ export class PieChart extends PercentChart {
 
 			this.seriesContainer.definedBBox = { x: chartRadius * rect.x, y: chartRadius * rect.y, width: chartRadius * rect.width, height: chartRadius * rect.height };
 			this.seriesContainer.invalidateLayout();
-
-			this.bulletsContainer.x = this.seriesContainer.x;
-			this.bulletsContainer.y = this.seriesContainer.y;
 		}
 	}
 
