@@ -4005,17 +4005,17 @@ var Sprite = /** @class */ (function (_super) {
             if (!this._interaction) {
                 var interaction = getInteraction().getInteraction(this.dom);
                 this._interaction = interaction;
-                this._interaction.clickable = this.clickable;
-                this._interaction.hoverable = this.hoverable;
-                this._interaction.trackable = this.trackable;
-                this._interaction.draggable = this.draggable;
-                this._interaction.swipeable = this.swipeable;
-                this._interaction.resizable = this.resizable;
-                this._interaction.wheelable = this.wheelable;
-                this._interaction.contextMenuDisabled = this.contextMenuDisabled;
-                this._interaction.inert = this.inert;
-                this._interaction.sprite = this;
-                this._disposers.push(this._interaction);
+                interaction.clickable = this.clickable;
+                interaction.hoverable = this.hoverable;
+                interaction.trackable = this.trackable;
+                interaction.draggable = this.draggable;
+                interaction.swipeable = this.swipeable;
+                interaction.resizable = this.resizable;
+                interaction.wheelable = this.wheelable;
+                interaction.contextMenuDisabled = this.contextMenuDisabled;
+                interaction.inert = this.inert;
+                interaction.sprite = this;
+                this._disposers.push(interaction);
             }
             return this._interaction;
         },

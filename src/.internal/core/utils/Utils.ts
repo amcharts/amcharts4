@@ -361,7 +361,9 @@ export function splitTextByCharCount(text: string, maxChars: number, fullWords?:
 		if (parts) {
 			if (rtl) {
 				for (let x = 0; x < parts.length; x++) {
-					parts[x] = reverseString(parts[x]);
+					if (!rtl) {
+						parts[x] = reverseString(parts[x]);
+					}
 				}
 			}
 

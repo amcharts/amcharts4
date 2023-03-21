@@ -1343,7 +1343,7 @@ var Interaction = /** @class */ (function (_super) {
         io.downPointers.removeValue(pointer);
         // Trigger out because some touch devices won't trigger out events
         // on their own
-        if (pointer.touch || this._useTouchEventsOnly) {
+        if ((pointer && pointer.touch) || this._useTouchEventsOnly) {
             this.handleOut(io, pointer, ev, true);
         }
         // Check if object still down
@@ -1355,7 +1355,7 @@ var Interaction = /** @class */ (function (_super) {
                 this.downObjects.removeValue(io);
             }
             // Dispatch "up" event
-            if (io.events.isEnabled("up") && !system.isPaused) {
+            if (io.events.isEnabled("up") && !system.isPaused && pointer) {
                 var imev = {
                     type: "up",
                     target: io,

@@ -304,7 +304,9 @@ export function splitTextByCharCount(text, maxChars, fullWords, rtl, fullWordFal
         if (parts) {
             if (rtl) {
                 for (var x = 0; x < parts.length; x++) {
-                    parts[x] = reverseString(parts[x]);
+                    if (!rtl) {
+                        parts[x] = reverseString(parts[x]);
+                    }
                 }
             }
             res = parts;

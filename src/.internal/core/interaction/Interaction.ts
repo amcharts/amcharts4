@@ -1725,7 +1725,7 @@ export class Interaction extends BaseObjectEvents {
 
 		// Trigger out because some touch devices won't trigger out events
 		// on their own
-		if (pointer.touch || this._useTouchEventsOnly) {
+		if ((pointer && pointer.touch) || this._useTouchEventsOnly) {
 			this.handleOut(io, pointer, ev, true);
 		}
 
@@ -1740,7 +1740,7 @@ export class Interaction extends BaseObjectEvents {
 			}
 
 			// Dispatch "up" event
-			if (io.events.isEnabled("up") && !system.isPaused) {
+			if (io.events.isEnabled("up") && !system.isPaused && pointer) {
 				let imev: AMEvent<InteractionObject, IInteractionObjectEvents>["up"] = {
 					type: "up",
 					target: io,

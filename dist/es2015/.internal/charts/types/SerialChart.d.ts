@@ -13,6 +13,7 @@ import { Container } from "../../core/Container";
 import { Series } from "../series/Series";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { PatternSet } from "../../core/utils/PatternSet";
+import { IDisposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -119,6 +120,7 @@ export declare class SerialChart extends Chart {
      * Holds a reference to the container series' bullets are drawn in.
      */
     readonly bulletsContainer: Container;
+    protected _exitDP: IDisposer;
     /**
      * Constructor
      */

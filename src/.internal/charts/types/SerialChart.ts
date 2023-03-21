@@ -19,7 +19,7 @@ import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
-import { Disposer } from "../../core/utils/Disposer";
+import { Disposer, IDisposer } from "../../core/utils/Disposer";
 
 /**
  * ============================================================================
@@ -153,6 +153,8 @@ export class SerialChart extends Chart {
 	 */
 	public readonly bulletsContainer: Container;
 
+	protected _exitDP: IDisposer;
+
 
 	/**
 	 * Constructor
@@ -243,6 +245,11 @@ export class SerialChart extends Chart {
 			dataUser.invalidateDataItems();
 		})
 
+		if (this._exitDP) {
+			this._exitDP.dispose();
+			this._exitDP = undefined;
+		}
+
 		if (series.autoDispose) {
 			series.dispose();
 		}
@@ -296,7 +303,7 @@ export class SerialChart extends Chart {
 		this.handleLegendSeriesAdded(series);
 	}
 
-	protected handleLegendSeriesAdded(series:Series){
+	protected handleLegendSeriesAdded(series: Series) {
 		if (!series.hiddenInLegend) {
 			if (this.legend) {
 				this.legend.addData(series);
@@ -306,27 +313,25 @@ export class SerialChart extends Chart {
 
 	protected handleSeriesAdded2(series: Series) {
 		if (!this.dataInvalid) {
-			this._disposers.push(
-				// on exit only as data is usually passed after push
-				registry.events.once("exitframe", () => {
-					if (!series.data || series.data.length == 0) {
-						series.data = this.data;
-						if (series.showOnInit) {
-							series.reinit()
-							series.setPropertyValue("showOnInit", false);
-							series.showOnInit = true;
-						}
-
-						if(!series.isDisposed()) {
-							series.events.once("datavalidated", () => {
-								if (series.data == this.data) {
-									(<any>series)._data = [];
-								}
-							})
-						}
+			this._exitDP = registry.events.once("exitframe", () => {
+				if (!series.data || series.data.length == 0) {
+					series.data = this.data;
+					if (series.showOnInit) {
+						series.reinit()
+						series.setPropertyValue("showOnInit", false);
+						series.showOnInit = true;
 					}
-				})
-			)
+
+					if (!series.isDisposed()) {
+						series.events.once("datavalidated", () => {
+							if (series.data == this.data) {
+								(<any>series)._data = [];
+							}
+						})
+					}
+				}
+			})
+			this._disposers.push(this._exitDP);
 		}
 	}
 

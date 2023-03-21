@@ -5,7 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
-## [4.10.34] - 2023-01-02
+## [4.10.35] - 2023-03-21
+
+### Fixed
+- RTL text was not being truncated correctly.
+- Removed chart producing an error on longpress on touch devices in some cases.
+- In some cases, when a series was removed from a Serial chart, it was not disposing one of the listeners and could remain in the memory.
+
+
+## [4.10.34] - 2023-02-09
 
 ### Fixed
 - Fixed an accessibility warning `MapChart`.

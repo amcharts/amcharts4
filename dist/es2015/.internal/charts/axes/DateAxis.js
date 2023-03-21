@@ -1552,7 +1552,6 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.updateAxisBySeries = function () {
         _super.prototype.updateAxisBySeries.call(this);
         var baseInterval = this.chooseInterval(0, this.minDifference, 1);
-        // handle short months
         if (this.minDifference >= $time.getDuration("day", 27) && baseInterval.timeUnit == "week") {
             baseInterval.timeUnit = "month";
             baseInterval.count = 1;
@@ -2423,7 +2422,7 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype._saveMinMax = function (min, max) {
         var groupInterval = this.groupInterval;
         if (!groupInterval) {
-            groupInterval = this._mainBaseInterval;
+            groupInterval = this.mainBaseInterval;
         }
         var id = groupInterval.timeUnit + groupInterval.count;
         this._intervalMin[id] = min;

@@ -800,12 +800,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let diff = this.adjustDifference(selectionMin, selectionMax);
 
 			let modifiedDifference = diff + (this.startLocation + (1 - this.endLocation)) * this.baseDuration;
+
 			let groupInterval: ITimeInterval;
 			if (this.groupInterval) {
 				groupInterval = { ...this.groupInterval }
 			}
 			else {
 				groupInterval = this.chooseInterval(0, modifiedDifference, this.groupCount, this.groupIntervals);
+
 				if ($time.getDuration(groupInterval.timeUnit, groupInterval.count) < $time.getDuration(mainBaseInterval.timeUnit, mainBaseInterval.count)) {
 					groupInterval = { ...mainBaseInterval };
 				}
@@ -2107,8 +2109,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		let baseInterval: ITimeInterval = this.chooseInterval(0, this.minDifference, 1);
 
-		// handle short months
-
 		if (this.minDifference >= $time.getDuration("day", 27) && baseInterval.timeUnit == "week") {
 			baseInterval.timeUnit = "month";
 			baseInterval.count = 1;
@@ -3082,10 +3082,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let groupInterval = this.groupInterval;
 
 		if (!groupInterval) {
-			groupInterval = this._mainBaseInterval;
+			groupInterval = this.mainBaseInterval;			
 		}
 
 		let id = groupInterval.timeUnit + groupInterval.count;
+
 		this._intervalMin[id] = min;
 		this._intervalMax[id] = max;
 	}
