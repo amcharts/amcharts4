@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.36] - 2023-05-18
+
+### Added
+- New locale: Faroese (fo_FO). Thanks Martin Puge.
+
+### Changed
+- A link object that was created with `linkWith` for `ForceDirectedNode` is pushed to the child node's data items `childLinks` array and also `node.linksWith` list.
+- Removed `xlsx` package (with vulnerability) from dependencies in favor of a bundled hard copy (version 0.19.3) due to their decision not to publish to NPM. ([Issue 4261](https://github.com/amcharts/amcharts4/issues/4261)).
+
+### Fixed
+- In some cases, when a series was removed from a `SerialChart` it was not disposing one of the listeners and could remain in the memory.
+- Grip rollover labels of a vertical `Scrollbar` were showing opposite values.
+
+
 ## [4.10.35] - 2023-03-21
 
 ### Fixed

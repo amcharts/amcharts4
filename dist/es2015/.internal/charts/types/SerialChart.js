@@ -67,6 +67,7 @@ var SerialChart = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
+        _this._exitDP = {};
         _this.className = "SerialChart";
         _this.colors = new ColorSet();
         _this._usesData = false;
@@ -138,9 +139,9 @@ var SerialChart = /** @class */ (function (_super) {
         this.dataUsers.each(function (dataUser) {
             dataUser.invalidateDataItems();
         });
-        if (this._exitDP) {
-            this._exitDP.dispose();
-            this._exitDP = undefined;
+        if (this._exitDP[series.uid]) {
+            this._exitDP[series.uid].dispose();
+            delete this._exitDP[series.uid];
         }
         if (series.autoDispose) {
             series.dispose();
@@ -200,7 +201,7 @@ var SerialChart = /** @class */ (function (_super) {
     SerialChart.prototype.handleSeriesAdded2 = function (series) {
         var _this = this;
         if (!this.dataInvalid) {
-            this._exitDP = registry.events.once("exitframe", function () {
+            this._exitDP[series.uid] = registry.events.once("exitframe", function () {
                 if (!series.data || series.data.length == 0) {
                     series.data = _this.data;
                     if (series.showOnInit) {
@@ -217,7 +218,7 @@ var SerialChart = /** @class */ (function (_super) {
                     }
                 }
             });
-            this._disposers.push(this._exitDP);
+            this._disposers.push(this._exitDP[series.uid]);
         }
     };
     /**

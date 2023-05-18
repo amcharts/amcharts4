@@ -153,7 +153,7 @@ export class SerialChart extends Chart {
 	 */
 	public readonly bulletsContainer: Container;
 
-	protected _exitDP: IDisposer;
+	protected _exitDP: { [index: string]: IDisposer } = {};
 
 
 	/**
@@ -245,9 +245,9 @@ export class SerialChart extends Chart {
 			dataUser.invalidateDataItems();
 		})
 
-		if (this._exitDP) {
-			this._exitDP.dispose();
-			this._exitDP = undefined;
+		if (this._exitDP[series.uid]) {
+			this._exitDP[series.uid].dispose();
+			delete this._exitDP[series.uid];
 		}
 
 		if (series.autoDispose) {
@@ -313,7 +313,7 @@ export class SerialChart extends Chart {
 
 	protected handleSeriesAdded2(series: Series) {
 		if (!this.dataInvalid) {
-			this._exitDP = registry.events.once("exitframe", () => {
+			this._exitDP[series.uid] = registry.events.once("exitframe", () => {
 				if (!series.data || series.data.length == 0) {
 					series.data = this.data;
 					if (series.showOnInit) {
@@ -331,7 +331,7 @@ export class SerialChart extends Chart {
 					}
 				}
 			})
-			this._disposers.push(this._exitDP);
+			this._disposers.push(this._exitDP[series.uid]);
 		}
 	}
 

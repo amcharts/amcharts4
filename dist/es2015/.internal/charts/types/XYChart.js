@@ -1398,6 +1398,13 @@ var XYChart = /** @class */ (function (_super) {
                     }
                     return arg;
                 });
+                scrollbar.adapter.add("positionValueDirection", function (arg) {
+                    var xAxis = _this.xAxes.getIndex(0);
+                    if (xAxis) {
+                        arg.flipped = xAxis.renderer.inversed;
+                    }
+                    return arg;
+                });
             }
         },
         enumerable: true,
@@ -1435,7 +1442,14 @@ var XYChart = /** @class */ (function (_super) {
                 scrollbar.adapter.add("positionValue", function (arg) {
                     var yAxis = _this.yAxes.getIndex(0);
                     if (yAxis) {
-                        arg.value = yAxis.getPositionLabel(arg.position);
+                        arg.value = yAxis.getPositionLabel(yAxis.renderer.inversed ? arg.position : 1 - arg.position);
+                    }
+                    return arg;
+                });
+                scrollbar.adapter.add("positionValueDirection", function (arg) {
+                    var yAxis = _this.yAxes.getIndex(0);
+                    if (yAxis) {
+                        arg.flipped = !yAxis.renderer.inversed;
                     }
                     return arg;
                 });

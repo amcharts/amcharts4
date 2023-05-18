@@ -8674,6 +8674,14 @@ define('@amcharts/amcharts4/lang/fi_FI', [], function () {
   }
   throw new Error("You must add 'lang/fi_FI' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4/lang/fo_FO', [], function () {
+  'use strict';
+  var output = self.am4lang_fo_FO;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'lang/fo_FO' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/lang/fr_FR', [], function () {
   'use strict';
   var output = self.am4lang_fr_FR;

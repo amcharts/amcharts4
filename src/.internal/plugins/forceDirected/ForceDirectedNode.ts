@@ -378,12 +378,15 @@ export class ForceDirectedNode extends Container {
 			let nodeIndex = component.nodes.indexOf(dataItem.node);
 			let childIndex = component.nodes.indexOf(node);
 
+			node.dataItem.childLinks.push(link);
+			node.linksWith.setKey(this.uid, link);	
+
 			component.forceLinks.push({ source: nodeIndex, target: childIndex });
 			component.updateNodeList();
 
 			dataItem.childLinks.push(link);
 
-			this.linksWith.setKey(node.uid, link);
+			this.linksWith.setKey(node.uid, link);			
 		}
 		return link;
 	}

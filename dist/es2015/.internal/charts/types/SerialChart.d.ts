@@ -120,7 +120,9 @@ export declare class SerialChart extends Chart {
      * Holds a reference to the container series' bullets are drawn in.
      */
     readonly bulletsContainer: Container;
-    protected _exitDP: IDisposer;
+    protected _exitDP: {
+        [index: string]: IDisposer;
+    };
     /**
      * Constructor
      */

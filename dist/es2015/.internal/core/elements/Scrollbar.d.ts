@@ -68,6 +68,12 @@ export interface IScrollbarAdapters extends IContainerAdapters, IScrollbarProper
         value: any;
         position: number;
     };
+    /**
+     * Applied to a position value when it is retrieved.
+     */
+    positionValueDirection: {
+        flipped: boolean;
+    };
 }
 /**
  * ============================================================================

@@ -297,6 +297,13 @@ var Scrollbar = /** @class */ (function (_super) {
         var end = this.end;
         var startGrip = this.startGrip;
         var endGrip = this.endGrip;
+        var directionFlipped = this.adapter.apply("positionValueDirection", {
+            flipped: false
+        }).flipped;
+        var fromName = directionFlipped ? "To %1" : "From %1";
+        var toName = directionFlipped ? "From %1" : "To %1";
+        var fromValue;
+        var toValue;
         if (this.orientation == "horizontal") {
             var innerWidth_1 = this.innerWidth;
             thumb.width = innerWidth_1 * (end - start);
@@ -304,16 +311,18 @@ var Scrollbar = /** @class */ (function (_super) {
             thumb.x = start * innerWidth_1;
             startGrip.moveTo({ x: thumb.pixelX, y: 0 }, undefined, undefined, true); // overrides dragging
             endGrip.moveTo({ x: thumb.pixelX + thumb.pixelWidth, y: 0 }, undefined, undefined, true);
-            startGrip.readerTitle = this.language.translate("From %1", undefined, this.adapter.apply("positionValue", {
+            fromValue = this.adapter.apply("positionValue", {
                 value: Math.round(start * 100) + "%",
                 position: start
-            }).value);
-            startGrip.readerValueNow = "" + Math.round(start * 100);
-            startGrip.readerValueText = startGrip.readerTitle;
-            endGrip.readerTitle = this.language.translate("To %1", undefined, this.adapter.apply("positionValue", {
+            }).value;
+            toValue = this.adapter.apply("positionValue", {
                 value: Math.round(end * 100) + "%",
                 position: end
-            }).value);
+            }).value;
+            startGrip.readerTitle = this.language.translate(fromName, undefined, fromValue);
+            startGrip.readerValueNow = "" + Math.round(start * 100);
+            startGrip.readerValueText = startGrip.readerTitle;
+            endGrip.readerTitle = this.language.translate(toName, undefined, toValue);
             endGrip.readerValueNow = "" + Math.round(end * 100);
             endGrip.readerValueText = endGrip.readerTitle;
         }
@@ -324,27 +333,23 @@ var Scrollbar = /** @class */ (function (_super) {
             thumb.y = (1 - end) * innerHeight_1;
             startGrip.moveTo({ x: 0, y: thumb.pixelY + thumb.pixelHeight }, undefined, undefined, true);
             endGrip.moveTo({ x: 0, y: thumb.pixelY }, undefined, undefined, true);
-            startGrip.readerTitle = this.language.translate("To %1", undefined, this.adapter.apply("positionValue", {
+            fromValue = this.adapter.apply("positionValue", {
                 value: Math.round((1 - start) * 100) + "%",
                 position: (1 - start)
-            }).value);
-            startGrip.readerValueNow = "" + Math.round(start * 100);
-            startGrip.readerValueText = startGrip.readerTitle;
-            endGrip.readerTitle = this.language.translate("From %1", undefined, this.adapter.apply("positionValue", {
+            }).value;
+            toValue = this.adapter.apply("positionValue", {
                 value: Math.round((1 - end) * 100) + "%",
                 position: (1 - end)
-            }).value);
+            }).value;
+            startGrip.readerTitle = this.language.translate(toName, undefined, fromValue);
+            startGrip.readerValueNow = "" + Math.round(start * 100);
+            startGrip.readerValueText = startGrip.readerTitle;
+            endGrip.readerTitle = this.language.translate(fromName, undefined, toValue);
             endGrip.readerValueNow = "" + Math.round(end * 100);
             endGrip.readerValueText = endGrip.readerTitle;
         }
         // Add accessibility
-        thumb.readerTitle = this.language.translate("From %1 to %2", undefined, this.adapter.apply("positionValue", {
-            value: Math.round(start * 100) + "%",
-            position: start
-        }).value, this.adapter.apply("positionValue", {
-            value: Math.round(end * 100) + "%",
-            position: end
-        }).value);
+        thumb.readerTitle = this.language.translate("From %1 to %2", undefined, fromValue, toValue);
         thumb.readerValueNow = "" + Math.round(start * 100);
         thumb.readerValueText = thumb.readerTitle;
         this.readerValueNow = "" + Math.round(start * 100);

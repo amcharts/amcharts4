@@ -1809,6 +1809,14 @@ export class XYChart extends SerialChart {
 				}
 				return arg;
 			});
+
+			scrollbar.adapter.add("positionValueDirection", (arg) => {
+				let xAxis = this.xAxes.getIndex(0);
+				if (xAxis) {
+					arg.flipped = xAxis.renderer.inversed;
+				}
+				return arg;
+			});
 		}
 	}
 
@@ -1844,7 +1852,15 @@ export class XYChart extends SerialChart {
 			scrollbar.adapter.add("positionValue", (arg) => {
 				let yAxis = this.yAxes.getIndex(0);
 				if (yAxis) {
-					arg.value = yAxis.getPositionLabel(arg.position);
+					arg.value = yAxis.getPositionLabel(yAxis.renderer.inversed ? arg.position : 1 - arg.position);
+				}
+				return arg;
+			});
+
+			scrollbar.adapter.add("positionValueDirection", (arg) => {
+				let yAxis = this.yAxes.getIndex(0);
+				if (yAxis) {
+					arg.flipped = !yAxis.renderer.inversed;
 				}
 				return arg;
 			});

@@ -13,6 +13,7 @@ module.exports = function (info) {
             path: $path.resolve(info.baseDir),
             publicPath: (info.runtimeDir != null ? info.runtimeDir: info.baseDir),
             filename: "[name].js",
+            hashFunction: "sha256",
             chunkFilename: "deps/[name].js",
             jsonpFunction: info.jsonpFunction || "am4internal_webpackJsonp",
             libraryTarget: "var",

@@ -254,6 +254,8 @@ var ForceDirectedNode = /** @class */ (function (_super) {
             }
             var nodeIndex = component.nodes.indexOf(dataItem.node);
             var childIndex = component.nodes.indexOf(node);
+            node.dataItem.childLinks.push(link);
+            node.linksWith.setKey(this.uid, link);
             component.forceLinks.push({ source: nodeIndex, target: childIndex });
             component.updateNodeList();
             dataItem.childLinks.push(link);

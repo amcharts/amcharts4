@@ -92,6 +92,14 @@ export interface IScrollbarAdapters extends IContainerAdapters, IScrollbarProper
 		position: number
 	}
 
+	/**
+	 * Applied to a position value when it is retrieved.
+	 */
+	positionValueDirection: {
+		flipped: boolean
+	}
+
+
 };
 
 
@@ -507,6 +515,16 @@ export class Scrollbar extends Container {
 		let startGrip: ResizeButton = this.startGrip;
 		let endGrip: ResizeButton = this.endGrip;
 
+		const directionFlipped = this.adapter.apply("positionValueDirection", {
+			flipped: false
+		}).flipped;
+
+		const fromName = directionFlipped ? "To %1" : "From %1";
+		const toName = directionFlipped ? "From %1" : "To %1";
+
+		let fromValue: any;
+		let toValue: any;
+
 		if (this.orientation == "horizontal") {
 
 			let innerWidth: number = this.innerWidth;
@@ -518,24 +536,28 @@ export class Scrollbar extends Container {
 			startGrip.moveTo({ x: thumb.pixelX, y: 0 }, undefined, undefined, true); // overrides dragging
 			endGrip.moveTo({ x: thumb.pixelX + thumb.pixelWidth, y: 0 }, undefined, undefined, true);
 
+			fromValue = this.adapter.apply("positionValue", {
+				value: Math.round(start * 100) + "%",
+				position: start
+			}).value;
+
+			toValue = this.adapter.apply("positionValue", {
+				value: Math.round(end * 100) + "%",
+				position: end
+			}).value;
+
 			startGrip.readerTitle = this.language.translate(
-				"From %1",
+				fromName,
 				undefined,
-				this.adapter.apply("positionValue", {
-					value: Math.round(start * 100) + "%",
-					position: start
-				}).value
+				fromValue
 			);
 			startGrip.readerValueNow = "" + Math.round(start * 100);
 			startGrip.readerValueText = startGrip.readerTitle;
 
 			endGrip.readerTitle = this.language.translate(
-				"To %1",
+				toName,
 				undefined,
-				this.adapter.apply("positionValue", {
-					value: Math.round(end * 100) + "%",
-					position: end
-				}).value
+				toValue
 			);
 			endGrip.readerValueNow = "" + Math.round(end * 100);
 			endGrip.readerValueText = endGrip.readerTitle;
@@ -551,24 +573,28 @@ export class Scrollbar extends Container {
 			startGrip.moveTo({ x: 0, y: thumb.pixelY + thumb.pixelHeight }, undefined, undefined, true);
 			endGrip.moveTo({ x: 0, y: thumb.pixelY }, undefined, undefined, true);
 
+			fromValue = this.adapter.apply("positionValue", {
+				value: Math.round((1 - start) * 100) + "%",
+				position: (1 - start)
+			}).value;
+
+			toValue = this.adapter.apply("positionValue", {
+				value: Math.round((1 - end) * 100) + "%",
+				position: (1 - end)
+			}).value;
+
 			startGrip.readerTitle = this.language.translate(
-				"To %1",
+				toName,
 				undefined,
-				this.adapter.apply("positionValue", {
-					value: Math.round((1 - start) * 100) + "%",
-					position: (1 - start)
-				}).value
+				fromValue
 			);
 			startGrip.readerValueNow = "" + Math.round(start * 100);
 			startGrip.readerValueText = startGrip.readerTitle;
 
 			endGrip.readerTitle = this.language.translate(
-				"From %1",
+				fromName,
 				undefined,
-				this.adapter.apply("positionValue", {
-					value: Math.round((1 - end) * 100) + "%",
-					position: (1 - end)
-				}).value
+				toValue
 			);
 			endGrip.readerValueNow = "" + Math.round(end * 100);
 			endGrip.readerValueText = endGrip.readerTitle;
@@ -578,14 +604,8 @@ export class Scrollbar extends Container {
 		thumb.readerTitle = this.language.translate(
 			"From %1 to %2",
 			undefined,
-			this.adapter.apply("positionValue", {
-				value: Math.round(start * 100) + "%",
-				position: start
-			}).value,
-			this.adapter.apply("positionValue", {
-				value: Math.round(end * 100) + "%",
-				position: end
-			}).value
+			fromValue,
+			toValue
 		);
 
 		thumb.readerValueNow = "" + Math.round(start * 100);
@@ -696,7 +716,7 @@ export class Scrollbar extends Container {
 	 * performing zoom by user interaction).
 	 * @return boolean
 	 */
-	public get isBusy():boolean{
+	public get isBusy(): boolean {
 		return this._isBusy;
 	}
 
@@ -1114,11 +1134,11 @@ export class Scrollbar extends Container {
 			this.updateThumb();
 		}
 		else {
-			let innerHeight = this.innerHeight;			
+			let innerHeight = this.innerHeight;
 			let h = thumb.innerHeight;
 			let y = thumb.pixelY;
-			
-			if(y + h > innerHeight){
+
+			if (y + h > innerHeight) {
 				y = innerHeight - h;
 				thumb.y = y;
 			}
