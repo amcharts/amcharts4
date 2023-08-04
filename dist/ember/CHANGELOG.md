@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.37] - 2023-08-04
+
+### Fixed
+- Horizontal cylinders in some cases were not being drawn properly.
+- Fixed and issue with mutating ES6 module.
+
+
 ## [4.10.36] - 2023-05-18
 
 ### Added
@@ -17,6 +24,7 @@ adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 ### Fixed
 - In some cases, when a series was removed from a `SerialChart` it was not disposing one of the listeners and could remain in the memory.
 - Grip rollover labels of a vertical `Scrollbar` were showing opposite values.
+- Fixed issue with mutating ES6 modules.
 
 
 ## [4.10.35] - 2023-03-21

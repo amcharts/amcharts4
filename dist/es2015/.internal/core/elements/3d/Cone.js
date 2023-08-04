@@ -73,6 +73,7 @@ var Cone = /** @class */ (function (_super) {
         if (this.orientation == "horizontal") {
             radiusBase = h / 2;
             bottom.y = h / 2;
+            bottom.x = 0;
             top.y = h / 2;
             top.x = w;
             dx = (90 - angle) / 90;

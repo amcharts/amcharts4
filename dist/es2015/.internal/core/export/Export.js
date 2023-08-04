@@ -73,12 +73,12 @@ function _pdfmake() {
                     ])];
                 case 1:
                     a = _a.sent();
-                    pdfmake = a[0];
-                    vfs_fonts = a[1];
+                    pdfmake = a[0].default;
+                    vfs_fonts = a[1].default;
                     global = window;
                     global.pdfMake = global.pdfMake || {};
-                    global.pdfMake.vfs = vfs_fonts.default;
-                    pdfmake.vfs = vfs_fonts.default;
+                    global.pdfMake.vfs = vfs_fonts;
+                    pdfmake.vfs = vfs_fonts;
                     return [2 /*return*/, pdfmake];
             }
         });
