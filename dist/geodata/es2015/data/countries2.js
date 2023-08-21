@@ -753,7 +753,7 @@ var countries2 = {
         "country": "Kazakhstan",
         "continent_code": "EU",
         "continent": "Europe",
-        "maps": ["kazakhstanLow", "kazakhstanHigh"]
+        "maps": ["kazakhstan2023Low", "kazakhstan2023High", "kazakhstanLow", "kazakhstanHigh"]
     },
     "LA": {
         "country": "Lao People's Democratic Republic",

@@ -89,8 +89,8 @@ async function _pdfmake(): Promise<any> {
 		import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts")
 	]);
 
-	let pdfmake = a[0].default;
-	let vfs_fonts = a[1].default;
+	let pdfmake = a[0].default || a[0];
+	let vfs_fonts = a[1].default || a[1];
 	const global = <any>window;
 	global.pdfMake = global.pdfMake || {};
 	global.pdfMake.vfs = vfs_fonts;

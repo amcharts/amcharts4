@@ -106,7 +106,7 @@ const countries: Countries = {
 	"JM": [ "jamaicaLow", "jamaicaHigh" ],
 	"JO": [ "jordanLow", "jordanHigh" ],
 	"JP": [ "japanLow", "japanHigh" ],
-	"KZ": [ "kazakhstanLow", "kazakhstanHigh" ],
+	"KZ": [ "kazakhstan2023Low", "kazakhstan2023High", "kazakhstanLow", "kazakhstanHigh" ],
 	"KE": [ "kenyaLow", "kenyaHigh" ],
 	"XK": [ "kosovoLow", "kosovoHigh" ],
 	"KW": [ "kuwaitLow", "kuwaitHigh" ],

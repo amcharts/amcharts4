@@ -73,8 +73,8 @@ function _pdfmake() {
                     ])];
                 case 1:
                     a = _a.sent();
-                    pdfmake = a[0].default;
-                    vfs_fonts = a[1].default;
+                    pdfmake = a[0].default || a[0];
+                    vfs_fonts = a[1].default || a[1];
                     global = window;
                     global.pdfMake = global.pdfMake || {};
                     global.pdfMake.vfs = vfs_fonts;
