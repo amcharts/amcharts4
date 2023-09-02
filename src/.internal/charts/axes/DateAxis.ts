@@ -947,7 +947,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			let previousDate = (<any>previousDataItem)[key];
 
-			if (!previousDate || previousDate.getTime() < time) {
+			if (!previousDate || previousDate.getTime() <= time) {
 				return dataItem;
 			}
 			else {
