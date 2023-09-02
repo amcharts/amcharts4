@@ -1223,7 +1223,7 @@ export class Label extends Container {
 
 		// Don't let labels blled out of the alotted area
 		if (this.truncate || this.wrap) {
-			element.attr({ "overflow": "hidden" });
+			element.addStyle({ "overflow": "hidden" });
 		}
 
 		// Add RTL?
