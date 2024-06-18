@@ -1013,7 +1013,7 @@ const countries2: Countries2 = {
 		"country": "Nepal",
 		"continent_code": "AS",
 		"continent": "Asia",
-		"maps": [ "nepalLow", "nepalHigh" ]
+		"maps": [ "nepal2020Low", "nepal2020High", "nepalLow", "nepalHigh" ]
 	},
 	"NR": {
 		"country": "Nauru",

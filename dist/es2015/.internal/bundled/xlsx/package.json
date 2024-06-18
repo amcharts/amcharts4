@@ -1,6 +1,6 @@
 {
 	"name": "xlsx",
-	"version": "0.19.3",
+	"version": "0.20.2",
 	"author": "sheetjs",
 	"description": "SheetJS Spreadsheet data parser and writer",
 	"keywords": [
@@ -37,6 +37,36 @@
 		},
 		"./xlsx.js": {
 			"require": "./xlsx.js",
+			"types": "./types/index.d.ts"
+		},
+		"./dist/xlsx.core.min": {
+			"import": "./dist/xlsx.core.min.js",
+			"require": "./dist/xlsx.core.min.js",
+			"types": "./types/index.d.ts"
+		},
+		"./dist/xlsx.core.min.js": {
+			"import": "./dist/xlsx.core.min.js",
+			"require": "./dist/xlsx.core.min.js",
+			"types": "./types/index.d.ts"
+		},
+		"./dist/xlsx.full.min": {
+			"import": "./dist/xlsx.full.min.js",
+			"require": "./dist/xlsx.full.min.js",
+			"types": "./types/index.d.ts"
+		},
+		"./dist/xlsx.full.min.js": {
+			"import": "./dist/xlsx.full.min.js",
+			"require": "./dist/xlsx.full.min.js",
+			"types": "./types/index.d.ts"
+		},
+		"./dist/xlsx.mini.min": {
+			"import": "./dist/xlsx.mini.min.js",
+			"require": "./dist/xlsx.mini.min.js",
+			"types": "./types/index.d.ts"
+		},
+		"./dist/xlsx.mini.min.js": {
+			"import": "./dist/xlsx.mini.min.js",
+			"require": "./dist/xlsx.mini.min.js",
 			"types": "./types/index.d.ts"
 		},
 		"./dist/xlsx.zahl": {
@@ -137,6 +167,12 @@
 		]
 	},
 	"homepage": "https://sheetjs.com/",
+	"files": [
+		"CHANGELOG.md", "LICENSE", "README.md", "bower.json", "package.json", "xlsx.js", "xlsx.mjs", "xlsxworker.js",
+		"bin/xlsx.njs",
+		"dist/LICENSE", "dist/*.mjs", "dist/*.js", "dist/*.map", "dist/*.d.ts",
+		"types/index.d.ts", "types/tsconfig.json"
+	],
 	"bugs": {
 		"url": "https://git.sheetjs.com/SheetJS/sheetjs/issues"
 	},

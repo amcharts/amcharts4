@@ -325,6 +325,14 @@ export declare function get12Hours(hours: number, base?: number): number;
  */
 export declare function getTimeZone(date: Date, long?: boolean, savings?: boolean, utc?: boolean): string;
 /**
+ * Returns a "week year" of the given date.
+ *
+ * @param date  Date
+ * @param utc   Assume UTC dates?
+ * @return Year of week
+ */
+export declare function getWeekYear(date: Date, _utc?: boolean): number;
+/**
  * ============================================================================
  * NUMBER-RELATED FUNCTIONS
  * ============================================================================

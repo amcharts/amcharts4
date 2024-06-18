@@ -411,11 +411,7 @@ export class DateFormatter extends BaseObject {
 				case "YYY":
 				case "YY":
 				case "Y":
-					let week = $utils.getWeek(date);
-					let year = fullYear;
-					if (week == 1 && (weekday > 4)) {
-						year--;
-					}
+					let year = $utils.getWeekYear(date);
 					if (info.parts[i] == "YYYY") {
 						value = Math.abs(year).toString();
 					}

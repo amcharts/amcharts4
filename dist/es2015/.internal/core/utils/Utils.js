@@ -720,6 +720,21 @@ export function getTimeZone(date, long, savings, utc) {
     return wtz;
 }
 /**
+ * Returns a "week year" of the given date.
+ *
+ * @param date  Date
+ * @param utc   Assume UTC dates?
+ * @return Year of week
+ */
+export function getWeekYear(date, _utc) {
+    if (_utc === void 0) { _utc = false; }
+    var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    var day = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - day);
+    var firstDay = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return firstDay.getFullYear();
+}
+/**
  * ============================================================================
  * NUMBER-RELATED FUNCTIONS
  * ============================================================================

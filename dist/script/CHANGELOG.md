@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.39] - 2024-06-18
+
+### Changed
+- Upgraded versions of xlsx and pdfmake.
+
+### Fixed
+- Year of week ("YYYY") code in date formats was not being resolved properly.
+
+
 ## [4.10.38] - 2023-08-21
 
 ### Fixed

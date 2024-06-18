@@ -827,6 +827,22 @@ export function getTimeZone(date: Date, long: boolean = false, savings: boolean 
 	return wtz;
 }
 
+/**
+ * Returns a "week year" of the given date.
+ *
+ * @param date  Date
+ * @param utc   Assume UTC dates?
+ * @return Year of week
+ */
+export function getWeekYear(date: Date, _utc: boolean = false): number {
+	const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+	const day = d.getUTCDay() || 7;
+	d.setUTCDate(d.getUTCDate() + 4 - day);
+	const firstDay = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+	return firstDay.getFullYear();
+}
+
+
 
 /**
  * ============================================================================

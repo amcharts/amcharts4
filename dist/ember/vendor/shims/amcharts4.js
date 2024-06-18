@@ -3238,6 +3238,22 @@ define('@amcharts/amcharts4-geodata/namibiaLow', [], function () {
   }
   throw new Error("You must add 'geodata/namibiaLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/nepal2020High', [], function () {
+  'use strict';
+  var output = self.am4geodata_nepal2020High;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/nepal2020High' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/nepal2020Low', [], function () {
+  'use strict';
+  var output = self.am4geodata_nepal2020Low;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/nepal2020Low' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/nepalHigh', [], function () {
   'use strict';
   var output = self.am4geodata_nepalHigh;
@@ -4365,6 +4381,22 @@ define('@amcharts/amcharts4-geodata/region/mexico/zacLow', [], function () {
     return output;
   }
   throw new Error("You must add 'geodata/region/mexico/zacLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/region/usa/ak2023High', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_usa_ak2023High;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/usa/ak2023High' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/region/usa/ak2023Low', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_usa_ak2023Low;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/usa/ak2023Low' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4-geodata/region/usa/akAlbersHigh', [], function () {
   'use strict';
@@ -6765,6 +6797,22 @@ define('@amcharts/amcharts4-geodata/region/usa/txLow', [], function () {
     return output;
   }
   throw new Error("You must add 'geodata/region/usa/txLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/region/usa/usaCounties2023High', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_usa_usaCounties2023High;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/usa/usaCounties2023High' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/region/usa/usaCounties2023Low', [], function () {
+  'use strict';
+  var output = self.am4geodata_region_usa_usaCounties2023Low;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/region/usa/usaCounties2023Low' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4-geodata/region/usa/usaCountiesHigh', [], function () {
   'use strict';

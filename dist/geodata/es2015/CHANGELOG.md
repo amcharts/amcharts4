@@ -3,13 +3,29 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [UNRELEASED] - ????-??-??
+## [4.1.29] - 2024-06-03
+
+### Added
+- New map of Nepal: `nepal2020*`. Contains updated borders as per Nepal's guidance.
+
+### Changed
+- Map of Algeria updated for the most recent changes.
+
+### Fixed
+- Updated province names in the maps for Nepal (`nepalLow` and `nepalHigh`).
+
+
+## [4.1.28] - 2023-12-07
 
 ### Added
 - New map of Kazakhstan: `kazahkstan2023*`.
+- New USA county maps to reflect changes in Alaska: `region/usa/ak2023*` and `region/usa/usaCounties2023*`.
 
 ### Changed
 - Updated Hormozgan province name in the maps of Iran.
+
+### Fixed
+- Fixed the ID of the Dādra and Nagar Haveli and Damān and Diu province in India 2020 maps.
 
 
 ## [4.1.27] - 2023-06-01

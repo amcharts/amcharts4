@@ -136,7 +136,7 @@
 	"MQ": [ "martiniqueLow", "martiniqueHigh" ],
 	"MS": [ "montserratLow", "montserratHigh" ],
 	"NA": [ "namibiaLow", "namibiaHigh" ],
-	"NP": [ "nepalLow", "nepalHigh" ],
+	"NP": [ "nepal2020Low", "nepal2020High", "nepalLow", "nepalHigh" ],
 	"NL": [ "netherlandsLow", "netherlandsHigh" ],
 	"NZ": [ "newZealandLow", "newZealandHigh" ],
 	"NI": [ "nicaraguaLow", "nicaraguaHigh" ],

@@ -4,10 +4,35 @@ This log is intended to keep track of backwards-incompatible changes, including
 but not limited to API changes and file location changes.  Minor behavioral
 changes may not be included if they are not expected to break existing code.
 
+## v0.20.2
+
+* Reworked parsing methods to avoid slow regexes (CVE-2024-22363)
+* HTML properly encode data-v attribute
+* SYLK read and write error cells
+
+## v0.20.1
+
+* `init` use packaged test files to work around GitHub breaking changes
+* SSF date code rounding to 15 decimal digits (h/t @davidtamaki)
+* `sheet_to_json` force UTC interpretation for formatted strings (h/t @Blanay)
+* QPW extract result of string formula
+* XLSX parse non-compliant merge cell expressions
+* NUMBERS correctly handle rows omitted from official exports
+* DBF parse empty logical field (h/t @Roman91)
+* `dense` option added to types
+* package.json add mini and core scripts to export map (h/t @stof)
+
+## v0.20.0
+
+* Use UTC interpretation of Date objects for date cells (potentially breaking)
+* API functions support UTC and local time value interpretations
+* Export `NaN` values to `#NUM!` and infinite values to `#DIV/0!`
+
 ## v0.19.3
 
 * XLSX Ensure comment address is valid (h/t @slonser)
 * Enforce Excel worksheet name restrictions
+* Fixed "Prototype Pollution" vulnerability (CVE-2023-30533)
 
 ## v0.19.2
 
