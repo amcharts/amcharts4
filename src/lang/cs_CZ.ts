@@ -289,7 +289,7 @@ export default {
 
   // Various chart controls.
   // Shown as a tooltip on zoom out button.
-  "Zoom Out": "Zvětšení",
+  "Zoom Out": "Zvětšit",
 
   // Timeline buttons
   "Play": "Přehrát",
@@ -299,7 +299,7 @@ export default {
   "Legend": "Legenda",
 
   // Legend's item screen reader indicator.
-  "Click, tap or press ENTER to toggle": "",
+  "Klikněte, tapněte nebo stiskněte ENTER pro přepnutí": "",
 
   // Shown when the chart is busy loading something.
   "Loading": "Načítání",
@@ -337,11 +337,11 @@ export default {
   "X/Y Series": "",
 
   // Map-related stuff.
-  "Map": "",
-  "Press ENTER to zoom in": "",
-  "Press ENTER to zoom out": "",
-  "Use arrow keys to zoom in and out": "",
-  "Use plus and minus keys on your keyboard to zoom in and out": "",
+  "Map": "Mapa",
+  "Press ENTER to zoom in": "Stiskněte ENTER pro zvětšení",
+  "Press ENTER to zoom out": "Stiskněte ENTER pro zmenšení",
+  "Use arrow keys to zoom in and out": "Použijte šipky pro zvětšení/zmenšení",
+  "Use plus and minus keys on your keyboard to zoom in and out": "Použijte +/- na klávesnici pro zvětšení/zmenšení",
 
   // Export-related stuff.
   // These prompts are used in Export menu labels.
@@ -357,15 +357,15 @@ export default {
   "Image": "Snímek",
   "Data": "Data",
   "Print": "Tisk",
-  "Click, tap or press ENTER to open": "",
-  "Click, tap or press ENTER to print.": "",
-  "Click, tap or press ENTER to export as %1.": "",
-  'To save the image, right-click this link and choose "Save picture as..."': "",
-  'To save the image, right-click thumbnail on the left and choose "Save picture as..."': "",
-  "(Press ESC to close this message)": "",
-  "Image Export Complete": "",
-  "Export operation took longer than expected. Something might have gone wrong.": "",
-  "Saved from": "",
+  "Click, tap or press ENTER to open": "Klikněte nebo stiskněte ENTER pro otevření",
+  "Click, tap or press ENTER to print.": "Klikněte nebo stiskněte ENTER pro tisk",
+  "Click, tap or press ENTER to export as %1.": "Klikněte nebo stiskněte ENTER pro uložení jako %1",
+  'To save the image, right-click this link and choose "Save picture as..."': 'Pro uložení obrázku klikněte na odkaz pravým tlačítkem a zvolte "Uložit obrázek jako..."',
+  'To save the image, right-click thumbnail on the left and choose "Save picture as..."': 'Pro uložení obrázku klikněte na náhled pravým tlačítkem a zvolte "Uložit obrázek jako..."',
+  "(Press ESC to close this message)": "(Pro zavření této zprávy tiskněte ESC)",
+  "Image Export Complete": "Uložení ubrázku dokončeno",
+  "Export operation took longer than expected. Something might have gone wrong.": "Ukládání trvá déle než obvykle, něco je asi v nepořádku.",
+  "Saved from": "Uloženo z adresy",
   "PNG": "",
   "JPG": "",
   "GIF": "",
