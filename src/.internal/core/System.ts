@@ -273,8 +273,8 @@ export class System {
 
 		$object.each(registry.invalidSprites, (key, invalidSprites) => {
 			let count = 0;
-
-			while (invalidSprites.length > 0) {
+			const toPurge = registry.validatedSpritesBatchPurge[key];
+			for (const index = invalidSprites.length - 1; index >= 0; index--) {
 				this.validateLayouts(key);
 				this.validatePositions(key);
 
@@ -287,9 +287,12 @@ export class System {
 					count = 0;
 				}
 
-				let sprite: Sprite = invalidSprites[invalidSprites.length - 1];
+				let sprite: Sprite = invalidSprites[index];
 
 				// we need to check this, as validateLayout might validate sprite
+				if (sprite) {
+					toPurge[sprite.uid] = true;
+				}
 				if (sprite && !sprite.isDisposed()) {
 					if (!sprite._systemCheckIfValidate()) {
 						// void
