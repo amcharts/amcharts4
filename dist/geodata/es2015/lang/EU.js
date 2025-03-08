@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin (Frantziako Part)",
     "MG": "Madagaskar",
     "MH": "Marshall uharteak",
-    "MK": "Mazedoniako Errepublika",
+    "MK": "Ipar Makedonia",
     "ML": "Mali",
     "MM": "Birmania",
     "MN": "Mongolia",

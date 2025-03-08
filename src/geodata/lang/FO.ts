@@ -145,7 +145,7 @@ const lang: Lang = {
 	"MF": "Saint Martin",
 	"MG": "Madagaskar",
 	"MH": "Marshalloyggjarnar",
-	"MK": "Macedonia, the former Yugoslav Republic of",
+	"MK": "Norðmakedonia",
 	"ML": "Mali",
 	"MM": "Burma",
 	"MN": "Mongolia",

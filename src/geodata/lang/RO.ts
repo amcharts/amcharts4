@@ -145,7 +145,7 @@ const lang: Lang = {
 	"MF": "Sfântul Martin",
 	"MG": "Madagascar",
 	"MH": "Insulele Marshall",
-	"MK": "Macedonia",
+	"MK": "Macedonia de Nord",
 	"ML": "Mali",
 	"MM": "Myanmar",
 	"MN": "Монголия",

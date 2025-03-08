@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin (French Part)",
     "MG": "Bukini",
     "MH": "Visiwa vya Marshal",
-    "MK": "Masedonia",
+    "MK": "Makedonia ya Ndurumo",
     "ML": "Mali",
     "MM": "Myama",
     "MN": "Mongolia",

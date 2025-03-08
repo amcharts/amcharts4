@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin",
     "MG": "Madagaskar",
     "MH": "Marshalløerne",
-    "MK": "Republikken Makedonien",
+    "MK": "Nordmakedonien",
     "ML": "Mali",
     "MM": "Myanmar",
     "MN": "Mongoliet",

@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint-Martin (Partie Française)",
     "MG": "Madagascar",
     "MH": "Marshall, Îles",
-    "MK": "Macédoine, L'ex-république Yougoslave de",
+    "MK": "Macédoine du Nord",
     "ML": "Mali",
     "MM": "Myanmar",
     "MN": "Mongolie",

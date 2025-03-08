@@ -143,7 +143,7 @@ var lang = {
     "MF": "Svatý Martin (francouzská část)",
     "MG": "Madagaskar",
     "MH": "Marshallovy ostrovy",
-    "MK": "Makedonie",
+    "MK": "Severní Makedonie",
     "ML": "Mali",
     "MM": "Myanmar",
     "MN": "Mongolsko",

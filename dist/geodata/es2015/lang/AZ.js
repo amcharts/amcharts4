@@ -143,7 +143,7 @@ var lang = {
     "MF": "Seynt Martin",
     "MG": "Madaqaskar",
     "MH": "Marşal Adaları",
-    "MK": "Masedoniya",
+    "MK": "Şimali Makedoniya",
     "ML": "Mali",
     "MM": "Myanmar",
     "MN": "Monqoliya",

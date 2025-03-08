@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin (Cuid na Fraince)",
     "MG": "Madagascar",
     "MH": "Oileáin Marshall",
-    "MK": "An Mhacadóin",
+    "MK": "Mácadóin Thuaidh",
     "ML": "Mailí",
     "MM": "Maenmar",
     "MN": "An Mhongóil",

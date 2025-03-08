@@ -143,7 +143,7 @@ var lang = {
     "MF": "San Martin (Pransiya)",
     "MG": "Madagascar",
     "MH": "Marshall Islands",
-    "MK": "Masedonya",
+    "MK": "Hilagang Macedonia",
     "ML": "Mali",
     "MM": "Myanmar",
     "MN": "Mongolia",

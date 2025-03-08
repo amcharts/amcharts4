@@ -242,7 +242,7 @@ export default {
 	"Use up and down arrows to move upper selection": "Gebruik pijltje omhoog en omlaag om de bovenste selectie te verplaatsen",
 	"From %1 to %2": "Van %1 tot %2",
 	"From %1": "Van %1",
-	"To %1": "Tot %2",
+	"To %1": "Tot %1",
 
 	// Data loader-related.
 	"No parser available for file: %1": "Geen data-parser beschikbaar voor dit bestand: %1",

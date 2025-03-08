@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin (Frans Deel)",
     "MG": "Madagaskar",
     "MH": "Marshall-eilande",
-    "MK": "Macedonië",
+    "MK": "Noord-Makedonië",
     "ML": "Mali",
     "MM": "Mianmar",
     "MN": "Mongolië",

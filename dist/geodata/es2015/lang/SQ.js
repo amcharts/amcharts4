@@ -143,7 +143,7 @@ var lang = {
     "MF": "Shën Martin (Pjesa Frëngjisht)",
     "MG": "Madagaskar",
     "MH": "Ishujt Marshall",
-    "MK": "Maqedoni",
+    "MK": "Maqedonia e Veriut",
     "ML": "Mali",
     "MM": "Birmania",
     "MN": "Mongoli",

@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin (parte francesa)",
     "MG": "Madagascar",
     "MH": "Marshall, (las) Islas",
-    "MK": "Macedonia (la ex República Yugoslava de)",
+    "MK": "Macedonia del Norte",
     "ML": "Mali",
     "MM": "Birmania",
     "MN": "Mongolia",

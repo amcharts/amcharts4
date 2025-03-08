@@ -145,7 +145,7 @@ const lang: Lang = {
 	"MF": "Saint Martin (French Part)",
 	"MG": "ማዳጋስካር",
 	"MH": "ማርሻል አይላንድ",
-	"MK": "ማከዶኒያ",
+	"MK": "ሰሜን መቄዶንያ",
 	"ML": "ማሊ",
 	"MM": "ማያንማር",
 	"MN": "ሞንጎሊያ",

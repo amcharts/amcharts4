@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin",
     "MG": "Madagascar",
     "MH": "Inslas da Marshall",
-    "MK": "Macedonia",
+    "MK": "Macedonia dal Nord",
     "ML": "Mali",
     "MM": "Myanmar",
     "MN": "Mongolia",

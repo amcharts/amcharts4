@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin (Bahagian Perancis)",
     "MG": "Madagaskar",
     "MH": "Kepulauan Marshall",
-    "MK": "Macedonia",
+    "MK": "Makedonia Utara",
     "ML": "Mali",
     "MM": "Myanmar",
     "MN": "Mongolia",

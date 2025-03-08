@@ -143,7 +143,7 @@ var lang = {
     "MF": "Svätý Martin",
     "MG": "Madagaskar",
     "MH": "Marshallove ostrovy",
-    "MK": "Macedónsko",
+    "MK": "Severné Macedónsko",
     "ML": "Mali",
     "MM": "Mjanmarsko",
     "MN": "Mongolsko",

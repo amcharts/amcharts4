@@ -145,7 +145,7 @@ const lang: Lang = {
 	"MF": "Saint Martin (French Part)",
 	"MG": "Madagasika",
 	"MH": "Bizinga bya Mariso",
-	"MK": "Masedoniya",
+	"MK": "Makedoniya e North",
 	"ML": "Mali",
 	"MM": "Myanima",
 	"MN": "Mongoliya",

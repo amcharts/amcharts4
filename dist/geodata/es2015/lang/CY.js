@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin (Rhan Ffrangeg)",
     "MG": "Madagascar",
     "MH": "Ynysoedd Marshall",
-    "MK": "Macedonia",
+    "MK": "Gogledd Macedonia",
     "ML": "Mali",
     "MM": "Myanmar",
     "MN": "Mongolia",

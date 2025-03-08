@@ -145,7 +145,7 @@ const lang: Lang = {
 	"MF": "Sveti Martin",
 	"MG": "Madagaskar",
 	"MH": "Maršalovi Otoci",
-	"MK": "Bivša Jugoslavenska Republika Makedonija",
+	"MK": "Sjeverna Makedonija",
 	"ML": "Mali",
 	"MM": "Mijanma",
 	"MN": "Mongolija",

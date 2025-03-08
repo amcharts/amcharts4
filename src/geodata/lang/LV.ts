@@ -145,7 +145,7 @@ const lang: Lang = {
 	"MF": "Senmartēna",
 	"MG": "Madagaskara",
 	"MH": "Māršala salas",
-	"MK": "Maķedonija",
+	"MK": "Ziemeļmaķedonija",
 	"ML": "Mali",
 	"MM": "Mjanma",
 	"MN": "Mongolija",

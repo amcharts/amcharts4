@@ -145,7 +145,7 @@ const lang: Lang = {
 	"MF": "Saint Martin (Part Franċiża)",
 	"MG": "Madagaskar",
 	"MH": "Gżejjer ta’ Marshall",
-	"MK": "Maċedonja",
+	"MK": "Macedonja ta' Fuq",
 	"ML": "Mali",
 	"MM": "Mjanmar",
 	"MN": "Mongolja",

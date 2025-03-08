@@ -170,6 +170,13 @@ var LegendDataItem = /** @class */ (function (_super) {
                 // Add focus event so that we can track which object is currently in focus
                 // for keyboard toggling
                 if (itemContainer_1.focusable) {
+                    itemContainer_1.events.on("toggled", function (ev) {
+                        // We do this to abvoid double-toggle
+                        itemContainer_1.events.disableType("toggled");
+                        _this.setTimeout(function () {
+                            itemContainer_1.events.enableType("toggled");
+                        }, 50);
+                    }, undefined, false);
                     itemContainer_1.events.on("hit", function (ev) {
                         // We need this here in order to reset focused item when it is clicked
                         // normally so that it is not toggled by ENTER afterwards

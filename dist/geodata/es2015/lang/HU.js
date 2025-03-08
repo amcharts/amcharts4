@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin",
     "MG": "Madagaszkár",
     "MH": "Marshall-szigetek",
-    "MK": "Macedónia",
+    "MK": "Észak-Macedónia",
     "ML": "Mali",
     "MM": "Mianmar",
     "MN": "Mongólia",

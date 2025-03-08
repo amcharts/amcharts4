@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint-Martin",
     "MG": "Madagaskaras",
     "MH": "Maršalo Salos",
-    "MK": "Makedonija",
+    "MK": "Šiaurės Makedonija",
     "ML": "Malis",
     "MM": "Mianmaras",
     "MN": "Mongolija",

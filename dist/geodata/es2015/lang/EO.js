@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint-Barthélemy",
     "MG": "Madagaskaro",
     "MH": "Marŝala Insularo",
-    "MK": "Makedonio",
+    "MK": "Nord-Makedonio",
     "ML": "Malio",
     "MM": "Mjanmao",
     "MN": "Mongolio",

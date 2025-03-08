@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin (French Part)",
     "MG": "Madagascar",
     "MH": "Zvitsuwa zveMarshall",
-    "MK": "Macedonia",
+    "MK": "North Macedonia",
     "ML": "Mali",
     "MM": "Myanmar",
     "MN": "Mongolia",

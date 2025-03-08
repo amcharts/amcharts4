@@ -213,6 +213,13 @@ export class LegendDataItem extends DataItem {
 			// Add focus event so that we can track which object is currently in focus
 			// for keyboard toggling
 			if (itemContainer.focusable) {
+				itemContainer.events.on("toggled", (ev) => {
+					// We do this to abvoid double-toggle
+					itemContainer.events.disableType("toggled");
+					this.setTimeout(() => {
+						itemContainer.events.enableType("toggled");
+					}, 50);
+				}, undefined, false);
 				itemContainer.events.on("hit", (ev) => {
 					// We need this here in order to reset focused item when it is clicked
 					// normally so that it is not toggled by ENTER afterwards

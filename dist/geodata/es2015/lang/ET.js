@@ -143,7 +143,7 @@ var lang = {
     "MF": "Saint Martin (Prantsuse Osa)",
     "MG": "Madagaskar",
     "MH": "Marshalli Saared",
-    "MK": "Makedoonia",
+    "MK": "Põhja-Makedoonia",
     "ML": "Mali",
     "MM": "Birma",
     "MN": "Mongoolia",

@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.10.40] - 2025-03-08
+
+### Fixed
+- Toggling a legend item with ENTER key was not working properly in some cases.
+- Fixed a prompt in Dutch (nl_NL) translation.
+
+
 ## [4.10.39] - 2024-06-18
 
 ### Changed
