@@ -14,6 +14,7 @@ jobs:
           ZD_SUBDOMAIN: ${{ secrets.ZENDESK_SUBDOMAIN }}
           ZD_EMAIL: ${{ secrets.ZENDESK_EMAIL }}
           ZD_TOKEN: ${{ secrets.ZENDESK_API_TOKEN }}
+          REPO_NAME: ${{ github.event.repository.name }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_BODY: ${{ github.event.issue.body }}
@@ -31,7 +32,7 @@ jobs:
             ISSUE_HTML=$(html_escape_newlines "$ISSUE_BODY")
             BODY=$(printf '%s<br><hr><br>GitHub Issue: <a href="%s">%s</a>' "$ISSUE_HTML" "$ISSUE_URL" "$ISSUE_URL")
             PAYLOAD=$(jq -n \
-              --arg subj "GitHub Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}" \
+              --arg subj "[${REPO_NAME}] GitHub Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}" \
               --arg body "$BODY" \
               --arg extid "$ISSUE_NUMBER" \
               '{ticket: {subject: $subj, comment: {html_body: $body}, external_id: $extid, tags: ["github"]}}')
