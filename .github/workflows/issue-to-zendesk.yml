@@ -1,0 +1,63 @@
+name: Sync GitHub Issues to Zendesk
+on:
+  issues:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create or update Zendesk ticket
+        env:
+          ZD_SUBDOMAIN: ${{ secrets.ZENDESK_SUBDOMAIN }}
+          ZD_EMAIL: ${{ secrets.ZENDESK_EMAIL }}
+          ZD_TOKEN: ${{ secrets.ZENDESK_API_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          COMMENT_USER: ${{ github.event.comment.user.login }}
+          COMMENT_URL: ${{ github.event.comment.html_url }}
+        run: |
+          # Convert markdown newlines to <br> for HTML rendering
+          html_escape_newlines() {
+            echo "$1" | sed 's/$/<br>/'
+          }
+
+          if [ "${{ github.event_name }}" = "issues" ]; then
+            ISSUE_HTML=$(html_escape_newlines "$ISSUE_BODY")
+            BODY=$(printf '%s<br><hr><br>GitHub Issue: <a href="%s">%s</a>' "$ISSUE_HTML" "$ISSUE_URL" "$ISSUE_URL")
+            PAYLOAD=$(jq -n \
+              --arg subj "GitHub Issue #${ISSUE_NUMBER}: ${ISSUE_TITLE}" \
+              --arg body "$BODY" \
+              --arg extid "$ISSUE_NUMBER" \
+              '{ticket: {subject: $subj, comment: {html_body: $body}, external_id: $extid, tags: ["github"]}}')
+
+            curl -v -X POST \
+              "https://${ZD_SUBDOMAIN}.zendesk.com/api/v2/tickets.json" \
+              -H "Content-Type: application/json" \
+              -u "${ZD_EMAIL}/token:${ZD_TOKEN}" \
+              -d "$PAYLOAD"
+
+          elif [ "${{ github.event_name }}" = "issue_comment" ]; then
+            TICKET_ID=$(curl -v \
+              "https://${ZD_SUBDOMAIN}.zendesk.com/api/v2/search.json?query=type:ticket+external_id:${ISSUE_NUMBER}" \
+              -u "${ZD_EMAIL}/token:${ZD_TOKEN}" | jq -r '.results[0].id')
+
+            if [ "$TICKET_ID" != "null" ] && [ -n "$TICKET_ID" ]; then
+              COMMENT_HTML=$(html_escape_newlines "$COMMENT_BODY")
+              BODY=$(printf 'Comment by @%s:<br><br>%s<br><hr><br>GitHub Comment: <a href="%s">%s</a>' "$COMMENT_USER" "$COMMENT_HTML" "$COMMENT_URL" "$COMMENT_URL")
+              PAYLOAD=$(jq -n \
+                --arg body "$BODY" \
+                '{ticket: {comment: {html_body: $body, public: true}}}')
+
+              curl -v -X PUT \
+                "https://${ZD_SUBDOMAIN}.zendesk.com/api/v2/tickets/${TICKET_ID}.json" \
+                -H "Content-Type: application/json" \
+                -u "${ZD_EMAIL}/token:${ZD_TOKEN}" \
+                -d "$PAYLOAD"
+            fi
+          fi
